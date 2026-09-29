@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Rắn Săn Mồi</title>
+    <style>
+        body {
+            background-color: #1a1a2e;
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        h1 {
+            margin-bottom: 10px;
+            color: #00fff5;
+            text-shadow: 0 0 10px #00fff5;
+        }
+        #score {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        canvas {
+            border: 4px solid #00fff5;
+            box-shadow: 0 0 20px rgba(0, 255, 245, 0.5);
+            background-color: #0f3460;
+            border-radius: 8px;
+        }
+        .instructions {
+            margin-top: 15px;
+            color: #a6a6a6;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>RẮN SĂN MỒI</h1>
+    <div id="score">Điểm: 0</div>
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
+    <div class="instructions">Sử dụng các phím mũi tên ⬆️ ⬇️ ⬅️ ➡️ để di chuyển</div>
+
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+
+        const gridSize = 20;
+        const tileCount = canvas.width / gridSize;
+
+        let snake = [
+            { x: 10, y: 10 }
+        ];
+        let food = { x: 15, y: 15 };
+        let dx = 0;
+        let dy = 0;
+        let score = 0;
+        let gameInterval;
+
+        function drawGame() {
+            moveSnake();
+            if (isGameOver()) {
+                alert("Game Over! Điểm của bạn: " + score);
+                resetGame();
+                return;
+            }
+
+            clearCanvas();
+            checkFoodCollision();
+            drawFood();
+            drawSnake();
+        }
+
+        function clearCanvas() {
+            ctx.fillStyle = "#0f3460";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function drawSnake() {
+            ctx.fillStyle = "#00fff5";
+            snake.forEach((part, index) => {
+                if (index === 0) {
+                    ctx.fillStyle = "#ff007f"; // Đầu rắn màu hồng
+                } else {
+                    ctx.fillStyle = "#00fff5";
+                }
+                ctx.fillRect(part.x * gridSize, part.y * gridSize, gridSize - 2, gridSize - 2);
+            });
+        }
+
+        function moveSnake() {
+            const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+            snake.unshift(head);
+            snake.pop();
+        }
+
+        function drawFood() {
+            ctx.fillStyle = "#ffe600";
+            ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize - 2, gridSize - 2);
+        }
+
+        function checkFoodCollision() {
+            if (snake[0].x === food.x && snake[0].y === food.y) {
+                score += 10;
+                document.getElementById("score").innerText = "Điểm: " + score;
+                snake.push({});
+                generateFood();
+            }
+        }
+
+        function generateFood() {
+            food.x = Math.floor(Math.random() * tileCount);
+            food.y = Math.floor(Math.random() * tileCount);
+        }
+
+        function isGameOver() {
+            if (dx === 0 && dy === 0) return false;
+
+            // Va chạm tường
+            const hitLeftWall = snake[0].x < 0;
+            const hitRightWall = snake[0].x >= tileCount;
+            const hitToptWall = snake[0].y < 0;
+            const hitBottomWall = snake[0].y >= tileCount;
+
+            if (hitLeftWall || hitRightWall || hitToptWall || hitBottomWall) {
+                return true;
+            }
+
+            // Va chạm thân
+            for (let i = 1; i < snake.length; i++) {
+                if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        function resetGame() {
+            snake = [{ x: 10, y: 10 }];
+            food = { x: 15, y: 15 };
+            dx = 0;
+            dy = 0;
+            score = 0;
+            document.getElementById("score").innerText = "Điểm: " + score;
+        }
+
+        document.addEventListener("keydown", (e) => {
+            // Mũi tên lên
+            if (e.key === "ArrowUp" && dy === 0) {
+                dx = 0;
+                dy = -1;
+            }
+            // Mũi tên xuống
+            if (e.key === "ArrowDown" && dy === 0) {
+                dx = 0;
+                dy = 1;
+            }
+            // Mũi tên trái
+            if (e.key === "ArrowLeft" && dx === 0) {
+                dx = -1;
+                dy = 0;
+            }
+            // Mũi tên phải
+            if (e.key === "ArrowRight" && dx === 0) {
+                dx = 1;
+                dy = 0;
+            }
+        });
+
+        gameInterval = setInterval(drawGame, 100);
+    </script>
+</body>
+</html>
