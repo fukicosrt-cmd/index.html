@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Nhỏ Cho Cậu ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #ff758c;
+            text-shadow: 0 0 10px rgba(255, 117, 140, 0.5);
+        }
+
+        .score-board {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 20px;
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Khung chơi game */
+        #game-box {
+            position: relative;
+            width: 320px;
+            height: 420px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .heart-target {
+            position: absolute;
+            font-size: 30px;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.1s ease;
+        }
+
+        .heart-target:active {
+            transform: scale(1.3);
+        }
+
+        /* Hộp quà xuất hiện khi thắng */
+        #win-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 85%;
+            max-width: 400px;
+            background: rgba(20, 20, 35, 0.95);
+            border: 1px solid #ff758c;
+            border-radius: 25px;
+            padding: 30px 20px;
+            box-shadow: 0 0 30px rgba(255, 117, 140, 0.4);
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        #win-modal h2 {
+            color: #ff758c;
+            margin-bottom: 15px;
+        }
+
+        #message {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #ffe6ea;
+            margin-top: 10px;
+        }
+
+        .btn-replay {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            background: #ff758c;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 117, 140, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Bắt Trái Tim Cho Cậu! 💖</h1>
+    <div class="score-board">Điểm: <span id="score">0</span> / 10</div>
+
+    <div id="game-box"></div>
+
+    <!-- Khung thông điệp khi thắng -->
+    <div id="win-modal">
+        <h2>🎉 Thắng Rồi Nhé! 🎉</h2>
+        <p id="message"></p>
+        <button class="btn-replay" onclick="resetGame()">Chơi Lại ❤️</button>
+    </div>
+
+    <script>
+        const gameBox = document.getElementById('game-box');
+        const scoreElement = document.getElementById('score');
+        const winModal = document.getElementById('win-modal');
+        const messageElement = document.getElementById('message');
+
+        let score = 0;
+        const targetScore = 10;
+
+        // Lời nhắn gửi Crush (Bro sửa lại nội dung tùy thích ở đây)
+        const secretMessage = "Gửi em! Cảm ơn em đã kiên nhẫn bấm đủ 10 điểm nhé :)) Chúc em luôn vui vẻ, xinh đẹp và ngày nào cũng tràn ngập niềm vui. Mong là nụ cười của em hôm nay sẽ làm cả ngày tươi sáng hơn! ✨💖";
+
+        function createHeart() {
+            if (score >= targetScore) return;
+
+            const heart = document.createElement('div');
+            heart.classList.add('heart-target');
+            heart.innerHTML = '💖';
+
+            // Tọa độ ngẫu nhiên trong khung
+            const x = Math.random() * (gameBox.clientWidth - 40);
+            const y = Math.random() * (gameBox.clientHeight - 40);
+
+            heart.style.left = x + 'px';
+            heart.style.top = y + 'px';
+
+            heart.onclick = () => {
+                score++;
+                scoreElement.innerText = score;
+                heart.remove();
+
+                if (score >= targetScore) {
+                    showWinMessage();
+                } else {
+                    createHeart();
+                }
+            };
+
+            gameBox.appendChild(heart);
+
+            // Tự biến mất sau 1.5s nếu không bấm
+            setTimeout(() => {
+                if (heart.parentElement) {
+                    heart.remove();
+                    createHeart();
+                }
+            }, 1500);
+        }
+
+        // Hiện phần thưởng lời chúc
+        function showWinMessage() {
+            winModal.style.display = 'block';
+            typeWriter(secretMessage, 0);
+        }
+
+        // Hiệu ứng gõ chữ
+        function typeWriter(text, index) {
+            if (index < text.length) {
+                if (index === 0) messageElement.innerHTML = '';
+                messageElement.innerHTML += text.charAt(index);
+                setTimeout(() => typeWriter(text, index + 1), 40);
+            }
+        }
+
+        function resetGame() {
+            score = 0;
+            scoreElement.innerText = score;
+            winModal.style.display = 'none';
+            gameBox.innerHTML = '';
+            createHeart();
+        }
+
+        // Bắt đầu game
+        createHeart();
+    </script>
+</body>
+</html>
