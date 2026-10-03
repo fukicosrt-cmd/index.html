@@ -3,176 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Rắn Săn Mồi</title>
+    <title>For You ❤️</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            background-color: #1a1a2e;
+            background-color: #0d0d1a;
             color: #fff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
-            margin: 0;
+            overflow: hidden;
+            text-align: center;
+            padding: 20px;
         }
-        h1 {
-            margin-bottom: 10px;
-            color: #00fff5;
-            text-shadow: 0 0 10px #00fff5;
+
+        /* Hiệu ứng Trái tim đập */
+        .heart-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin-bottom: 30px;
+            cursor: pointer;
         }
-        #score {
+
+        .heart {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-color: #ff4d6d;
+            transform: rotate(-45deg);
+            animation: beat 1.2s infinite;
+            box-shadow: 0 0 40px #ff4d6d;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-color: #ff4d6d;
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -50px;
+            left: 0;
+        }
+
+        .heart::after {
+            left: 50px;
+            top: 0;
+        }
+
+        @keyframes beat {
+            0% { transform: rotate(-45deg) scale(0.8); }
+            50% { transform: rotate(-45deg) scale(1.1); }
+            100% { transform: rotate(-45deg) scale(0.8); }
+        }
+
+        /* Lời nhắn gõ chữ */
+        .message-box {
+            max-width: 500px;
+            min-height: 120px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        }
+
+        #text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #ffe6ea;
+            text-shadow: 0 0 10px rgba(255, 77, 109, 0.5);
+        }
+
+        /* Mưa trái tim rơi */
+        .falling-heart {
+            position: fixed;
+            top: -10vh;
             font-size: 20px;
-            margin-bottom: 15px;
+            user-select: none;
+            pointer-events: none;
+            animation: fall linear forwards;
         }
-        canvas {
-            border: 4px solid #00fff5;
-            box-shadow: 0 0 20px rgba(0, 255, 245, 0.5);
-            background-color: #0f3460;
-            border-radius: 8px;
-        }
-        .instructions {
-            margin-top: 15px;
-            color: #a6a6a6;
-            font-size: 14px;
+
+        @keyframes fall {
+            to {
+                transform: translateY(105vh) rotate(360deg);
+            }
         }
     </style>
 </head>
 <body>
 
-    <h1>RẮN SĂN MỒI</h1>
-    <div id="score">Điểm: 0</div>
-    <canvas id="gameCanvas" width="400" height="400"></canvas>
-    <div class="instructions">Sử dụng các phím mũi tên ⬆️ ⬇️ ⬅️ ➡️ để di chuyển</div>
+    <div class="heart-container" onclick="createBurst()">
+        <div class="heart"></div>
+    </div>
+
+    <div class="message-box">
+        <p id="text"></p>
+    </div>
 
     <script>
-        const canvas = document.getElementById("gameCanvas");
-        const ctx = canvas.getContext("2d");
+        // Bro muốn đổi lời chúc thì sửa chữ trong ngoặc kép ở dưới nhé:
+        const message = "Gửi công chúa nhỏ! Chúc em một ngày thật nhiều niềm vui và luôn xinh đẹp tươi tắn nhé. Cảm ơn em vì đã luôn ở bên cạnh anh! ❤️✨";
+        
+        let index = 0;
+        const textElement = document.getElementById("text");
 
-        const gridSize = 20;
-        const tileCount = canvas.width / gridSize;
-
-        let snake = [
-            { x: 10, y: 10 }
-        ];
-        let food = { x: 15, y: 15 };
-        let dx = 0;
-        let dy = 0;
-        let score = 0;
-        let gameInterval;
-
-        function drawGame() {
-            moveSnake();
-            if (isGameOver()) {
-                alert("Game Over! Điểm của bạn: " + score);
-                resetGame();
-                return;
-            }
-
-            clearCanvas();
-            checkFoodCollision();
-            drawFood();
-            drawSnake();
-        }
-
-        function clearCanvas() {
-            ctx.fillStyle = "#0f3460";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-        }
-
-        function drawSnake() {
-            ctx.fillStyle = "#00fff5";
-            snake.forEach((part, index) => {
-                if (index === 0) {
-                    ctx.fillStyle = "#ff007f"; // Đầu rắn màu hồng
-                } else {
-                    ctx.fillStyle = "#00fff5";
-                }
-                ctx.fillRect(part.x * gridSize, part.y * gridSize, gridSize - 2, gridSize - 2);
-            });
-        }
-
-        function moveSnake() {
-            const head = { x: snake[0].x + dx, y: snake[0].y + dy };
-            snake.unshift(head);
-            snake.pop();
-        }
-
-        function drawFood() {
-            ctx.fillStyle = "#ffe600";
-            ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize - 2, gridSize - 2);
-        }
-
-        function checkFoodCollision() {
-            if (snake[0].x === food.x && snake[0].y === food.y) {
-                score += 10;
-                document.getElementById("score").innerText = "Điểm: " + score;
-                snake.push({});
-                generateFood();
+        // Hiệu ứng gõ chữ tự động
+        function typeWriter() {
+            if (index < message.length) {
+                textElement.innerHTML += message.charAt(index);
+                index++;
+                setTimeout(typeWriter, 50); // Tốc độ gõ chữ (ms)
             }
         }
 
-        function generateFood() {
-            food.x = Math.floor(Math.random() * tileCount);
-            food.y = Math.floor(Math.random() * tileCount);
+        // Tạo hiệu ứng mưa trái tim rơi
+        function createHeart() {
+            const heart = document.createElement("div");
+            heart.classList.add("falling-heart");
+            heart.innerHTML = "💖";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = Math.random() * 3 + 2 + "s";
+            heart.style.opacity = Math.random();
+            heart.style.fontSize = Math.random() * 15 + 15 + "px";
+
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
         }
 
-        function isGameOver() {
-            if (dx === 0 && dy === 0) return false;
-
-            // Va chạm tường
-            const hitLeftWall = snake[0].x < 0;
-            const hitRightWall = snake[0].x >= tileCount;
-            const hitToptWall = snake[0].y < 0;
-            const hitBottomWall = snake[0].y >= tileCount;
-
-            if (hitLeftWall || hitRightWall || hitToptWall || hitBottomWall) {
-                return true;
+        // Bấm vào trái tim lớn sẽ bắn ra tim nhỏ
+        function createBurst() {
+            for (let i = 0; i < 15; i++) {
+                createHeart();
             }
-
-            // Va chạm thân
-            for (let i = 1; i < snake.length; i++) {
-                if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) {
-                    return true;
-                }
-            }
-
-            return false;
         }
 
-        function resetGame() {
-            snake = [{ x: 10, y: 10 }];
-            food = { x: 15, y: 15 };
-            dx = 0;
-            dy = 0;
-            score = 0;
-            document.getElementById("score").innerText = "Điểm: " + score;
-        }
-
-        document.addEventListener("keydown", (e) => {
-            // Mũi tên lên
-            if (e.key === "ArrowUp" && dy === 0) {
-                dx = 0;
-                dy = -1;
-            }
-            // Mũi tên xuống
-            if (e.key === "ArrowDown" && dy === 0) {
-                dx = 0;
-                dy = 1;
-            }
-            // Mũi tên trái
-            if (e.key === "ArrowLeft" && dx === 0) {
-                dx = -1;
-                dy = 0;
-            }
-            // Mũi tên phải
-            if (e.key === "ArrowRight" && dx === 0) {
-                dx = 1;
-                dy = 0;
-            }
-        });
-
-        gameInterval = setInterval(drawGame, 100);
+        // Bắt đầu chạy khi tải trang
+        window.onload = () => {
+            typeWriter();
+            setInterval(createHeart, 300);
+        };
     </script>
 </body>
 </html>
