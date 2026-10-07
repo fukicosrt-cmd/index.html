@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gửi Crush ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #0d0d1a;
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        /* Trái tim đập 3D */
+        .heart-box {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin-bottom: 30px;
+            animation: beat 1.2s infinite ease-in-out;
+        }
+        .heart {
+            background-color: #ff3366;
+            display: inline-block;
+            height: 60px;
+            margin: 0 10px;
+            position: relative;
+            transform: rotate(-45deg);
+            width: 60px;
+            box-shadow: 0 0 40px #ff3366;
+        }
+        .heart:before,
+        .heart:after {
+            content: "";
+            background-color: #ff3366;
+            border-radius: 50%;
+            height: 60px;
+            position: absolute;
+            width: 60px;
+        }
+        .heart:before {
+            top: -30px;
+            left: 0;
+        }
+        .heart:after {
+            left: 30px;
+            top: 0;
+        }
+
+        @keyframes beat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.25); }
+        }
+
+        /* Khung chứa lời nhắn */
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px 25px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+
+        h2 {
+            color: #ff6699;
+            margin-bottom: 15px;
+            font-size: 1.6rem;
+        }
+
+        #typing-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #e0e0e0;
+            min-height: 80px;
+            margin-bottom: 25px;
+        }
+
+        /* Nút bấm */
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+            height: 50px;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-yes {
+            background: linear-gradient(45deg, #ff3366, #ff6699);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 51, 102, 0.4);
+        }
+        .btn-yes:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(255, 51, 102, 0.6);
+        }
+
+        .btn-no {
+            background: #444;
+            color: white;
+            position: absolute;
+            right: 40px;
+        }
+
+        /* Nhạc nền ẩn */
+        audio {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Trái tim phát sáng -->
+    <div class="heart-box">
+        <div class="heart"></div>
+    </div>
+
+    <!-- Khung nội dung -->
+    <div class="card">
+        <h2>Gửi cậu... ✨</h2>
+        <div id="typing-text"></div>
+
+        <div class="btn-group">
+            <button class="btn-yes" onclick="agree()">Đồng ý luôn ❤️</button>
+            <button class="btn-no" id="btnNo" onmouseover="dodge()">Không nha 😜</button>
+        </div>
+    </div>
+
+    <!-- Nhạc nền tình cảm (Có thể đổi link mp3 giọng nam khác tùy thích) -->
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+    </audio>
+
+    <script>
+        // Lời nhắn chạy từng chữ
+        const message = "Tớ làm trang web này dành riêng cho cậu đấy. Cậu có đồng ý làm một nửa của tớ không? 😉";
+        let index = 0;
+        const speed = 70;
+
+        function typeWriter() {
+            if (index < message.length) {
+                document.getElementById("typing-text").innerHTML += message.charAt(index);
+                index++;
+                setTimeout(typeWriter, speed);
+            }
+        }
+
+        // Tự động phát nhạc khi chạm vào màn hình (do trình duyệt chặn autoplay)
+        window.addEventListener('click', () => {
+            const music = document.getElementById('bgMusic');
+            if (music.paused) {
+                music.play();
+            }
+        }, { once: true });
+
+        // Chạy chữ khi tải trang
+        window.onload = typeWriter;
+
+        // Nút "Không" tự né khi chạm
+        function dodge() {
+            const btnNo = document.getElementById('btnNo');
+            const x = Math.random() * (window.innerWidth - 120) - (window.innerWidth / 2 - 100);
+            const y = Math.random() * (window.innerHeight - 100) - (window.innerHeight / 2 - 50);
+            btnNo.style.transform = `translate(${x}px, ${y}px)`;
+        }
+
+        // Khi bấm "Đồng ý"
+        function agree() {
+            alert("Cảm ơn cậu nha! Tớ biết thế nào cậu cũng chọn nút này mà ❤️🥰");
+        }
+    </script>
+</body>
+</html>
