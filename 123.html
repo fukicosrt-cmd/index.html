@@ -22,7 +22,7 @@
             position: relative;
         }
 
-        /* Canvas hiệu ứng mưa tim */
+        /* Canvas hiệu ứng tim rơi & pháo hoa */
         #heartCanvas {
             position: fixed;
             top: 0;
@@ -33,7 +33,6 @@
             z-index: 1;
         }
 
-        /* Container chính */
         .container {
             position: relative;
             z-index: 2;
@@ -43,7 +42,7 @@
             padding: 20px;
         }
 
-        /* Thẻ nội dung sang trọng */
+        /* Thẻ chính */
         .card {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(15px);
@@ -51,13 +50,13 @@
             border-radius: 24px;
             padding: 30px 20px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-            animation: fadeIn 1.2s ease-in-out;
+            animation: fadeIn 1s ease-in-out;
         }
 
-        /* Khung ảnh kỷ niệm */
+        /* Khung ảnh đại diện ban đầu */
         .img-box {
-            width: 120px;
-            height: 120px;
+            width: 110px;
+            height: 110px;
             margin: 0 auto 20px;
             border-radius: 50%;
             overflow: hidden;
@@ -78,21 +77,20 @@
 
         h2 {
             color: #ff85a2;
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             margin-bottom: 15px;
-            text-shadow: 0 2px 10px rgba(255, 133, 162, 0.3);
         }
 
         .message-box {
             font-size: 1.05rem;
-            line-height: 1.7;
+            line-height: 1.6;
             color: #f1f1f1;
-            min-height: 100px;
-            margin-bottom: 25px;
+            min-height: 90px;
+            margin-bottom: 20px;
             text-align: left;
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.25);
             padding: 15px;
-            border-radius: 12px;
+            border-radius: 14px;
         }
 
         /* Nút bấm */
@@ -106,7 +104,7 @@
         }
 
         button {
-            padding: 12px 28px;
+            padding: 12px 26px;
             font-size: 1rem;
             font-weight: 600;
             border: none;
@@ -131,9 +129,63 @@
             backdrop-filter: blur(5px);
         }
 
+        /* GIAO DIỆN ALBUM KỶ NIỆM (Ẩn ban đầu) */
+        #album-screen {
+            display: none;
+            animation: zoomIn 0.8s ease-in-out forwards;
+        }
+
+        .album-card {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 24px;
+            padding: 25px 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+        }
+
+        .photo-frame {
+            width: 100%;
+            height: 250px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            margin-bottom: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.5s ease;
+        }
+
+        .photo-caption {
+            font-size: 1.05rem;
+            color: #ffb3c6;
+            margin-bottom: 20px;
+            font-weight: 500;
+            min-height: 48px;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+        }
+        .nav-btn:hover {
+            background: #ff416c;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
         }
     </style>
 </head>
@@ -142,95 +194,15 @@
     <canvas id="heartCanvas"></canvas>
 
     <div class="container">
-        <div class="card">
-            <!-- Thay link ảnh Crush hoặc ảnh 2 đứa ở đây -->
+        <!-- MÀN HÌNH TỎ TÌNH -->
+        <div class="card" id="proposal-screen">
             <div class="img-box">
-                <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=300&q=80" alt="Crush">
+                <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=300&q=80" alt="Avatar">
             </div>
 
             <h2>Gửi cậu, người tớ thương ❤️</h2>
-            
             <div class="message-box" id="typing-text"></div>
 
             <div class="btn-group">
-                <button class="btn-yes" onclick="agree()">Đồng ý luôn 🥰</button>
-                <button class="btn-no" id="btnNo" onmouseover="dodge()">Không nha 😜</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Nhạc nền lãng mạn -->
-    <audio id="bgMusic" loop preload="auto">
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
-    </audio>
-
-    <script>
-        // Lời nhắn chân thành cá nhân hóa
-        const message = "Tớ không giỏi nói những lời hoa mỹ, nên tớ gửi gắm vào trang web nhỏ này. Cảm ơn cậu vì đã xuất hiện và làm những ngày vừa qua của tớ trở nên đặc biệt hơn rất nhiều. Đồng ý làm một nửa của tớ nhé?";
-        let index = 0;
-
-        function typeWriter() {
-            if (index < message.length) {
-                document.getElementById("typing-text").innerHTML += message.charAt(index);
-                index++;
-                setTimeout(typeWriter, 50);
-            }
-        }
-
-        // Tự bật nhạc khi chạm vào trang lần đầu
-        document.body.addEventListener('click', () => {
-            const music = document.getElementById('bgMusic');
-            if (music.paused) music.play();
-        }, { once: true });
-
-        window.onload = typeWriter;
-
-        // Hàm né nút "Không" gọn gàng
-        function dodge() {
-            const btnNo = document.getElementById('btnNo');
-            const randomX = (Math.random() - 0.5) * 180;
-            const randomY = (Math.random() - 0.5) * 180;
-            btnNo.style.transform = `translate(${randomX}px, ${randomY}px)`;
-        }
-
-        function agree() {
-            alert("Cảm ơn cậu rất nhiều! Tớ hứa sẽ luôn trân trọng cậu ❤️✨");
-        }
-
-        // Hiệu ứng mưa tim rơi ngẫu nhiên
-        const canvas = document.getElementById('heartCanvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        const hearts = [];
-        for (let i = 0; i < 40; i++) {
-            hearts.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                size: Math.random() * 8 + 4,
-                speedY: Math.random() * 1.5 + 0.5,
-                opacity: Math.random() * 0.7 + 0.3
-            });
-        }
-
-        function drawHearts() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            hearts.forEach(h => {
-                ctx.fillStyle = `rgba(255, 105, 180, ${h.opacity})`;
-                ctx.beginPath();
-                ctx.arc(h.x, h.y, h.size, 0, Math.PI * 2);
-                ctx.fill();
-
-                h.y += h.speedY;
-                if (h.y > canvas.height) {
-                    h.y = -10;
-                    h.x = Math.random() * canvas.width;
-                }
-            });
-            requestAnimationFrame(drawHearts);
-        }
-        drawHearts();
-    </script>
-</body>
-</html>
+                <button class="btn-yes" onclick="acceptLove()">Đồng ý luôn 🥰</button>
+                <button class="btn-no" id="btnNo" onmouseover="dodge()">Không
