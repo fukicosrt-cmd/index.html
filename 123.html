@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gửi Cậu ✨</title>
+    <title>Dành Cho Cậu ❤️</title>
     <style>
         * {
             margin: 0;
@@ -11,229 +11,226 @@
             box-sizing: border-box;
         }
         body {
-            background-color: #0b0c10;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
             color: #fff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            overflow: hidden;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Canvas hiệu ứng mưa tim */
+        #heartCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Container chính */
+        .container {
+            position: relative;
+            z-index: 2;
+            width: 90%;
+            max-width: 420px;
             text-align: center;
+            padding: 20px;
         }
 
-        /* Màn hình chờ mở thư */
-        #intro-screen {
+        /* Thẻ nội dung sang trọng */
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
+            padding: 30px 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 1.2s ease-in-out;
+        }
+
+        /* Khung ảnh kỷ niệm */
+        .img-box {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid #ff6699;
+            box-shadow: 0 0 25px rgba(255, 102, 153, 0.6);
+            animation: pulse 2s infinite ease-in-out;
+        }
+        .img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        h2 {
+            color: #ff85a2;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(255, 133, 162, 0.3);
+        }
+
+        .message-box {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: #f1f1f1;
+            min-height: 100px;
+            margin-bottom: 25px;
+            text-align: left;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+        /* Nút bấm */
+        .btn-group {
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            gap: 20px;
-            cursor: pointer;
+            gap: 15px;
+            position: relative;
+            margin-top: 10px;
         }
 
-        .envelope {
-            font-size: 80px;
-            animation: bounce 1.5s infinite ease-in-out;
-            filter: drop-shadow(0 0 15px rgba(255, 105, 180, 0.6));
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-
-        .btn-open {
-            background: linear-gradient(135deg, #ff416c, #ff4b2b);
-            color: white;
-            font-size: 1.1rem;
-            font-weight: bold;
-            padding: 14px 30px;
+        button {
+            padding: 12px 28px;
+            font-size: 1rem;
+            font-weight: 600;
             border: none;
             border-radius: 30px;
-            box-shadow: 0 5px 20px rgba(255, 65, 108, 0.5);
             cursor: pointer;
             transition: 0.3s;
         }
 
-        .btn-open:hover {
+        .btn-yes {
+            background: linear-gradient(45deg, #ff4b2b, #ff416c);
+            color: white;
+            box-shadow: 0 5px 20px rgba(255, 65, 108, 0.5);
+        }
+        .btn-yes:hover {
             transform: scale(1.08);
             box-shadow: 0 8px 25px rgba(255, 65, 108, 0.8);
         }
 
-        /* Màn hình nội dung chính (Ẩn lúc đầu) */
-        #main-screen {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            animation: fadeIn 1s forwards;
+        .btn-no {
+            background: rgba(255, 255, 255, 0.2);
+            color: #eee;
+            backdrop-filter: blur(5px);
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        /* Trái tim 3D lấp lánh */
-        .heart-box {
-            position: relative;
-            width: 80px;
-            height: 80px;
-            margin-bottom: 25px;
-            animation: beat 1.2s infinite ease-in-out;
-        }
-        .heart {
-            background-color: #ff3366;
-            display: inline-block;
-            height: 50px;
-            position: relative;
-            transform: rotate(-45deg);
-            width: 50px;
-            box-shadow: 0 0 35px #ff3366;
-        }
-        .heart:before, .heart:after {
-            content: "";
-            background-color: #ff3366;
-            border-radius: 50%;
-            height: 50px;
-            position: absolute;
-            width: 50px;
-        }
-        .heart:before { top: -25px; left: 0; }
-        .heart:after { left: 25px; top: 0; }
-
-        @keyframes beat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
-
-        /* Khung chứa nội dung */
-        .card {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 30px 25px;
-            border-radius: 20px;
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            max-width: 380px;
-            width: 90vw;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-        }
-
-        h2 {
-            color: #ff6699;
-            margin-bottom: 15px;
-            font-size: 1.5rem;
-        }
-
-        #typing-text {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            color: #eaeaea;
-            min-height: 80px;
-            margin-bottom: 25px;
-        }
-
-        /* Nút lựa chọn */
-        .btn-group {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            position: relative;
-            height: 50px;
-        }
-
-        button.choice {
-            padding: 12px 24px;
-            font-size: 1rem;
-            font-weight: bold;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .btn-yes {
-            background: linear-gradient(45deg, #ff3366, #ff6699);
-            color: white;
-            box-shadow: 0 5px 15px rgba(255, 51, 102, 0.4);
-        }
-
-        .btn-no {
-            background: #444;
-            color: white;
-            position: absolute;
-            right: 30px;
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
 
-    <!-- Màn hình dẫn dắt ban đầu -->
-    <div id="intro-screen">
-        <div class="envelope">💌</div>
-        <button class="btn-open" onclick="openLetter()">Mở thư dành riêng cho cậu ✨</button>
-    </div>
+    <canvas id="heartCanvas"></canvas>
 
-    <!-- Màn hình chính tỏ tình -->
-    <div id="main-screen">
-        <div class="heart-box">
-            <div class="heart"></div>
-        </div>
-
+    <div class="container">
         <div class="card">
-            <h2>Gửi cậu... ❤️</h2>
-            <div id="typing-text"></div>
+            <!-- Thay link ảnh Crush hoặc ảnh 2 đứa ở đây -->
+            <div class="img-box">
+                <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=300&q=80" alt="Crush">
+            </div>
+
+            <h2>Gửi cậu, người tớ thương ❤️</h2>
+            
+            <div class="message-box" id="typing-text"></div>
 
             <div class="btn-group">
-                <button class="choice btn-yes" onclick="agree()">Đồng ý luôn 🥰</button>
-                <button class="choice btn-no" id="btnNo" onmouseover="dodge()">Không nha 😜</button>
+                <button class="btn-yes" onclick="agree()">Đồng ý luôn 🥰</button>
+                <button class="btn-no" id="btnNo" onmouseover="dodge()">Không nha 😜</button>
             </div>
         </div>
     </div>
 
-    <!-- Link nhạc nền (Bro có thể đổi link nhạc tùy thích) -->
+    <!-- Nhạc nền lãng mạn -->
     <audio id="bgMusic" loop preload="auto">
         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
     </audio>
 
     <script>
-        const message = "Tớ dành chút thời gian làm trang web nhỏ này gửi riêng cho cậu. Cậu có đồng ý làm một nửa của tớ không? 😉";
+        // Lời nhắn chân thành cá nhân hóa
+        const message = "Tớ không giỏi nói những lời hoa mỹ, nên tớ gửi gắm vào trang web nhỏ này. Cảm ơn cậu vì đã xuất hiện và làm những ngày vừa qua của tớ trở nên đặc biệt hơn rất nhiều. Đồng ý làm một nửa của tớ nhé?";
         let index = 0;
-        const speed = 65;
-
-        // Hàm khi người dùng bấm mở thư
-        function openLetter() {
-            // 1. Phục hồi & Phát nhạc nền ngay lập tức
-            const music = document.getElementById('bgMusic');
-            music.play().catch(e => console.log("Lỗi nhạc:", e));
-
-            // 2. Chuyển màn hình
-            document.getElementById('intro-screen').style.display = 'none';
-            document.getElementById('main-screen').style.display = 'flex';
-
-            // 3. Chạy chữ gõ từ từ
-            typeWriter();
-        }
 
         function typeWriter() {
             if (index < message.length) {
                 document.getElementById("typing-text").innerHTML += message.charAt(index);
                 index++;
-                setTimeout(typeWriter, speed);
+                setTimeout(typeWriter, 50);
             }
         }
 
-        // Nút "Không" né khi chạm vào
+        // Tự bật nhạc khi chạm vào trang lần đầu
+        document.body.addEventListener('click', () => {
+            const music = document.getElementById('bgMusic');
+            if (music.paused) music.play();
+        }, { once: true });
+
+        window.onload = typeWriter;
+
+        // Hàm né nút "Không" gọn gàng
         function dodge() {
             const btnNo = document.getElementById('btnNo');
-            const x = Math.random() * (window.innerWidth - 120) - (window.innerWidth / 2 - 80);
-            const y = Math.random() * (window.innerHeight - 100) - (window.innerHeight / 2 - 40);
-            btnNo.style.transform = `translate(${x}px, ${y}px)`;
+            const randomX = (Math.random() - 0.5) * 180;
+            const randomY = (Math.random() - 0.5) * 180;
+            btnNo.style.transform = `translate(${randomX}px, ${randomY}px)`;
         }
 
-        // Khi đồng ý
         function agree() {
-            alert("Cảm ơn cậu nha! Tớ biết thế nào cậu cũng chọn nút này mà ❤️🥰");
+            alert("Cảm ơn cậu rất nhiều! Tớ hứa sẽ luôn trân trọng cậu ❤️✨");
         }
+
+        // Hiệu ứng mưa tim rơi ngẫu nhiên
+        const canvas = document.getElementById('heartCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const hearts = [];
+        for (let i = 0; i < 40; i++) {
+            hearts.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 8 + 4,
+                speedY: Math.random() * 1.5 + 0.5,
+                opacity: Math.random() * 0.7 + 0.3
+            });
+        }
+
+        function drawHearts() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            hearts.forEach(h => {
+                ctx.fillStyle = `rgba(255, 105, 180, ${h.opacity})`;
+                ctx.beginPath();
+                ctx.arc(h.x, h.y, h.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                h.y += h.speedY;
+                if (h.y > canvas.height) {
+                    h.y = -10;
+                    h.x = Math.random() * canvas.width;
+                }
+            });
+            requestAnimationFrame(drawHearts);
+        }
+        drawHearts();
     </script>
 </body>
 </html>
