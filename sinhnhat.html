@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday Hoàng Tráng 🎉</title>
+    <title>Happy Birthday Lofi Chill 🎉</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
@@ -54,7 +54,6 @@
             text-align: center;
         }
 
-        /* Ẩn màn hình album ban đầu */
         #album-section {
             display: none;
         }
@@ -158,13 +157,13 @@
         </div>
     </div>
 
-    <!-- Nhạc nền sinh nhật trực tuyến vui tươi hơn -->
+    <!-- Nhạc nền Lofi Chill êm dịu -->
     <audio id="bgMusic" loop preload="auto">
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" type="audio/mp3">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mp3">
     </audio>
 
     <script>
-        // Chỉ bật hiệu ứng nghiêng 3D nếu là máy tính (tránh làm lỗi cảm ứng trên điện thoại)
+        // Hiệu ứng nghiêng 3D chỉ trên máy tính
         const scene = document.getElementById('cardScene');
         if (window.innerWidth > 768) {
             document.addEventListener('mousemove', (e) => {
@@ -175,7 +174,7 @@
         }
 
         // Gõ chữ lời chúc
-        const text = "Chúc cậu tuổi mới thật nhiều niềm vui, luôn xinh đẹp/tỏa sáng, gặp nhiều may mắn và đạt được mọi điều mình muốn nhé! Mong mọi điều tốt đẹp nhất sẽ đến với cậu. 🥳🎁";
+        const text = "Chúc cậu tuổi mới thật nhiều niềm vui, luôn tỏa sáng, gặp nhiều may mắn và đạt được mọi điều mình muốn nhé! Mong mọi điều tuyệt vời nhất sẽ đến với cậu. 🥳🎁";
         let i = 0;
         function typing() {
             if (i < text.length) {
@@ -186,22 +185,20 @@
         }
         window.onload = typing;
 
-        // Bật nhạc khi click lần đầu
+        // Bật nhạc lofi khi click lần đầu
         document.body.addEventListener('click', () => {
             const music = document.getElementById('bgMusic');
             if (music.paused) music.play();
         }, { once: true });
 
-        // Hàm mở quà chuẩn không bị đen màn hình
+        // Mở quà
         function openGift() {
             document.getElementById('main-screen').style.display = 'none';
             document.getElementById('album-section').style.display = 'block';
-            
-            // Bắn pháo hoa rợp trời
             triggerFireworks();
         }
 
-        // Đồ họa pháo hoa canvas an toàn
+        // Pháo hoa canvas
         const canvas = document.getElementById('fireworksCanvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
@@ -228,7 +225,7 @@
             particles.forEach((p, index) => {
                 p.x += p.vx;
                 p.y += p.vy;
-                p.vy += 0.1; // trọng lực nhẹ
+                p.vy += 0.1;
                 p.alpha -= 0.012;
 
                 if (p.alpha <= 0) {
