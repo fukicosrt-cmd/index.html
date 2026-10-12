@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday 3D 🎉</title>
+    <title>Happy Birthday 3D Hoàng Tráng 🎉</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
@@ -22,7 +22,7 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            perspective: 1000px;
+            perspective: 1200px;
         }
 
         #fireworksCanvas {
@@ -35,48 +35,51 @@
             z-index: 1;
         }
 
+        /* Khung cảnh 3D bồng bềnh */
         .scene {
             position: relative;
             z-index: 2;
             width: 90%;
-            max-width: 450px;
+            max-width: 480px;
             transform-style: preserve-3d;
-            animation: floatScene 6s ease-in-out infinite;
-        }
-
-        @keyframes floatScene {
-            0%, 100% { transform: translateY(0) rotateX(2deg) rotateY(-2deg); }
-            50% { transform: translateY(-10px) rotateX(-2deg) rotateY(2deg); }
+            transition: transform 0.1s ease-out;
         }
 
         .card-3d {
-            background: rgba(255, 255, 255, 0.07);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 30px;
-            padding: 35px 25px;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 
-                        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 32px;
+            padding: 40px 30px;
+            box-shadow: 0 35px 70px rgba(0, 0, 0, 0.7), 
+                        inset 0 1px 0 rgba(255, 255, 255, 0.3);
             text-align: center;
-            transform: translateZ(30px);
+            transform: translateZ(40px);
         }
 
-        /* Hộp quà 3D */
+        /* Hộp quà 3D nhún nhảy */
         .gift-box {
-            font-size: 80px;
+            font-size: 85px;
             cursor: pointer;
             margin-bottom: 15px;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            filter: drop-shadow(0 10px 15px rgba(255, 105, 180, 0.4));
+            display: inline-block;
+            animation: bounceGift 2s infinite ease-in-out;
+            filter: drop-shadow(0 15px 20px rgba(255, 105, 180, 0.5));
+            transition: 0.3s;
         }
         .gift-box:hover {
-            transform: scale(1.15) rotate(10deg);
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        @keyframes bounceGift {
+            0%, 100% { transform: translateY(0) rotate(0); }
+            50% { transform: translateY(-12px) rotate(-5deg); }
         }
 
         h1 {
-            font-size: 1.8rem;
-            background: linear-gradient(45deg, #ff758c, #ff7eb3);
+            font-size: 2rem;
+            background: linear-gradient(45deg, #ff758c, #ff7eb3, #ffcc00);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 15px;
@@ -84,38 +87,39 @@
         }
 
         .wish-message {
-            font-size: 1rem;
-            line-height: 1.7;
-            color: #e0e0e0;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 18px;
-            border-radius: 16px;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: #f1f1f1;
+            background: rgba(0, 0, 0, 0.35);
+            padding: 20px;
+            border-radius: 20px;
             margin-bottom: 25px;
             border-left: 4px solid #ff758c;
             text-align: left;
-            min-height: 100px;
+            min-height: 110px;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
         }
 
-        /* Nút 3D */
+        /* Nút 3D hiệu ứng cao cấp */
         .btn-3d {
             background: linear-gradient(135deg, #ff416c, #ff4b2b);
             color: white;
             border: none;
-            padding: 14px 30px;
-            font-size: 1rem;
+            padding: 15px 35px;
+            font-size: 1.05rem;
             font-weight: 600;
             border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 10px 25px rgba(255, 65, 108, 0.5);
+            box-shadow: 0 10px 30px rgba(255, 65, 108, 0.6);
             transition: 0.3s;
-            transform: translateZ(20px);
+            transform: translateZ(30px);
         }
         .btn-3d:hover {
-            transform: translateY(-3px) translateZ(30px);
-            box-shadow: 0 15px 30px rgba(255, 65, 108, 0.8);
+            transform: translateY(-4px) translateZ(40px);
+            box-shadow: 0 15px 35px rgba(255, 65, 108, 0.9);
         }
 
-        /* Phần Album ảnh 3D ẩn ban đầu */
+        /* Phần Album Ảnh 3D sau khi mở quà */
         #album-section {
             display: none;
             animation: zoomIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
@@ -123,12 +127,12 @@
 
         .photo-container {
             width: 100%;
-            height: 240px;
-            border-radius: 16px;
+            height: 260px;
+            border-radius: 20px;
             overflow: hidden;
-            margin-bottom: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            border: 2px solid rgba(255,255,255,0.2);
+            margin-bottom: 20px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.6);
+            border: 2px solid rgba(255,255,255,0.3);
         }
         .photo-container img {
             width: 100%;
@@ -137,7 +141,7 @@
         }
 
         @keyframes zoomIn {
-            from { opacity: 0; transform: scale(0.7) translateZ(-50px); }
+            from { opacity: 0; transform: scale(0.6) translateZ(-80px); }
             to { opacity: 1; transform: scale(1) translateZ(0); }
         }
     </style>
@@ -146,7 +150,7 @@
 
     <canvas id="fireworksCanvas"></canvas>
 
-    <div class="scene">
+    <div class="scene" id="cardScene">
         <!-- MÀN HÌNH CHÍNH 3D -->
         <div class="card-3d" id="main-screen">
             <div class="gift-box" onclick="openGift()">🎁</div>
@@ -154,43 +158,62 @@
             
             <div class="wish-message" id="typing-text"></div>
 
-            <button class="btn-3d" onclick="openGift()">Mở Quà Ngay ✨</button>
+            <button class="btn-3d" onclick="openGift()">Mở Quà Hoàng Tráng ✨</button>
         </div>
 
-        <!-- MÀN HÌNH KỶ NIỆM SAU KHI MỞ QUÀ -->
+        <!-- MÀN HÌNH ALBUM ẢNH 3D -->
         <div class="card-3d" id="album-section">
-            <h1>Khoảnh Khắc Tỏa Sáng ✨</h1>
+            <h1>Kỷ Niệm Đẹp Nhất ✨</h1>
             <div class="photo-container">
-                <img src="https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=600&q=80" alt="Birthday Cake">
+                <img id="cakePhoto" src="https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=600&q=80" alt="Birthday">
             </div>
-            <p style="color: #ffb3c6; margin-bottom: 20px; font-weight: 500;">Chúc tuổi mới ngập tràn niềm vui và hạnh phúc nhé! 🎂🎈</p>
-            <button class="btn-3d" onclick="location.reload()">Chơi lại từ đầu 🔄</button>
+            <p style="color: #ffb3c6; margin-bottom: 25px; font-weight: 500; font-size: 1.1rem;">Chúc tuổi mới ngập tràn niềm vui, luôn tỏa sáng và đạt mọi ước mơ nhé! 🎂🎈</p>
+            <button class="btn-3d" onclick="location.reload()">Xem Lại Từ Đầu 🔄</button>
         </div>
     </div>
 
+    <!-- Nhạc nền sinh nhật -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+    </audio>
+
     <script>
-        // Hiệu ứng gõ chữ
-        const text = "Chúc cậu tuổi mới thật rực rỡ, luôn giữ được nụ cười tươi trên môi và đạt được mọi dự định đang ấp úng nhé! Mong những điều tuyệt vời nhất sẽ đến với cậu hôm nay và mãi về sau. 🥳🎁";
+        // Hiệu ứng tương tự 3D Tilt theo chuyển động chuột
+        const scene = document.getElementById('cardScene');
+        document.addEventListener('mousemove', (e) => {
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+            scene.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        });
+
+        // Hiệu ứng gõ chữ lời chúc
+        const text = "Chúc mừng sinh nhật cậu! Chúc tuổi mới luôn rực rỡ, gặp thật nhiều may mắn, luôn mỉm cười và đạt được mọi dự định trong cuộc sống nhé! Mong những điều tuyệt vời nhất sẽ thuộc về cậu. 🥳🎁";
         let i = 0;
         function typing() {
             if (i < text.length) {
                 document.getElementById("typing-text").innerHTML += text.charAt(i);
                 i++;
-                setTimeout(typing, 40);
+                setTimeout(typing, 35);
             }
         }
         window.onload = typing;
 
-        // Hành động khi mở quà
+        // Tự động phát nhạc khi click bất kỳ đâu lần đầu
+        document.body.addEventListener('click', () => {
+            const music = document.getElementById('bgMusic');
+            if (music.paused) music.play();
+        }, { once: true });
+
+        // Mở quà
         function openGift() {
             document.getElementById('main-screen').style.display = 'none';
-            document.getElementById('album-section').style.display = 'block';
+            document.getElementById('album-screen').style.display = 'block';
             
-            // Kích hoạt pháo hoa tưng bừng
-            triggerFireworks();
+            // Kích hoạt pháo hoa tưng bừng liên tục
+            launchMegaFireworks();
         }
 
-        // Đồ họa pháo hoa 3D Canvas
+        // Đồ họa pháo hoa cực đỉnh
         const canvas = document.getElementById('fireworksCanvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
@@ -198,17 +221,23 @@
 
         let particles = [];
 
-        function triggerFireworks() {
-            for (let i = 0; i < 120; i++) {
-                particles.push({
-                    x: canvas.width / 2,
-                    y: canvas.height / 2,
-                    vx: (Math.random() - 0.5) * 12,
-                    vy: (Math.random() - 0.5) * 12,
-                    color: `hsl(${Math.random() * 360}, 100%, 60%)`,
-                    alpha: 1,
-                    size: Math.random() * 5 + 2
-                });
+        function launchMegaFireworks() {
+            for (let j = 0; j < 3; j++) {
+                setTimeout(() => {
+                    const startX = Math.random() * canvas.width;
+                    const startY = Math.random() * (canvas.height / 2);
+                    for (let i = 0; i < 70; i++) {
+                        particles.push({
+                            x: startX,
+                            y: startY,
+                            vx: (Math.random() - 0.5) * 14,
+                            vy: (Math.random() - 0.5) * 14,
+                            color: `hsl(${Math.random() * 360}, 100%, 60%)`,
+                            alpha: 1,
+                            size: Math.random() * 5 + 2
+                        });
+                    }
+                }, j * 300);
             }
         }
 
@@ -217,8 +246,8 @@
             particles.forEach((p, index) => {
                 p.x += p.vx;
                 p.y += p.vy;
-                p.vy += 0.15; // trọng lực nhẹ
-                p.alpha -= 0.012;
+                p.vy += 0.12; // Trọng lực
+                p.alpha -= 0.01;
 
                 if (p.alpha <= 0) {
                     particles.splice(index, 1);
