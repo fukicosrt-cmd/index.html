@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dành Cho Người Yêu Cũ 🎁✨</title>
+    <title>Xin Lỗi Mà, Đừng Giận Nữa Nhe 🥺❤️</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
@@ -14,7 +14,7 @@
         }
 
         body {
-            background: radial-gradient(circle at center, #2b1e3a 0%, #0c0814 100%);
+            background: radial-gradient(circle at center, #2d1f3d 0%, #0f0a17 100%);
             color: #fff;
             font-family: 'Poppins', sans-serif;
             min-height: 100vh;
@@ -22,7 +22,16 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            perspective: 1000px;
+        }
+
+        #fireworksCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
         }
 
         .scene {
@@ -33,17 +42,17 @@
         }
 
         .card-3d {
-            background: rgba(255, 255, 255, 0.07);
+            background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            border-radius: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
             padding: 35px 25px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
             text-align: center;
         }
 
-        #letter-section {
+        #forgive-screen {
             display: none;
             animation: fadeIn 0.8s ease forwards;
         }
@@ -53,22 +62,19 @@
             cursor: pointer;
             margin-bottom: 15px;
             display: inline-block;
-            animation: floatGift 2.5s infinite ease-in-out;
-            filter: drop-shadow(0 10px 15px rgba(186, 104, 200, 0.4));
+            animation: bounce 2s infinite ease-in-out;
+            filter: drop-shadow(0 10px 15px rgba(255, 182, 193, 0.5));
             transition: 0.3s;
         }
-        .gift-box:hover {
-            transform: scale(1.12) rotate(-8deg);
-        }
 
-        @keyframes floatGift {
+        @keyframes bounce {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-12px); }
+            50% { transform: translateY(-10px); }
         }
 
         h1 {
             font-size: 1.7rem;
-            background: linear-gradient(45deg, #ce93d8, #ab47bc, #f48fb1);
+            background: linear-gradient(45deg, #ff9a9e, #fecfef, #fe9a8b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 15px;
@@ -78,40 +84,60 @@
         .wish-message {
             font-size: 0.98rem;
             line-height: 1.7;
-            color: #e0e0e0;
+            color: #f1f1f1;
             background: rgba(0, 0, 0, 0.35);
             padding: 18px;
             border-radius: 16px;
             margin-bottom: 22px;
-            border-left: 4px solid #ab47bc;
+            border-left: 4px solid #ff9a9e;
             text-align: left;
-            min-height: 110px;
+            min-height: 100px;
         }
 
-        .btn-custom {
-            background: linear-gradient(135deg, #8e24aa, #d81b60);
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .btn-love {
+            background: linear-gradient(135deg, #ff758c, #ff7eb3);
             color: white;
             border: none;
-            padding: 13px 28px;
+            padding: 13px 25px;
             font-size: 0.95rem;
             font-weight: 600;
             border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 10px 22px rgba(142, 36, 170, 0.5);
+            box-shadow: 0 10px 20px rgba(255, 117, 140, 0.5);
             transition: 0.3s;
         }
-        .btn-custom:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 14px 28px rgba(142, 36, 170, 0.8);
+        .btn-love:hover {
+            transform: scale(1.08);
+            box-shadow: 0 15px 25px rgba(255, 117, 140, 0.8);
+        }
+
+        .btn-sad {
+            background: rgba(255, 255, 255, 0.15);
+            color: #ddd;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 13px 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
         }
 
         .photo-container {
             width: 100%;
             height: 220px;
-            border-radius: 16px;
+            border-radius: 18px;
             overflow: hidden;
             margin-bottom: 18px;
-            border: 2px solid rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.25);
         }
         .photo-container img {
             width: 100%;
@@ -127,61 +153,91 @@
 </head>
 <body>
 
+    <canvas id="fireworksCanvas"></canvas>
+
     <div class="scene">
-        <!-- MÀN HÌNH MỞ QUÀ BAN ĐẦU -->
+        <!-- MÀN HÌNH CHÍNH XIN LỖI -->
         <div class="card-3d" id="main-screen">
-            <div class="gift-box" onclick="openGift()">🎁</div>
-            <h1>Có Một Món Quà Nhỏ... 🖤</h1>
-            <p style="color: #b0bec5; font-size: 0.9rem; margin-bottom: 20px;">Gửi người từng là tất cả. Chạm vào hộp quà để xem nhé!</p>
-
-            <button class="btn-custom" onclick="openGift()">Mở Quà Ngay ✨</button>
-        </div>
-
-        <!-- MÀN HÌNH THƯ VÀ LỜI NHẮN -->
-        <div class="card-3d" id="letter-section">
-            <h1>Gửi Người Yêu Cũ 🥀</h1>
+            <div class="gift-box" onclick="openApology()">🥺🎁</div>
+            <h1>Có Người Muốn Xin Lỗi... 🥺</h1>
             
-            <div class="photo-container">
-                <!-- Thay ảnh kỷ niệm hoặc ảnh troll vào đây -->
-                <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=600&q=80" alt="Memory">
-            </div>
-
             <div class="wish-message" id="typing-text"></div>
 
-            <button class="btn-custom" onclick="location.reload()">Đóng Lại 🔄</button>
+            <p style="font-size: 0.9rem; color: #ffb3c6; margin-bottom: 12px;">Thế cậu đã hết giận tớ chưa?</p>
+
+            <div class="btn-group">
+                <button class="btn-love" onclick="openApology()">Hết Giận Rồi ❤️</button>
+                <button class="btn-sad" id="btnSad" onclick="stillAngry()">Vẫn Giận! 😤</button>
+            </div>
+        </div>
+
+        <!-- MÀN HÌNH CẢM ƠN KHI ĐƯỢC THA LỖI -->
+        <div class="card-3d" id="forgive-screen">
+            <h1>Yêu Cậu Nhất Luôn! 🥰✨</h1>
+            <div class="photo-container">
+                <!-- Ảnh / GIF dỗ dành dễ thương -->
+                <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=600&q=80" alt="Cute Apology">
+            </div>
+            <p style="color: #ffb3c6; margin-bottom: 20px; font-weight: 500; line-height: 1.6;">
+                Cảm ơn cậu vì đã tha lỗi cho tớ nha! Tớ hứa lần sau sẽ không làm cậu buồn nữa đâu. Ngoan ngoan nhé! 🌸🧸
+            </p>
+            <button class="btn-love" onclick="location.reload()">Gửi Lại Yêu Thương 💖</button>
         </div>
     </div>
 
-    <!-- Nhạc Lofi buồn chill nhẹ -->
+    <!-- Nhạc Lofi nhẹ nhàng êm dịu -->
     <audio id="bgMusic" loop preload="auto">
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mp3">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mp3">
     </audio>
 
     <script>
-        // Lời nhắn cho người yêu cũ (Bro sửa lại nội dung theo ý thích nhé)
-        const text = "Cảm ơn vì đã từng là một phần thanh xuân của tớ. Dù bây giờ chúng ta đi hai đường khác nhau, mong cậu luôn hạnh phúc, bình an và sống thật tốt nhé! Cảm ơn và tạm biệt... 🖤✨";
+        // Lời nhắn xin lỗi chân thành
+        const text = "Tớ biết tớ sai rồi, làm cậu buồn làm tớ hối hận lắm luôn. Cho tớ xin lỗi nhé! Tớ không cố ý đâu, đừng giận tớ nữa mà... 🥺👉👈";
         let i = 0;
-
         function typing() {
             if (i < text.length) {
                 document.getElementById("typing-text").innerHTML += text.charAt(i);
                 i++;
-                setTimeout(typing, 40);
+                setTimeout(typing, 35);
             }
         }
+        window.onload = typing;
 
-        function openGift() {
-            // Phát nhạc
+        // Bật nhạc khi bấm
+        document.body.addEventListener('click', () => {
             const music = document.getElementById('bgMusic');
-            music.play().catch(() => {});
+            if (music.paused) music.play().catch(() => {});
+        }, { once: true });
 
-            // Chuyển màn hình
-            document.getElementById('main-screen').style.display = 'none';
-            document.getElementById('letter-section').style.display = 'block';
-
-            // Gõ chữ
-            typing();
+        // Xử lý khi chọn "Vẫn giận"
+        let angryCount = 0;
+        const angryTexts = ["Thật luôn? 🥺", "Năn nỉ mà... 🙏", "Thương tớ đi 😭", "Hết giận nha ❤️"];
+        function stillAngry() {
+            const btn = document.getElementById('btnSad');
+            btn.innerText = angryTexts[angryCount % angryTexts.length];
+            angryCount++;
+            // Làm nút "Hết giận" to ra dồn ép nút "Vẫn giận"
+            document.querySelector('.btn-love').style.transform = `scale(${1 + angryCount * 0.1})`;
         }
-    </script>
-</body>
-</html>
+
+        // Mở màn hình đã tha lỗi
+        function openApology() {
+            document.getElementById('main-screen').style.display = 'none';
+            document.getElementById('forgive-screen').style.display = 'block';
+            triggerFireworks();
+        }
+
+        // Hiệu ứng hạt hồng lấp lánh
+        const canvas = document.getElementById('fireworksCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particles = [];
+
+        function triggerFireworks() {
+            for (let i = 0; i < 80; i++) {
+                particles.push({
+                    x: canvas.width / 2,
+                    y: canvas.height / 2,
+                    vx: (Math.random() - 0.5) * 10,
