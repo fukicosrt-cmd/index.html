@@ -224,4 +224,79 @@
                 angryCount++;
                 const loveBtn = document.querySelector('.btn-love');
                 if (loveBtn) {
-                    loveBtn.style.transform =
+                    loveBtn.style.transform = `scale(${1 + angryCount * 0.08})`;
+                }
+            }
+        }
+
+        // Mở màn hình đã tha lỗi
+        function openApology() {
+            const mainScreen = document.getElementById('main-screen');
+            const forgiveScreen = document.getElementById('forgive-screen');
+            if (mainScreen && forgiveScreen) {
+                mainScreen.style.display = 'none';
+                forgiveScreen.style.display = 'block';
+                triggerFireworks();
+            }
+        }
+
+        // Hiệu ứng hạt hồng lấp lánh
+        const canvas = document.getElementById('fireworksCanvas');
+        const ctx = canvas ? canvas.getContext('2d') : null;
+        if (canvas) {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        let particles = [];
+
+        function triggerFireworks() {
+            if (!canvas) return;
+            for (let i = 0; i < 80; i++) {
+                particles.push({
+                    x: canvas.width / 2,
+                    y: canvas.height / 2,
+                    vx: (Math.random() - 0.5) * 10,
+                    vy: (Math.random() - 0.5) * 10,
+                    color: `hsl(${Math.random() * 50 + 330}, 100%, 75%)`,
+                    alpha: 1,
+                    size: Math.random() * 5 + 2
+                });
+            }
+        }
+
+        function animate() {
+            if (ctx && canvas) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach((p, index) => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.vy += 0.08;
+                    p.alpha -= 0.012;
+
+                    if (p.alpha <= 0) {
+                        particles.splice(index, 1);
+                    } else {
+                        ctx.save();
+                        ctx.globalAlpha = p.alpha;
+                        ctx.fillStyle = p.color;
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.restore();
+                    }
+                });
+            }
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            if (canvas) {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+        });
+    </script>
+</body>
+</html>
