@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xin Lỗi Mà, Đừng Giận Nữa Nhe 🥺❤️</title>
+    <title>Xin Lỗi Mà, Đừng Giận Nữa Nhe ❤️</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
@@ -58,7 +58,7 @@
         }
 
         .gift-box {
-            font-size: 80px;
+            font-size: 70px;
             cursor: pointer;
             margin-bottom: 15px;
             display: inline-block;
@@ -73,7 +73,7 @@
         }
 
         h1 {
-            font-size: 1.7rem;
+            font-size: 1.6rem;
             background: linear-gradient(45deg, #ff9a9e, #fecfef, #fe9a8b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -158,39 +158,39 @@
     <div class="scene">
         <!-- MÀN HÌNH CHÍNH XIN LỖI -->
         <div class="card-3d" id="main-screen">
-            <div class="gift-box" onclick="openApology()">🥺🎁</div>
-            <h1>Có Người Muốn Xin Lỗi... 🥺</h1>
+            <div class="gift-box" onclick="openApology()">🎁</div>
+            <h1>Có Người Muốn Xin Lỗi...</h1>
             
             <div class="wish-message" id="typing-text"></div>
 
             <p style="font-size: 0.9rem; color: #ffb3c6; margin-bottom: 12px;">Thế cậu đã hết giận tớ chưa?</p>
 
             <div class="btn-group">
-                <button class="btn-love" onclick="openApology()">Hết Giận Rồi ❤️</button>
-                <button class="btn-sad" id="btnSad" onclick="stillAngry()">Vẫn Giận! 😤</button>
+                <button class="btn-love" onclick="openApology()">Hết Giận Rồi (❤️)</button>
+                <button class="btn-sad" id="btnSad" onclick="stillAngry()">Vẫn Giận!</button>
             </div>
         </div>
 
         <!-- MÀN HÌNH CẢM ƠN KHI ĐƯỢC THA LỖI -->
         <div class="card-3d" id="forgive-screen">
-            <h1>Yêu Cậu Nhất Luôn! 🥰✨</h1>
+            <h1>Yêu Cậu Nhất Luôn!</h1>
             <div class="photo-container">
                 <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=600&q=80" alt="Cute Apology">
             </div>
             <p style="color: #ffb3c6; margin-bottom: 20px; font-weight: 500; line-height: 1.6;">
-                Cảm ơn cậu vì đã tha lỗi cho tớ nha! Tớ hứa lần sau sẽ không làm cậu buồn nữa đâu. Ngoan ngoan nhé! 🌸🧸
+                Cảm ơn cậu vì đã tha lỗi cho tớ nha! Tớ hứa lần sau sẽ không làm cậu buồn nữa đâu. Ngoan ngoan nhé!
             </p>
-            <button class="btn-love" onclick="location.reload()">Gửi Lại Yêu Thương 💖</button>
+            <button class="btn-love" onclick="location.reload()">Gửi Lại Yêu Thương (💖)</button>
         </div>
     </div>
 
-    <!-- Nhạc Lofi nhẹ nhàng êm dịu -->
+    <!-- Nhạc Lofi "Tập Cho Mình Thói Quen" êm dịu chill -->
     <audio id="bgMusic" loop preload="auto">
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mp3">
+        <source src="https://files.catbox.moe/q2y29g.mp3" type="audio/mp3">
     </audio>
 
     <script>
-        const text = "Tớ biết tớ sai rồi, làm cậu buồn làm tớ hối hận lắm luôn. Cho tớ xin lỗi nhé! Tớ không cố ý đâu, đừng giận tớ nữa mà... 🥺👉👈";
+        const text = "Tớ biết tớ sai rồi, làm cậu buồn làm tớ hối hận lắm luôn. Cho tớ xin lỗi nhé! Tớ không cố ý đâu, đừng giận tớ nữa mà...";
         
         window.addEventListener('DOMContentLoaded', () => {
             let i = 0;
@@ -216,7 +216,7 @@
 
         // Xử lý khi chọn "Vẫn giận"
         let angryCount = 0;
-        const angryTexts = ["Thật luôn? 🥺", "Năn nỉ mà... 🙏", "Thương tớ đi 😭", "Hết giận nha ❤️"];
+        const angryTexts = ["Thật luôn?", "Năn nỉ mà...", "Thương tớ đi", "Hết giận nha ❤️"];
         function stillAngry() {
             const btn = document.getElementById('btnSad');
             if (btn) {
