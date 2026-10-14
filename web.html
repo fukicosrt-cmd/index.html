@@ -1,403 +1,187 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f7f4ec">
-  <title>Chào, mình là bình ✳</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dành Cho Người Yêu Cũ 🎁✨</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
-    :root {
-      --paper: #f7f4ec;
-      --ink: #20241f;
-      --green: #b9e769;
-      --line: #dcd9ce;
-      --card: #fffdf7;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      background: var(--paper);
-      color: var(--ink);
-      font-family: Manrope, sans-serif;
-    }
+        body {
+            background: radial-gradient(circle at center, #2b1e3a 0%, #0c0814 100%);
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            perspective: 1000px;
+        }
 
-    a { color: inherit; text-decoration: none; }
+        .scene {
+            position: relative;
+            z-index: 2;
+            width: 90%;
+            max-width: 440px;
+        }
 
-    .wrap {
-      width: min(1100px, calc(100% - 44px));
-      margin: auto;
-    }
+        .card-3d {
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 28px;
+            padding: 35px 25px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
+            text-align: center;
+        }
 
-    .nav {
-      height: 82px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--line);
-    }
+        #letter-section {
+            display: none;
+            animation: fadeIn 0.8s ease forwards;
+        }
 
-    .logo {
-      font-size: 17px;
-      font-weight: 800;
-      letter-spacing: -.7px;
-    }
+        .gift-box {
+            font-size: 80px;
+            cursor: pointer;
+            margin-bottom: 15px;
+            display: inline-block;
+            animation: floatGift 2.5s infinite ease-in-out;
+            filter: drop-shadow(0 10px 15px rgba(186, 104, 200, 0.4));
+            transition: 0.3s;
+        }
+        .gift-box:hover {
+            transform: scale(1.12) rotate(-8deg);
+        }
 
-    .logo span { color: #628b2a; }
+        @keyframes floatGift {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
 
-    .navlinks {
-      display: flex;
-      align-items: center;
-      gap: 30px;
-      font-size: 13px;
-      color: #55584f;
-    }
+        h1 {
+            font-size: 1.7rem;
+            background: linear-gradient(45deg, #ce93d8, #ab47bc, #f48fb1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
 
-    .navlinks a:hover { color: #628b2a; }
+        .wish-message {
+            font-size: 0.98rem;
+            line-height: 1.7;
+            color: #e0e0e0;
+            background: rgba(0, 0, 0, 0.35);
+            padding: 18px;
+            border-radius: 16px;
+            margin-bottom: 22px;
+            border-left: 4px solid #ab47bc;
+            text-align: left;
+            min-height: 110px;
+        }
 
-    .pill {
-      background: var(--ink);
-      color: white;
-      padding: 11px 17px;
-      border-radius: 99px;
-      font-weight: 700;
-    }
+        .btn-custom {
+            background: linear-gradient(135deg, #8e24aa, #d81b60);
+            color: white;
+            border: none;
+            padding: 13px 28px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 22px rgba(142, 36, 170, 0.5);
+            transition: 0.3s;
+        }
+        .btn-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 28px rgba(142, 36, 170, 0.8);
+        }
 
-    .hero {
-      padding: 92px 0 86px;
-      display: grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 50px;
-      align-items: center;
-    }
+        .photo-container {
+            width: 100%;
+            height: 220px;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 18px;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        .photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
-    .eyebrow, .mono {
-      font: 11px 'DM Mono', monospace;
-      letter-spacing: 1.1px;
-      text-transform: uppercase;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
-      color: #697064;
-    }
-
-    .dot {
-      width: 8px;
-      height: 8px;
-      background: #83b344;
-      border-radius: 50%;
-      box-shadow: 0 0 0 4px #e6edda;
-    }
-
-    .hero h1 {
-      font-size: clamp(48px, 7vw, 82px);
-      letter-spacing: -6px;
-      line-height: .99;
-      margin: 25px 0 22px;
-      font-weight: 800;
-    }
-
-    .hero h1 em {
-      font-style: normal;
-      color: #719a3c;
-    }
-
-    .intro {
-      font-size: 16px;
-      line-height: 1.8;
-      color: #66695f;
-      max-width: 490px;
-    }
-
-    .actions {
-      display: flex;
-      gap: 12px;
-      margin-top: 30px;
-      align-items: center;
-    }
-
-    .button {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      border-radius: 99px;
-      background: var(--green);
-      padding: 14px 20px;
-      font-size: 13px;
-      font-weight: 800;
-      transition: transform .2s;
-    }
-
-    .button:hover { transform: translateY(-3px); }
-    .textlink { font-size: 13px; font-weight: 700; padding: 12px; }
-
-    .art {
-      position: relative;
-      min-height: 340px;
-      display: grid;
-      place-items: center;
-    }
-
-    .sun {
-      width: 270px;
-      height: 270px;
-      border-radius: 50%;
-      background: #f3c65f;
-      position: absolute;
-      right: 34px;
-      top: 20px;
-    }
-
-    .blob {
-      width: 260px;
-      height: 230px;
-      border-radius: 48% 52% 35% 65% / 49% 39% 61% 51%;
-      background: #a6ce6a;
-      position: absolute;
-      right: 80px;
-      bottom: 22px;
-      transform: rotate(-12deg);
-    }
-
-    .face {
-      position: absolute;
-      right: 145px;
-      bottom: 73px;
-      font-size: 72px;
-      transform: rotate(7deg);
-      filter: drop-shadow(0 8px 0 #60863d);
-    }
-
-    .spark {
-      position: absolute;
-      font-size: 32px;
-      color: #20241f;
-    }
-
-    .s1 { right: 8px; top: 72px; }
-    .s2 { left: 30px; bottom: 57px; font-size: 23px; }
-
-    .sticker {
-      position: absolute;
-      right: 0;
-      bottom: 35px;
-      rotate: 7deg;
-      background: var(--card);
-      border: 1px solid var(--line);
-      padding: 13px 17px;
-      font: 11px 'DM Mono', monospace;
-      box-shadow: 4px 5px 0 #20241f;
-    }
-
-    .section {
-      padding: 66px 0;
-      border-top: 1px solid var(--line);
-    }
-
-    .section-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: end;
-      margin-bottom: 27px;
-    }
-
-    .section h2 {
-      font-size: 32px;
-      letter-spacing: -1.5px;
-      margin: 9px 0 0;
-    }
-
-    .mono { color: #818378; }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-    }
-
-    .card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 15px;
-      padding: 23px 22px;
-      min-height: 174px;
-      transition: transform .2s, box-shadow .2s;
-    }
-
-    .card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 7px 0 #e6e1d3;
-    }
-
-    .icon { font-size: 25px; }
-    .card h3 { font-size: 16px; margin: 22px 0 7px; }
-
-    .card p {
-      margin: 0;
-      color: #77796e;
-      line-height: 1.6;
-      font-size: 13px;
-    }
-
-    .note {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 30px;
-      align-items: center;
-      background: #e8efdc;
-      border-radius: 18px;
-      padding: 30px 34px;
-    }
-
-    .note h2 { font-size: 27px; margin: 7px 0 10px; }
-
-    .note p {
-      font-size: 13px;
-      color: #656a5d;
-      line-height: 1.7;
-      margin: 0;
-      max-width: 550px;
-    }
-
-    .note .button {
-      white-space: nowrap;
-      background: var(--ink);
-      color: #fff;
-    }
-
-    .footer {
-      padding: 30px 0 42px;
-      display: flex;
-      justify-content: space-between;
-      color: #77796e;
-      font-size: 12px;
-    }
-
-    .footer b { color: var(--ink); }
-    .cursor { display: inline-block; animation: blink 1s steps(2) infinite; }
-    @keyframes blink { 50% { opacity: 0; } }
-
-    @media (max-width: 720px) {
-      .nav { height: 70px; }
-      .navlinks { gap: 14px; }
-      .navlinks a:not(.pill) { display: none; }
-      .hero { grid-template-columns: 1fr; padding: 65px 0 45px; gap: 0; }
-      .hero h1 { letter-spacing: -4px; }
-      .art { min-height: 300px; }
-      .sun { right: calc(50% - 142px); }
-      .blob { right: calc(50% - 130px); }
-      .face { right: calc(50% - 66px); }
-      .sticker { right: 6%; }
-      .cards { grid-template-columns: 1fr; }
-      .card { min-height: 145px; }
-      .note { grid-template-columns: 1fr; padding: 24px; }
-      .note .button { justify-self: start; }
-      .section { padding: 50px 0; }
-      .footer { gap: 20px; flex-wrap: wrap; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        scroll-behavior: auto !important;
-        animation: none !important;
-        transition: none !important;
-      }
-    }
-  </style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
 </head>
 <body>
-  <div class="wrap">
-    <header class="nav">
-      <a class="logo" href="#top">một chiếc <span>web</span> ✳</a>
-      <nav class="navlinks">
-        <a href="#ve-minh">Về mình</a>
-        <a href="#so-thich">Sở thích</a>
-        <a class="pill" href="mailto:hello@example.com">Bắt chuyện ↗</a>
-      </nav>
-    </header>
 
-    <main id="top">
-      <section class="hero">
-        <div>
-          <div class="eyebrow"><span class="dot"></span> một người đang trên đường tìm vibe</div>
-          <h1>Chào, mình<br>là <em>bạn</em><span class="cursor">_</span></h1>
-          <p class="intro">
-            Đang cập nhật bio xịn hơn... Tạm thời thì mình thích những ngày vui,
-            đồ ăn ngon và mấy ý tưởng tự dưng nảy ra lúc 2 giờ sáng.
-          </p>
-          <div class="actions">
-            <a class="button" href="#ve-minh">Khám phá một chút <span>↓</span></a>
-            <a class="textlink" href="mailto:hello@example.com">Hoặc nhắn mình →</a>
-          </div>
+    <div class="scene">
+        <!-- MÀN HÌNH MỞ QUÀ BAN ĐẦU -->
+        <div class="card-3d" id="main-screen">
+            <div class="gift-box" onclick="openGift()">🎁</div>
+            <h1>Có Một Món Quà Nhỏ... 🖤</h1>
+            <p style="color: #b0bec5; font-size: 0.9rem; margin-bottom: 20px;">Gửi người từng là tất cả. Chạm vào hộp quà để xem nhé!</p>
+
+            <button class="btn-custom" onclick="openGift()">Mở Quà Ngay ✨</button>
         </div>
 
-        <div class="art" aria-label="Minh họa mặt trời và nhân vật dễ thương">
-          <div class="sun"></div>
-          <div class="blob"></div>
-          <div class="face">☺</div>
-          <span class="spark s1">✳</span>
-          <span class="spark s2">✦</span>
-          <div class="sticker">MOOD HÔM NAY: ỔN ÁP</div>
+        <!-- MÀN HÌNH THƯ VÀ LỜI NHẮN -->
+        <div class="card-3d" id="letter-section">
+            <h1>Gửi Người Yêu Cũ 🥀</h1>
+            
+            <div class="photo-container">
+                <!-- Thay ảnh kỷ niệm hoặc ảnh troll vào đây -->
+                <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=600&q=80" alt="Memory">
+            </div>
+
+            <div class="wish-message" id="typing-text"></div>
+
+            <button class="btn-custom" onclick="location.reload()">Đóng Lại 🔄</button>
         </div>
-      </section>
+    </div>
 
-      <section class="section" id="ve-minh">
-        <div class="section-head">
-          <div>
-            <div class="mono">01 / VỀ MÌNH</div>
-            <h2>Không cần quá nghiêm túc.</h2>
-          </div>
-          <div class="mono">✳ 100% phiên bản thử nghiệm</div>
-        </div>
+    <!-- Nhạc Lofi buồn chill nhẹ -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mp3">
+    </audio>
 
-        <div class="cards">
-          <article class="card">
-            <div class="icon">🧃</div>
-            <h3>Nạp năng lượng</h3>
-            <p>Trà sữa, cà phê hay một giấc ngủ ngon — tùy ngày.</p>
-          </article>
-          <article class="card">
-            <div class="icon">🪴</div>
-            <h3>Đang lớn lên</h3>
-            <p>Học thêm điều mới, chậm một chút cũng chẳng sao.</p>
-          </article>
-          <article class="card">
-            <div class="icon">🪩</div>
-            <h3>Luôn tò mò</h3>
-            <p>Thích khám phá những thứ hay ho chưa biết tên.</p>
-          </article>
-        </div>
-      </section>
+    <script>
+        // Lời nhắn cho người yêu cũ (Bro sửa lại nội dung theo ý thích nhé)
+        const text = "Cảm ơn vì đã từng là một phần thanh xuân của tớ. Dù bây giờ chúng ta đi hai đường khác nhau, mong cậu luôn hạnh phúc, bình an và sống thật tốt nhé! Cảm ơn và tạm biệt... 🖤✨";
+        let i = 0;
 
-      <section class="section" id="so-thich">
-        <div class="note">
-          <div>
-            <div class="mono">02 / LỜI NHẮN NHỎ</div>
-            <h2>Ê, chào bạn nha 👋</h2>
-            <p>
-              Web này là góc nhỏ của mình trên internet. Nếu có chung sở thích
-              hoặc chỉ muốn tám chuyện, cứ gửi lời chào nhé!
-            </p>
-          </div>
-          <a class="button" href="hacongbinh132@gmail.com">Gửi lời chào ↗</a>
-        </div>
-      </section>
-    </main>
+        function typing() {
+            if (i < text.length) {
+                document.getElementById("typing-text").innerHTML += text.charAt(i);
+                i++;
+                setTimeout(typing, 40);
+            }
+        }
 
-    <footer class="footer">
-      <span>Được làm bằng một chút <b>tò mò</b> và nhiều cà phê ☕</span>
-      <span>© <span id="year"></span> bạn nha</span>
-    </footer>
-  </div>
+        function openGift() {
+            // Phát nhạc
+            const music = document.getElementById('bgMusic');
+            music.play().catch(() => {});
 
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+            // Chuyển màn hình
+            document.getElementById('main-screen').style.display = 'none';
+            document.getElementById('letter-section').style.display = 'block';
+
+            // Gõ chữ
+            typing();
+        }
+    </script>
 </body>
 </html>
