@@ -175,7 +175,6 @@
         <div class="card-3d" id="forgive-screen">
             <h1>Yêu Cậu Nhất Luôn! 🥰✨</h1>
             <div class="photo-container">
-                <!-- Ảnh / GIF dỗ dành dễ thương -->
                 <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=600&q=80" alt="Cute Apology">
             </div>
             <p style="color: #ffb3c6; margin-bottom: 20px; font-weight: 500; line-height: 1.6;">
@@ -191,22 +190,28 @@
     </audio>
 
     <script>
-        // Lời nhắn xin lỗi chân thành
         const text = "Tớ biết tớ sai rồi, làm cậu buồn làm tớ hối hận lắm luôn. Cho tớ xin lỗi nhé! Tớ không cố ý đâu, đừng giận tớ nữa mà... 🥺👉👈";
-        let i = 0;
-        function typing() {
-            if (i < text.length) {
-                document.getElementById("typing-text").innerHTML += text.charAt(i);
-                i++;
-                setTimeout(typing, 35);
+        
+        window.addEventListener('DOMContentLoaded', () => {
+            let i = 0;
+            const target = document.getElementById("typing-text");
+            
+            function typing() {
+                if (i < text.length && target) {
+                    target.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(typing, 35);
+                }
             }
-        }
-        window.onload = typing;
+            typing();
+        });
 
         // Bật nhạc khi bấm
         document.body.addEventListener('click', () => {
             const music = document.getElementById('bgMusic');
-            if (music.paused) music.play().catch(() => {});
+            if (music && music.paused) {
+                music.play().catch(() => {});
+            }
         }, { once: true });
 
         // Xử lý khi chọn "Vẫn giận"
@@ -214,30 +219,9 @@
         const angryTexts = ["Thật luôn? 🥺", "Năn nỉ mà... 🙏", "Thương tớ đi 😭", "Hết giận nha ❤️"];
         function stillAngry() {
             const btn = document.getElementById('btnSad');
-            btn.innerText = angryTexts[angryCount % angryTexts.length];
-            angryCount++;
-            // Làm nút "Hết giận" to ra dồn ép nút "Vẫn giận"
-            document.querySelector('.btn-love').style.transform = `scale(${1 + angryCount * 0.1})`;
-        }
-
-        // Mở màn hình đã tha lỗi
-        function openApology() {
-            document.getElementById('main-screen').style.display = 'none';
-            document.getElementById('forgive-screen').style.display = 'block';
-            triggerFireworks();
-        }
-
-        // Hiệu ứng hạt hồng lấp lánh
-        const canvas = document.getElementById('fireworksCanvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        let particles = [];
-
-        function triggerFireworks() {
-            for (let i = 0; i < 80; i++) {
-                particles.push({
-                    x: canvas.width / 2,
-                    y: canvas.height / 2,
-                    vx: (Math.random() - 0.5) * 10,
+            if (btn) {
+                btn.innerText = angryTexts[angryCount % angryTexts.length];
+                angryCount++;
+                const loveBtn = document.querySelector('.btn-love');
+                if (loveBtn) {
+                    loveBtn.style.transform =
