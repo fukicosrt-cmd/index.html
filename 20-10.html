@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Món Quà Đặc Biệt 20/10</title>
+    <title>Món Quà Đặc Biệt 20/10 🌸✨</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
@@ -15,7 +15,7 @@
 
         body {
             background: radial-gradient(circle at center, #2b1636 0%, #0d0612 100%);
-            color: #ffffff;
+            color: #fff;
             font-family: 'Poppins', sans-serif;
             min-height: 100vh;
             display: flex;
@@ -59,7 +59,9 @@
 
         h1 {
             font-size: 1.5rem;
-            color: #ff9a9e;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4, #ffecd2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             margin-bottom: 15px;
             font-weight: 700;
         }
@@ -83,7 +85,7 @@
 
         .btn-love {
             background: linear-gradient(135deg, #ff758c, #ff7eb3);
-            color: #ffffff;
+            color: white;
             border: none;
             padding: 12px 30px;
             font-size: 0.95rem;
@@ -99,9 +101,10 @@
             box-shadow: 0 15px 25px rgba(255, 117, 140, 0.8);
         }
 
+        /* Nút từ chối được tách hẳn xuống dưới, dùng fixed để né chuột bay khắp màn hình mà không đè nút chính */
         .btn-run {
             background: rgba(255, 255, 255, 0.15);
-            color: #ffffff;
+            color: #ddd;
             border: 1px solid rgba(255, 255, 255, 0.2);
             padding: 10px 20px;
             font-size: 0.85rem;
@@ -115,14 +118,13 @@
         .quiz-option {
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #ffffff;
+            color: white;
             padding: 12px 20px;
             border-radius: 16px;
             margin: 8px 0;
             width: 100%;
             cursor: pointer;
             font-size: 0.95rem;
-            text-align: left;
             transition: 0.3s;
         }
         .quiz-option:hover {
@@ -133,7 +135,7 @@
         .wish-message {
             font-size: 0.95rem;
             line-height: 1.7;
-            color: #ffffff;
+            color: #f1f1f1;
             background: rgba(0, 0, 0, 0.4);
             padding: 16px;
             border-radius: 16px;
@@ -166,35 +168,35 @@
     <div class="scene">
         <!-- BƯỚC 1: MINI QUIZ -->
         <div class="card-3d" id="step-quiz">
-            <h1>Khao Sat Nho Truoc Da!</h1>
-            <p>Hom nay la ngay dac biet gi ma xinh dep rang ro the nhi?</p>
-            <button class="quiz-option" onclick="nextStep(2)">A. Ngay 20/10 (Qua dau mang ra mau!)</button>
-            <button class="quiz-option" onclick="nextStep(2)">B. Ngay binh thuong nhung thich doi qua</button>
-            <button class="quiz-option" onclick="nextStep(2)">C. Ngay em dep nhat he mat troi</button>
+            <h1>Khảo Sát Nhỏ Trước Đã! </h1>
+            <p>Hôm nay là ngày đặc biệt gì mà xinh đẹp rạng rỡ thế nhỉ?</p>
+            <button class="quiz-option" onclick="nextStep(2)">A. Ngày 20/10 (Quà đâu mang ra mau! 🎁)</button>
+            <button class="quiz-option" onclick="nextStep(2)">B. Ngày bình thường nhưng thích đòi quà ✨</button>
+            <button class="quiz-option" onclick="nextStep(2)">C. Ngày em đẹp nhất hệ mặt trời 🌸</button>
         </div>
 
-        <!-- BƯỚC 2: HỘP QUÀ + NÚT NÉ -->
+        <!-- BƯỚC 2: HỘP QUÀ + NÚT NÉ HOÀN TOÀN TÁCH BIỆT -->
         <div class="card-3d hidden" id="step-gift">
             <div style="font-size: 70px; margin-bottom: 10px; animation: bounce 2s infinite;">🎁</div>
-            <h1>Co Mon Qua Nho Cho Cau...</h1>
-            <p>Mot chiec hop bat ngo dang cho duoc mo. Cau co dong y nhan khong nao?</p>
+            <h1>Có Món Quà Nhỏ Cho Cậu... ✨</h1>
+            <p>Một chiếc hộp bất ngờ đang chờ được mở. Cậu có đồng ý nhận không nào?</p>
             
             <div class="btn-group" id="btnGroup">
-                <button class="btn-love" onclick="nextStep(3)">Nhan Ngay</button>
-                <button class="btn-run" id="btnRun" onmouseover="moveButton()" onclick="moveButton()">Khong Them!</button>
+                <button class="btn-love" onclick="nextStep(3)">Nhận Ngay ❤️</button>
+                <button class="btn-run" id="btnRun" onmouseover="moveButton()" onclick="moveButton()">Không Thèm! 🤪</button>
             </div>
         </div>
 
         <!-- BƯỚC 3: THIỆP MỞ RA + CHỮ CHẠY -->
         <div class="card-3d hidden" id="step-card">
-            <h1>Chuc Mung 20/10!</h1>
+            <h1>Chúc Mừng 20/10! </h1>
             <div class="photo-container">
                 <img src="https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=600&q=80" alt="Gift">
             </div>
             
             <div class="wish-message" id="typing-text"></div>
 
-            <button class="btn-love" onclick="location.reload()">Xem Lai Tu Dau</button>
+            <button class="btn-love" onclick="location.reload()">Xem Lại Từ Đầu 🔄</button>
         </div>
     </div>
 
@@ -221,20 +223,22 @@
             }
         }
 
+        // Nút "Không thèm" nhảy né tự do ra xung quanh card mà không bao giờ đè nút chính
         let runCount = 0;
-        const refusalTexts = ["Khong Them!", "Bat hut nhe", "Thu bam nua xem", "Hong cho bam dau", "Chon nut kia di ma"];
+        const refusalTexts = ["Không Thèm! 🤪", "Bắt hụt nhé 😛", "Thử bấm nữa xem 😆", "Hổng cho bấm đâu 🙈", "Chọn nút kia đi mà ❤️"];
         
         function moveButton() {
             const btn = document.getElementById('btnRun');
             runCount++;
             btn.innerText = refusalTexts[runCount % refusalTexts.length];
             
+            // Dùng vị trí ngẫu nhiên rộng hơn bên trong khung card
             const randomX = (Math.random() - 0.5) * 220;
             const randomY = (Math.random() - 0.5) * 120 + 30;
             btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
         }
 
-        const text = "Chúc cậu một ngày 20/10 ngập tràn niềm vui, luôn xinh tươi, rạng rỡ và lúc nào cũng cười tươi thế này nhé! Mong mọi điều tốt đẹp nhất sẽ luôn đồng hành cùng cậu.";
+        const text = "Chúc cậu một ngày 20/10 ngập tràn niềm vui, luôn xinh tươi, rạng rỡ và lúc nào cũng cười tươi thế này nhé! Mong mọi điều tốt đẹp nhất sẽ luôn đồng hành cùng cậu. 🌷✨";
         function startTyping() {
             let i = 0;
             const target = document.getElementById("typing-text");
