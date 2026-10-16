@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chúc Mừng 20/10 Vui Vẻ Nhé! 🌸✨</title>
+    <title>Hộp Quà 20/10 Siêu Cấp Đỉnh Chóp 🌸✨</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
@@ -14,7 +14,7 @@
         }
 
         body {
-            background: radial-gradient(circle at center, #361f38 0%, #100814 100%);
+            background: radial-gradient(circle at center, #2b1636 0%, #0d0612 100%);
             color: #fff;
             font-family: 'Poppins', sans-serif;
             min-height: 100vh;
@@ -43,40 +43,22 @@
 
         .card-3d {
             background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 30px;
             padding: 35px 25px;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
             text-align: center;
+            transition: all 0.5s ease;
         }
 
-        #gift-section {
-            display: none;
-            animation: fadeIn 0.8s ease forwards;
-        }
-
-        .gift-box {
-            font-size: 80px;
-            cursor: pointer;
-            margin-bottom: 15px;
-            display: inline-block;
-            animation: bounceGift 2s infinite ease-in-out;
-            filter: drop-shadow(0 12px 20px rgba(255, 117, 140, 0.6));
-            transition: 0.3s;
-        }
-        .gift-box:hover {
-            transform: scale(1.15) rotate(10deg);
-        }
-
-        @keyframes bounceGift {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-12px); }
+        .hidden {
+            display: none !important;
         }
 
         h1 {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             background: linear-gradient(45deg, #ff9a9e, #fad0c4, #ffecd2);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -84,61 +66,95 @@
             font-weight: 700;
         }
 
-        .wish-message {
-            font-size: 0.98rem;
-            line-height: 1.7;
-            color: #f1f1f1;
-            background: rgba(0, 0, 0, 0.35);
-            padding: 18px;
-            border-radius: 16px;
-            margin-bottom: 22px;
-            border-left: 4px solid #ff758c;
-            text-align: left;
-            min-height: 110px;
+        p {
+            color: #ffb3c6;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 15px;
+            position: relative;
+            min-height: 50px;
         }
 
         .btn-love {
             background: linear-gradient(135deg, #ff758c, #ff7eb3);
             color: white;
             border: none;
-            padding: 14px 30px;
-            font-size: 0.98rem;
+            padding: 12px 25px;
+            font-size: 0.95rem;
             font-weight: 600;
             border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 10px 25px rgba(255, 117, 140, 0.6);
-            animation: pulseBtn 2s infinite;
+            box-shadow: 0 10px 20px rgba(255, 117, 140, 0.5);
             transition: 0.3s;
         }
         .btn-love:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(255, 117, 140, 0.9);
+            transform: scale(1.08);
+            box-shadow: 0 15px 25px rgba(255, 117, 140, 0.8);
         }
 
-        @keyframes pulseBtn {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        .btn-run {
+            background: rgba(255, 255, 255, 0.15);
+            color: #ddd;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 12px 22px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 50px;
+            cursor: pointer;
+            position: absolute;
+            transition: 0.1s ease;
+        }
+
+        .quiz-option {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 16px;
+            margin: 8px 0;
+            width: 100%;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+        .quiz-option:hover {
+            background: rgba(255, 117, 140, 0.3);
+            border-color: #ff758c;
+        }
+
+        .wish-message {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: #f1f1f1;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 16px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border-left: 4px solid #ff758c;
+            text-align: left;
+            min-height: 100px;
         }
 
         .photo-container {
             width: 100%;
-            height: 220px;
-            border-radius: 18px;
+            height: 200px;
+            border-radius: 16px;
             overflow: hidden;
-            margin-bottom: 18px;
+            margin-bottom: 15px;
             border: 2px solid rgba(255,255,255,0.25);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
         }
         .photo-container img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
         }
     </style>
 </head>
@@ -148,24 +164,37 @@
     <canvas id="fireworksCanvas"></canvas>
 
     <div class="scene">
-        <!-- MÀN HÌNH CHƯA MỞ QUÀ -->
-        <div class="card-3d" id="main-screen">
-            <div class="gift-box" onclick="openGift()">🎁</div>
-            <h1>Có Món Quà 20/10 Cho Cậu... 🌸</h1>
-            <p style="font-size: 0.9rem; color: #ffb3c6; margin-bottom: 22px;">Nhấn vào hộp quà để xem điều bất ngờ nhé!</p>
-            <button class="btn-love" onclick="openGift()">Mở Quà Ngay ✨</button>
+        <!-- BƯỚC 1: MINI QUIZ VUI -->
+        <div class="card-3d" id="step-quiz">
+            <h1>Khảo Sát Nhỏ Trước Đã! 🤭</h1>
+            <p>Hôm nay là ngày gì mà xinh đẹp rạng rỡ thế nhỉ?</p>
+            <button class="quiz-option" onclick="nextStep(2)">A. Ngày 20/10 (Quà đâu mang ra mau! 🎁)</button>
+            <button class="quiz-option" onclick="nextStep(2)">B. Ngày bình thường nhưng thích đòi quà ✨</button>
+            <button class="quiz-option" onclick="nextStep(2)">C. Ngày em đẹp nhất hệ mặt trời 🌸</button>
         </div>
 
-        <!-- MÀN HÌNH SAU KHI MỞ QUÀ -->
-        <div class="card-3d" id="gift-section">
+        <!-- BƯỚC 2: HỘP QUÀ + NÚT NÉ CHUỘT -->
+        <div class="card-3d hidden" id="step-gift">
+            <div style="font-size: 70px; margin-bottom: 10px; animation: bounce 2s infinite;">🎁</div>
+            <h1>Bất Ngờ Chưa Bà Chị / Cậu Thư Ký! 😎</h1>
+            <p>Có một món quà siêu to khổng lồ đang đợi cậu mở này. Có đồng ý nhận không đây?</p>
+            
+            <div class="btn-group" id="btnGroup">
+                <button class="btn-love" onclick="nextStep(3)">Nhận Ngay ❤️</button>
+                <button class="btn-run" id="btnRun" onmouseover="moveButton()" onclick="moveButton()">Không Thèm! 🤪</button>
+            </div>
+        </div>
+
+        <!-- BƯỚC 3: THIỆP MỞ RA + CHỮ CHẠY + NHẠC -->
+        <div class="card-3d hidden" id="step-card">
             <h1>Chúc Mừng 20/10! 💐</h1>
             <div class="photo-container">
-                <img src="https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=600&q=80" alt="Flowers 20/10">
+                <img src="https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=600&q=80" alt="Gift">
             </div>
             
             <div class="wish-message" id="typing-text"></div>
 
-            <button class="btn-love" onclick="location.reload()">Xem Lại 🔄</button>
+            <button class="btn-love" onclick="location.reload()">Xem Lại Từ Đầu 🔄</button>
         </div>
     </div>
 
@@ -175,7 +204,50 @@
     </audio>
 
     <script>
-        // Hiệu ứng cánh hoa bay lất phất nền
+        // Chuyển các bước màn hình
+        function nextStep(stepNum) {
+            // Phát nhạc ngay khi tương tác
+            const music = document.getElementById('bgMusic');
+            if (music) music.play().catch(() => {});
+
+            document.getElementById('step-quiz').classList.add('hidden');
+            document.getElementById('step-gift').classList.add('hidden');
+            document.getElementById('step-card').classList.add('hidden');
+
+            if (stepNum === 2) {
+                document.getElementById('step-gift').classList.remove('hidden');
+            } else if (stepNum === 3) {
+                document.getElementById('step-card').classList.remove('hidden');
+                startTyping();
+                triggerFireworks();
+            }
+        }
+
+        // Nút "Không thèm" chạy trốn khi rê chuột vào
+        function moveButton() {
+            const btn = document.getElementById('btnRun');
+            const x = Math.random() * 200 - 100;
+            const y = Math.random() * 100 - 50;
+            btn.style.transform = `translate(${x}px, ${y}px)`;
+        }
+
+        // Hiệu ứng gõ chữ
+        const text = "Chúc cậu một ngày 20/10 ngập tràn niềm vui, luôn xinh tươi, bớt giận hờn dỗi vu vơ lại và lúc nào cũng cười tươi thế này nhé! Mong mọi điều tốt đẹp nhất sẽ đến với cậu. 🌷✨";
+        function startTyping() {
+            let i = 0;
+            const target = document.getElementById("typing-text");
+            target.innerHTML = "";
+            function typeStep() {
+                if (i < text.length && target) {
+                    target.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(typeStep, 35);
+                }
+            }
+            typeStep();
+        }
+
+        // Hiệu ứng cánh hoa bay nền
         const petalsCanvas = document.getElementById('petalsCanvas');
         const pCtx = petalsCanvas.getContext('2d');
         petalsCanvas.width = window.innerWidth;
@@ -187,8 +259,7 @@
                 x: Math.random() * petalsCanvas.width,
                 y: Math.random() * petalsCanvas.height,
                 r: Math.random() * 6 + 4,
-                d: Math.random() * 35,
-                color: `rgba(255, ${Math.floor(Math.random() * 100 + 150)}, 200, 0.7)`
+                d: Math.random() * 35
             });
         }
 
@@ -218,37 +289,7 @@
         }
         setInterval(drawPetals, 25);
 
-        // Hiệu ứng gõ chữ lời chúc
-        const text = "Chúc cậu có một ngày 20/10 ngập tràn niềm vui, luôn xinh đẹp, rạng rỡ và đạt được mọi điều mình mong muốn nhé! Mong những gì tuyệt vời nhất sẽ luôn đồng hành cùng cậu. 🌷✨";
-        
-        function typing() {
-            let i = 0;
-            const target = document.getElementById("typing-text");
-            function typeStep() {
-                if (i < text.length && target) {
-                    target.innerHTML += text.charAt(i);
-                    i++;
-                    setTimeout(typeStep, 35);
-                }
-            }
-            typeStep();
-        }
-
-        // Mở quà
-        function openGift() {
-            const music = document.getElementById('bgMusic');
-            if (music) {
-                music.play().catch(() => {});
-            }
-
-            document.getElementById('main-screen').style.display = 'none';
-            document.getElementById('gift-section').style.display = 'block';
-            
-            typing();
-            triggerFireworks();
-        }
-
-        // Pháo hoa khi mở quà
+        // Pháo hoa khi mở được quà
         const canvas = document.getElementById('fireworksCanvas');
         const ctx = canvas ? canvas.getContext('2d') : null;
         if (canvas) {
@@ -257,7 +298,6 @@
         }
 
         let particles = [];
-
         function triggerFireworks() {
             if (!canvas) return;
             for (let i = 0; i < 90; i++) {
