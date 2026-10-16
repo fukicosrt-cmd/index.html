@@ -75,44 +75,44 @@
 
         .btn-group {
             display: flex;
+            flex-direction: column;
             gap: 15px;
-            justify-content: center;
             align-items: center;
             margin-top: 20px;
             position: relative;
-            height: 60px;
+            min-height: 110px;
         }
 
         .btn-love {
             background: linear-gradient(135deg, #ff758c, #ff7eb3);
             color: white;
             border: none;
-            padding: 12px 25px;
+            padding: 12px 30px;
             font-size: 0.95rem;
             font-weight: 600;
             border-radius: 50px;
             cursor: pointer;
             box-shadow: 0 10px 20px rgba(255, 117, 140, 0.5);
             transition: 0.3s;
-            z-index: 3;
+            z-index: 5;
         }
         .btn-love:hover {
             transform: scale(1.08);
             box-shadow: 0 15px 25px rgba(255, 117, 140, 0.8);
         }
 
+        /* Nút từ chối được tách hẳn xuống dưới, dùng fixed để né chuột bay khắp màn hình mà không đè nút chính */
         .btn-run {
             background: rgba(255, 255, 255, 0.15);
             color: #ddd;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 12px 22px;
-            font-size: 0.9rem;
+            padding: 10px 20px;
+            font-size: 0.85rem;
             font-weight: 500;
             border-radius: 50px;
             cursor: pointer;
-            position: absolute;
-            transition: all 0.2s ease;
-            z-index: 2;
+            transition: all 0.15s ease-out;
+            z-index: 4;
         }
 
         .quiz-option {
@@ -175,7 +175,7 @@
             <button class="quiz-option" onclick="nextStep(2)">C. Ngày em đẹp nhất hệ mặt trời 🌸</button>
         </div>
 
-        <!-- BƯỚC 2: HỘP QUÀ + NÚT NÉ TRÁNH THÔNG MINH -->
+        <!-- BƯỚC 2: HỘP QUÀ + NÚT NÉ HOÀN TOÀN TÁCH BIỆT -->
         <div class="card-3d hidden" id="step-gift">
             <div style="font-size: 70px; margin-bottom: 10px; animation: bounce 2s infinite;">🎁</div>
             <h1>Có Món Quà Nhỏ Cho Cậu... ✨</h1>
@@ -223,7 +223,7 @@
             }
         }
 
-        // Nút "Không thèm" nhảy né an toàn không bị đè
+        // Nút "Không thèm" nhảy né tự do ra xung quanh card mà không bao giờ đè nút chính
         let runCount = 0;
         const refusalTexts = ["Không Thèm! 🤪", "Bắt hụt nhé 😛", "Thử bấm nữa xem 😆", "Hổng cho bấm đâu 🙈", "Chọn nút kia đi mà ❤️"];
         
@@ -232,9 +232,9 @@
             runCount++;
             btn.innerText = refusalTexts[runCount % refusalTexts.length];
             
-            // Random khoảng cách dịch chuyển nằm gọn trong khung, không đè lên nút chính
-            const randomX = (Math.random() - 0.5) * 180;
-            const randomY = (Math.random() - 0.5) * 80 + (runCount % 2 === 0 ? 50 : -50);
+            // Dùng vị trí ngẫu nhiên rộng hơn bên trong khung card
+            const randomX = (Math.random() - 0.5) * 220;
+            const randomY = (Math.random() - 0.5) * 120 + 30;
             btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
         }
 
