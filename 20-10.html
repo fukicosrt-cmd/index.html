@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hộp Quà 20/10 Siêu Cấp Đỉnh Chóp 🌸✨</title>
+    <title>Món Quà Đặc Biệt 20/10 🌸✨</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
@@ -78,9 +78,9 @@
             gap: 15px;
             justify-content: center;
             align-items: center;
-            margin-top: 15px;
+            margin-top: 20px;
             position: relative;
-            min-height: 50px;
+            height: 60px;
         }
 
         .btn-love {
@@ -94,6 +94,7 @@
             cursor: pointer;
             box-shadow: 0 10px 20px rgba(255, 117, 140, 0.5);
             transition: 0.3s;
+            z-index: 3;
         }
         .btn-love:hover {
             transform: scale(1.08);
@@ -110,7 +111,8 @@
             border-radius: 50px;
             cursor: pointer;
             position: absolute;
-            transition: 0.1s ease;
+            transition: all 0.2s ease;
+            z-index: 2;
         }
 
         .quiz-option {
@@ -164,20 +166,20 @@
     <canvas id="fireworksCanvas"></canvas>
 
     <div class="scene">
-        <!-- BƯỚC 1: MINI QUIZ VUI -->
+        <!-- BƯỚC 1: MINI QUIZ -->
         <div class="card-3d" id="step-quiz">
             <h1>Khảo Sát Nhỏ Trước Đã! 🤭</h1>
-            <p>Hôm nay là ngày gì mà xinh đẹp rạng rỡ thế nhỉ?</p>
+            <p>Hôm nay là ngày đặc biệt gì mà xinh đẹp rạng rỡ thế nhỉ?</p>
             <button class="quiz-option" onclick="nextStep(2)">A. Ngày 20/10 (Quà đâu mang ra mau! 🎁)</button>
             <button class="quiz-option" onclick="nextStep(2)">B. Ngày bình thường nhưng thích đòi quà ✨</button>
             <button class="quiz-option" onclick="nextStep(2)">C. Ngày em đẹp nhất hệ mặt trời 🌸</button>
         </div>
 
-        <!-- BƯỚC 2: HỘP QUÀ + NÚT NÉ CHUỘT -->
+        <!-- BƯỚC 2: HỘP QUÀ + NÚT NÉ TRÁNH THÔNG MINH -->
         <div class="card-3d hidden" id="step-gift">
             <div style="font-size: 70px; margin-bottom: 10px; animation: bounce 2s infinite;">🎁</div>
-            <h1>Bất Ngờ Chưa Bà Chị / Cậu Thư Ký! 😎</h1>
-            <p>Có một món quà siêu to khổng lồ đang đợi cậu mở này. Có đồng ý nhận không đây?</p>
+            <h1>Có Món Quà Nhỏ Cho Cậu... ✨</h1>
+            <p>Một chiếc hộp bất ngờ đang chờ được mở. Cậu có đồng ý nhận không nào?</p>
             
             <div class="btn-group" id="btnGroup">
                 <button class="btn-love" onclick="nextStep(3)">Nhận Ngay ❤️</button>
@@ -185,7 +187,7 @@
             </div>
         </div>
 
-        <!-- BƯỚC 3: THIỆP MỞ RA + CHỮ CHẠY + NHẠC -->
+        <!-- BƯỚC 3: THIỆP MỞ RA + CHỮ CHẠY -->
         <div class="card-3d hidden" id="step-card">
             <h1>Chúc Mừng 20/10! 💐</h1>
             <div class="photo-container">
@@ -204,9 +206,7 @@
     </audio>
 
     <script>
-        // Chuyển các bước màn hình
         function nextStep(stepNum) {
-            // Phát nhạc ngay khi tương tác
             const music = document.getElementById('bgMusic');
             if (music) music.play().catch(() => {});
 
@@ -223,16 +223,22 @@
             }
         }
 
-        // Nút "Không thèm" chạy trốn khi rê chuột vào
+        // Nút "Không thèm" nhảy né an toàn không bị đè
+        let runCount = 0;
+        const refusalTexts = ["Không Thèm! 🤪", "Bắt hụt nhé 😛", "Thử bấm nữa xem 😆", "Hổng cho bấm đâu 🙈", "Chọn nút kia đi mà ❤️"];
+        
         function moveButton() {
             const btn = document.getElementById('btnRun');
-            const x = Math.random() * 200 - 100;
-            const y = Math.random() * 100 - 50;
-            btn.style.transform = `translate(${x}px, ${y}px)`;
+            runCount++;
+            btn.innerText = refusalTexts[runCount % refusalTexts.length];
+            
+            // Random khoảng cách dịch chuyển nằm gọn trong khung, không đè lên nút chính
+            const randomX = (Math.random() - 0.5) * 180;
+            const randomY = (Math.random() - 0.5) * 80 + (runCount % 2 === 0 ? 50 : -50);
+            btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
         }
 
-        // Hiệu ứng gõ chữ
-        const text = "Chúc cậu một ngày 20/10 ngập tràn niềm vui, luôn xinh tươi, bớt giận hờn dỗi vu vơ lại và lúc nào cũng cười tươi thế này nhé! Mong mọi điều tốt đẹp nhất sẽ đến với cậu. 🌷✨";
+        const text = "Chúc cậu một ngày 20/10 ngập tràn niềm vui, luôn xinh tươi, rạng rỡ và lúc nào cũng cười tươi thế này nhé! Mong mọi điều tốt đẹp nhất sẽ luôn đồng hành cùng cậu. 🌷✨";
         function startTyping() {
             let i = 0;
             const target = document.getElementById("typing-text");
@@ -247,7 +253,7 @@
             typeStep();
         }
 
-        // Hiệu ứng cánh hoa bay nền
+        // Cánh hoa bay nền
         const petalsCanvas = document.getElementById('petalsCanvas');
         const pCtx = petalsCanvas.getContext('2d');
         petalsCanvas.width = window.innerWidth;
@@ -289,7 +295,7 @@
         }
         setInterval(drawPetals, 25);
 
-        // Pháo hoa khi mở được quà
+        // Pháo hoa
         const canvas = document.getElementById('fireworksCanvas');
         const ctx = canvas ? canvas.getContext('2d') : null;
         if (canvas) {
