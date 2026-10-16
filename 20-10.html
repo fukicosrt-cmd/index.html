@@ -24,7 +24,7 @@
             overflow: hidden;
         }
 
-        #fireworksCanvas {
+        #petalsCanvas, #fireworksCanvas {
             position: fixed;
             top: 0;
             left: 0;
@@ -58,19 +58,19 @@
         }
 
         .gift-box {
-            font-size: 75px;
+            font-size: 80px;
             cursor: pointer;
             margin-bottom: 15px;
             display: inline-block;
-            animation: bounce 2s infinite ease-in-out;
-            filter: drop-shadow(0 10px 15px rgba(255, 150, 180, 0.5));
+            animation: bounceGift 2s infinite ease-in-out;
+            filter: drop-shadow(0 12px 20px rgba(255, 117, 140, 0.6));
             transition: 0.3s;
         }
         .gift-box:hover {
-            transform: scale(1.12) rotate(8deg);
+            transform: scale(1.15) rotate(10deg);
         }
 
-        @keyframes bounce {
+        @keyframes bounceGift {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-12px); }
         }
@@ -101,17 +101,24 @@
             background: linear-gradient(135deg, #ff758c, #ff7eb3);
             color: white;
             border: none;
-            padding: 13px 28px;
-            font-size: 0.95rem;
+            padding: 14px 30px;
+            font-size: 0.98rem;
             font-weight: 600;
             border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 10px 20px rgba(255, 117, 140, 0.5);
+            box-shadow: 0 10px 25px rgba(255, 117, 140, 0.6);
+            animation: pulseBtn 2s infinite;
             transition: 0.3s;
         }
         .btn-love:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 25px rgba(255, 117, 140, 0.8);
+            box-shadow: 0 15px 30px rgba(255, 117, 140, 0.9);
+        }
+
+        @keyframes pulseBtn {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
 
         .photo-container {
@@ -121,6 +128,7 @@
             overflow: hidden;
             margin-bottom: 18px;
             border: 2px solid rgba(255,255,255,0.25);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
         }
         .photo-container img {
             width: 100%;
@@ -136,14 +144,15 @@
 </head>
 <body>
 
+    <canvas id="petalsCanvas"></canvas>
     <canvas id="fireworksCanvas"></canvas>
 
     <div class="scene">
         <!-- MÀN HÌNH CHƯA MỞ QUÀ -->
         <div class="card-3d" id="main-screen">
             <div class="gift-box" onclick="openGift()">🎁</div>
-            <h1>Có Một Món Quà 20/10... 🌸</h1>
-            <p style="font-size: 0.9rem; color: #ffb3c6; margin-bottom: 20px;">Dành riêng cho một người đặc biệt. Chạm vào hộp quà nhé!</p>
+            <h1>Có Món Quà 20/10 Cho Cậu... 🌸</h1>
+            <p style="font-size: 0.9rem; color: #ffb3c6; margin-bottom: 22px;">Nhấn vào hộp quà để xem điều bất ngờ nhé!</p>
             <button class="btn-love" onclick="openGift()">Mở Quà Ngay ✨</button>
         </div>
 
@@ -160,13 +169,57 @@
         </div>
     </div>
 
-    <!-- Nhạc Lofi "Tập Cho Mình Thói Quen" êm dịu -->
+    <!-- Nhạc Lofi "Tập Cho Mình Thói Quen" -->
     <audio id="bgMusic" loop preload="auto">
         <source src="https://files.catbox.moe/q2y29g.mp3" type="audio/mp3">
     </audio>
 
     <script>
-        const text = "Chúc cậu có một ngày 20/10 ngập tràn niềm vui, luôn xinh đẹp, rạng rỡ và đạt được mọi điều mình mong muốn nhé! Mong những gì tốt đẹp nhất sẽ luôn đồng hành cùng cậu. 🌷✨";
+        // Hiệu ứng cánh hoa bay lất phất nền
+        const petalsCanvas = document.getElementById('petalsCanvas');
+        const pCtx = petalsCanvas.getContext('2d');
+        petalsCanvas.width = window.innerWidth;
+        petalsCanvas.height = window.innerHeight;
+
+        let petals = [];
+        for (let i = 0; i < 35; i++) {
+            petals.push({
+                x: Math.random() * petalsCanvas.width,
+                y: Math.random() * petalsCanvas.height,
+                r: Math.random() * 6 + 4,
+                d: Math.random() * 35,
+                color: `rgba(255, ${Math.floor(Math.random() * 100 + 150)}, 200, 0.7)`
+            });
+        }
+
+        function drawPetals() {
+            pCtx.clearRect(0, 0, petalsCanvas.width, petalsCanvas.height);
+            pCtx.fillStyle = "rgba(255, 182, 193, 0.6)";
+            pCtx.beginPath();
+            petals.forEach(p => {
+                pCtx.moveTo(p.x, p.y);
+                pCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2, true);
+            });
+            pCtx.fill();
+            updatePetals();
+        }
+
+        let angle = 0;
+        function updatePetals() {
+            angle += 0.01;
+            petals.forEach(p => {
+                p.y += Math.cos(angle + p.d) + 1 + p.r / 3;
+                p.x += Math.sin(angle) * 1.5;
+                if (p.x > petalsCanvas.width + 10 || p.x < -10 || p.y > petalsCanvas.height) {
+                    p.x = Math.random() * petalsCanvas.width;
+                    p.y = -10;
+                }
+            });
+        }
+        setInterval(drawPetals, 25);
+
+        // Hiệu ứng gõ chữ lời chúc
+        const text = "Chúc cậu có một ngày 20/10 ngập tràn niềm vui, luôn xinh đẹp, rạng rỡ và đạt được mọi điều mình mong muốn nhé! Mong những gì tuyệt vời nhất sẽ luôn đồng hành cùng cậu. 🌷✨";
         
         function typing() {
             let i = 0;
@@ -183,22 +236,19 @@
 
         // Mở quà
         function openGift() {
-            // Phát nhạc Lofi
             const music = document.getElementById('bgMusic');
             if (music) {
                 music.play().catch(() => {});
             }
 
-            // Đổi màn hình
             document.getElementById('main-screen').style.display = 'none';
             document.getElementById('gift-section').style.display = 'block';
             
-            // Chạy hiệu ứng chữ và pháo hoa
             typing();
             triggerFireworks();
         }
 
-        // Hiệu ứng pháo hoa trái tim / hạt hồng
+        // Pháo hoa khi mở quà
         const canvas = document.getElementById('fireworksCanvas');
         const ctx = canvas ? canvas.getContext('2d') : null;
         if (canvas) {
@@ -223,7 +273,7 @@
             }
         }
 
-        function animate() {
+        function animateFireworks() {
             if (ctx && canvas) {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 particles.forEach((p, index) => {
@@ -245,14 +295,16 @@
                     }
                 });
             }
-            requestAnimationFrame(animate);
+            requestAnimationFrame(animateFireworks);
         }
-        animate();
+        animateFireworks();
 
         window.addEventListener('resize', () => {
-            if (canvas) {
+            if (canvas && petalsCanvas) {
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
+                petalsCanvas.width = window.innerWidth;
+                petalsCanvas.height = window.innerHeight;
             }
         });
     </script>
