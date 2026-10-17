@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gửi Cậu Món Quà 20/10 Đặc Biệt 🌸✨</title>
+    <title>Gửi Cậu Món Quà 20/10 Đặc Biệt</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
@@ -26,7 +26,6 @@
             padding: 20px 0;
         }
 
-        /* Container chính bố trí giống mẫu */
         .main-container {
             display: flex;
             flex-wrap: wrap;
@@ -38,7 +37,6 @@
             z-index: 2;
         }
 
-        /* Khung thiệp bên trái */
         .card-box {
             background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(20px);
@@ -69,7 +67,7 @@
             overflow-y: auto;
             font-size: 0.9rem;
             line-height: 1.7;
-            color: #f1f1f1;
+            color: #ffffff;
             padding-right: 5px;
         }
         .wish-scroll::-webkit-scrollbar {
@@ -80,7 +78,6 @@
             border-radius: 10px;
         }
 
-        /* Khung cây trái tim bên phải / Canvas */
         .canvas-box {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(20px);
@@ -100,7 +97,6 @@
             display: block;
         }
 
-        /* Album ảnh trượt */
         .slideshow-container {
             position: absolute;
             bottom: 20px;
@@ -112,7 +108,6 @@
             border: 2px solid rgba(255, 255, 255, 0.4);
             box-shadow: 0 10px 20px rgba(0,0,0,0.5);
             background: #fff;
-            cursor: pointer;
         }
         .slideshow-container img {
             width: 100%;
@@ -126,7 +121,6 @@
             opacity: 1;
         }
 
-        /* Nút mở màn hình đầu tiên */
         #welcome-overlay {
             position: fixed;
             top: 0;
@@ -145,7 +139,7 @@
 
         .btn-start {
             background: linear-gradient(135deg, #ff758c, #ff7eb3);
-            color: white;
+            color: #ffffff;
             border: none;
             padding: 15px 35px;
             font-size: 1.1rem;
@@ -160,7 +154,6 @@
             transform: scale(1.1);
         }
 
-        /* Responsive cho điện thoại */
         @media (max-width: 850px) {
             .main-container {
                 flex-direction: column;
@@ -176,27 +169,23 @@
 </head>
 <body>
 
-    <!-- MÀN HÌNH CHÀO BẮT ĐẦU (ĐỂ KÍCH HOẠT NHẠC VÀ HIỆU ỨNG) -->
     <div id="welcome-overlay">
         <div style="font-size: 80px; margin-bottom: 15px; animation: bounce 2s infinite;">🎁</div>
-        <h1 style="color: #ff9a9e; font-size: 1.8rem; margin-bottom: 10px;">Món Quà 20/10 Đặc Biệt</h1>
-        <p style="color: #ffb3c6; margin-bottom: 20px;">Nhấn nút bên dưới để mở hộp quà và trải nghiệm nhé!</p>
-        <button class="btn-start" onclick="startExperience()">Mở Quà Ngay ✨</button>
+        <h1 style="color: #ff9a9e; font-size: 1.8rem; margin-bottom: 10px;">Mon Qua 20/10 Dac Biet</h1>
+        <p style="color: #ffb3c6; margin-bottom: 20px;">Nhan nut ben duoi de mo hop qua va trai nghiem nhe!</p>
+        <button class="btn-start" onclick="startExperience()">Mo Qua Ngay</button>
     </div>
 
     <div class="main-container">
-        <!-- KHUNG THIỆP & LỜI CHÚC BÊN TRÁI -->
         <div class="card-box">
-            <div class="card-header">Gửi Cậu... 🌸</div>
+            <div class="card-header">Goi Cau...</div>
             <div class="wish-scroll" id="typing-text"></div>
         </div>
 
-        <!-- KHUNG CÂY TRÁI TIM & SLIDESHOW BÊN PHẢI -->
         <div class="canvas-box">
             <canvas id="treeCanvas" width="420" height="520"></canvas>
             
-            <!-- Khung ảnh kỷ niệm trượt tự động -->
-            <div class="slideshow-container" title="Kỷ niệm đẹp ✨">
+            <div class="slideshow-container">
                 <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=400&q=80" class="active" alt="Memory 1">
                 <img src="https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=400&q=80" alt="Memory 2">
                 <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="Memory 3">
@@ -204,13 +193,11 @@
         </div>
     </div>
 
-    <!-- Nhạc Lofi "Tập Cho Mình Thói Quen" -->
     <audio id="bgMusic" loop preload="auto">
         <source src="https://files.catbox.moe/q2y29g.mp3" type="audio/mp3">
     </audio>
 
     <script>
-        // Bắt đầu trải nghiệm
         function startExperience() {
             const overlay = document.getElementById('welcome-overlay');
             overlay.style.opacity = '0';
@@ -220,11 +207,10 @@
             if (music) music.play().catch(() => {});
 
             startTyping();
-            initTreeAnimation();
+            initHeartTree();
         }
 
-        // Hiệu ứng gõ chữ lời chúc 20/10
-        const text = "Chúc mừng ngày 20/10 người bạn tuyệt vời của tớ! \n\nCảm ơn cậu vì đã luôn xuất hiện với nguồn năng lượng tích cực, luôn xinh đẹp, rạng rỡ và mang lại nhiều niềm vui cho những người xung quanh. \n\nChúc cậu hôm nay và 364 ngày còn lại trong năm luôn ngập tràn hạnh phúc, đạt được mọi dự định và luôn mỉm cười thật tươi nhé! Món quà nhỏ này thay cho lời chúc chân thành nhất gửi đến cậu. 🌷✨";
+        const text = "Chúc mừng ngày 20/10 người bạn tuyệt vời của tớ! \n\nCảm ơn cậu vì đã luôn xuất hiện với nguồn năng lượng tích cực, luôn xinh đẹp, rạng rỡ và mang lại nhiều niềm vui cho những người xung quanh. \n\nChúc cậu hôm nay và 364 ngày còn lại trong năm luôn ngập tràn hạnh phúc, đạt được mọi dự định và luôn mỉm cười thật tươi nhé! Món quà nhỏ này thay cho lời chúc chân thành nhất gửi đến cậu.";
         
         function startTyping() {
             let i = 0;
@@ -243,7 +229,6 @@
             typeStep();
         }
 
-        // Slideshow ảnh tự động trượt
         let currentSlide = 0;
         const slides = document.querySelectorAll('.slideshow-container img');
         function nextSlide() {
@@ -254,86 +239,76 @@
         }
         setInterval(nextSlide, 3000);
 
-        // Hiệu ứng vẽ cây và nở hoa trái tim trên Canvas (giống hệt mẫu)
-        function initTreeAnimation() {
+        // Hiệu ứng cây trái tim sống động mô phỏng mẫu
+        function initHeartTree() {
             const canvas = document.getElementById('treeCanvas');
             const ctx = canvas.getContext('2d');
-            
-            let branches = [];
-            let leaves = [];
-            let step = 0;
 
-            // Vẽ thân cây đơn giản
-            function drawTrunk() {
-                ctx.strokeStyle = '#8B4513';
-                ctx.lineWidth = 8;
-                ctx.beginPath();
-                ctx.moveTo(210, 520);
-                ctx.quadraticCurveTo(210, 400, 210, 320);
-                ctx.stroke();
-
-                // Nhành cây
-                ctx.lineWidth = 4;
-                ctx.beginPath();
-                ctx.moveTo(210, 420);
-                ctx.quadraticCurveTo(150, 380, 130, 330);
-                ctx.moveTo(210, 390);
-                ctx.quadraticCurveTo(270, 360, 290, 300);
-                ctx.moveTo(210, 340);
-                ctx.quadraticCurveTo(170, 280, 150, 240);
-                ctx.moveTo(210, 340);
-                ctx.quadraticCurveTo(250, 280, 270, 230);
-                ctx.stroke();
-            }
-
-            // Tạo các trái tim tán lá hình trái tim
-            for(let i=0; i<120; i++) {
-                // Tọa độ hình trái tim
+            let hearts = [];
+            for(let i=0; i<150; i++) {
                 let t = Math.random() * Math.PI * 2;
                 let x = 16 * Math.pow(Math.sin(t), 3);
                 let y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
                 
-                leaves.push({
-                    x: 210 + x * 11 + (Math.random() - 0.5) * 20,
-                    y: 200 + y * 11 + (Math.random() - 0.5) * 20,
-                    color: `hsl(${Math.random() * 50 + 325}, 100%, ${Math.random() * 30 + 65}%)`,
-                    size: Math.random() * 7 + 4
+                hearts.push({
+                    x: 210 + x * 12,
+                    y: 190 + y * 12,
+                    size: Math.random() * 6 + 4,
+                    color: `hsl(${Math.random() * 40 + 325}, 100%, ${Math.random() * 25 + 65}%)`,
+                    speed: Math.random() * 0.05 + 0.02,
+                    angle: Math.random() * Math.PI
                 });
             }
 
-            function drawHeart(x, y, size, color) {
-                ctx.fillStyle = color;
+            function drawTreeTrunk() {
+                ctx.strokeStyle = '#6e3824';
+                ctx.lineWidth = 9;
+                ctx.lineCap = 'round';
                 ctx.beginPath();
-                let d = size;
-                ctx.moveTo(x, y + d / 4);
-                ctx.quadraticCurveTo(x, y, x + d / 4, y);
-                ctx.quadraticCurveTo(x + d / 2, y, x + d / 2, y + d / 4);
-                ctx.quadraticCurveTo(x + d / 2, y, x + 3 * d / 4, y);
-                ctx.quadraticCurveTo(x + d, y, x + d, y + d / 4);
-                ctx.quadraticCurveTo(x + d, y + d / 2, x + 3 * d / 4, y + 3 * d / 4);
-                ctx.lineTo(x + d / 2, y + d);
-                ctx.lineTo(x + d / 4, y + 3 * d / 4);
-                ctx.quadraticCurveTo(x, y + d / 2, x, y + d / 4);
-                ctx.fill();
+                ctx.moveTo(210, 520);
+                ctx.quadraticCurveTo(210, 390, 210, 300);
+                ctx.stroke();
+
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.moveTo(210, 400);
+                ctx.quadraticCurveTo(150, 350, 120, 290);
+                ctx.moveTo(210, 370);
+                ctx.quadraticCurveTo(270, 340, 290, 270);
+                ctx.moveTo(210, 320);
+                ctx.quadraticCurveTo(170, 250, 150, 210);
+                ctx.moveTo(210, 320);
+                ctx.quadraticCurveTo(250, 250, 270, 200);
+                ctx.stroke();
             }
 
-            function animateTree() {
+            function animate() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                drawTrunk();
+                drawTreeTrunk();
 
-                // Hiệu ứng hoa nở dần theo step
-                let limit = Math.floor(step);
-                for(let i = 0; i < limit && i < leaves.length; i++) {
-                    let l = leaves[i];
-                    drawHeart(l.x, l.y, l.size, l.color);
-                }
+                hearts.forEach(h => {
+                    h.angle += h.speed;
+                    let floatY = h.y + Math.sin(h.angle) * 3;
+                    
+                    ctx.fillStyle = h.color;
+                    ctx.beginPath();
+                    let d = h.size;
+                    let px = h.x, py = floatY;
+                    ctx.moveTo(px, py + d / 4);
+                    ctx.quadraticCurveTo(px, py, px + d / 4, py);
+                    ctx.quadraticCurveTo(px + d / 2, py, px + d / 2, py + d / 4);
+                    ctx.quadraticCurveTo(px + d / 2, py, px + 3 * d / 4, py);
+                    ctx.quadraticCurveTo(px + d, py, px + d, py + d / 4);
+                    ctx.quadraticCurveTo(px + d, py + d / 2, px + 3 * d / 4, py + 3 * d / 4);
+                    ctx.lineTo(px + d / 2, py + d);
+                    ctx.lineTo(px + d / 4, py + 3 * d / 4);
+                    ctx.quadraticCurveTo(px, py + d / 2, px, py + d / 4);
+                    ctx.fill();
+                });
 
-                if(step < leaves.length) {
-                    step += 1.5;
-                    requestAnimationFrame(animateTree);
-                }
+                requestAnimationFrame(animate);
             }
-            animateTree();
+            animate();
         }
     </script>
 </body>
