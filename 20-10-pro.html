@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gửi Cậu Món Quà 20/10 Đặc Biệt</title>
+    <title>Mon Qua 20/10 Dac Biet</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
@@ -26,17 +26,53 @@
             padding: 20px 0;
         }
 
+        /* Màn hình chào để bấm phát nhạc & kích hoạt hiệu ứng */
+        #welcome-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(13, 6, 18, 0.95);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, #ff758c, #ff7eb3);
+            color: #ffffff;
+            border: none;
+            padding: 15px 35px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(255, 117, 140, 0.6);
+            transition: 0.3s;
+            margin-top: 20px;
+        }
+        .btn-start:hover {
+            transform: scale(1.1);
+        }
+
+        /* Bố cục chính giống hệt video mẫu */
         .main-container {
             display: flex;
             flex-wrap: wrap;
             gap: 30px;
             justify-content: center;
             align-items: center;
-            max-width: 950px;
+            max-width: 900px;
             width: 100%;
             z-index: 2;
         }
 
+        /* Khung thư bên trái */
         .card-box {
             background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(20px);
@@ -78,6 +114,7 @@
             border-radius: 10px;
         }
 
+        /* Khung chứa canvas cây trái tim bên phải */
         .canvas-box {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(20px);
@@ -97,6 +134,7 @@
             display: block;
         }
 
+        /* Khung ảnh slideshow góc phải dưới */
         .slideshow-container {
             position: absolute;
             bottom: 20px;
@@ -108,6 +146,11 @@
             border: 2px solid rgba(255, 255, 255, 0.4);
             box-shadow: 0 10px 20px rgba(0,0,0,0.5);
             background: #fff;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .slideshow-container:hover {
+            transform: scale(1.05);
         }
         .slideshow-container img {
             width: 100%;
@@ -121,37 +164,26 @@
             opacity: 1;
         }
 
-        #welcome-overlay {
+        /* Modal phóng to ảnh khi click */
+        #imageModal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(13, 6, 18, 0.95);
-            z-index: 10;
-            display: flex;
-            flex-direction: column;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 50;
+            display: none;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .btn-start {
-            background: linear-gradient(135deg, #ff758c, #ff7eb3);
-            color: #ffffff;
-            border: none;
-            padding: 15px 35px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 10px 25px rgba(255, 117, 140, 0.6);
-            transition: 0.3s;
-            margin-top: 20px;
         }
-        .btn-start:hover {
-            transform: scale(1.1);
+        #imageModal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 15px;
+            border: 3px solid #ff758c;
+            box-shadow: 0 0 30px rgba(255, 117, 140, 0.6);
         }
 
         @media (max-width: 850px) {
@@ -169,23 +201,31 @@
 </head>
 <body>
 
+    <!-- MÀN HÌNH CHÀO BAN ĐẦU -->
     <div id="welcome-overlay">
         <div style="font-size: 80px; margin-bottom: 15px; animation: bounce 2s infinite;">🎁</div>
         <h1 style="color: #ff9a9e; font-size: 1.8rem; margin-bottom: 10px;">Mon Qua 20/10 Dac Biet</h1>
-        <p style="color: #ffb3c6; margin-bottom: 20px;">Nhan nut ben duoi de mo hop qua va trai nghiem nhe!</p>
+        <p style="color: #ffb3c6; margin-bottom: 20px;">Nhan nut ben duoi de mo hop qua va xem dieu ky diu nhe!</p>
         <button class="btn-start" onclick="startExperience()">Mo Qua Ngay</button>
     </div>
 
+    <!-- MODAL PHÓNG TO ẢNH -->
+    <div id="imageModal" onclick="closeModal()">
+        <img id="modalImg" src="" alt="Zoomed">
+    </div>
+
     <div class="main-container">
+        <!-- BÊN TRÁI: THƯ GỬI & CHỮ CHẠY -->
         <div class="card-box">
             <div class="card-header">Goi Cau...</div>
             <div class="wish-scroll" id="typing-text"></div>
         </div>
 
+        <!-- BÊN PHẢI: CÂY TRÁI TIM MỌC LÊN & ẢNH KỶ NIỆM -->
         <div class="canvas-box">
             <canvas id="treeCanvas" width="420" height="520"></canvas>
             
-            <div class="slideshow-container">
+            <div class="slideshow-container" onclick="zoomImage(this)">
                 <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=400&q=80" class="active" alt="Memory 1">
                 <img src="https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=400&q=80" alt="Memory 2">
                 <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="Memory 3">
@@ -193,6 +233,7 @@
         </div>
     </div>
 
+    <!-- Nhạc Lofi "Tập Cho Mình Thói Quen" -->
     <audio id="bgMusic" loop preload="auto">
         <source src="https://files.catbox.moe/q2y29g.mp3" type="audio/mp3">
     </audio>
@@ -207,9 +248,10 @@
             if (music) music.play().catch(() => {});
 
             startTyping();
-            initHeartTree();
+            runTreeGrowthAnimation();
         }
 
+        // Lời chúc 20/10 ngọt ngào
         const text = "Chúc mừng ngày 20/10 người bạn tuyệt vời của tớ! \n\nCảm ơn cậu vì đã luôn xuất hiện với nguồn năng lượng tích cực, luôn xinh đẹp, rạng rỡ và mang lại nhiều niềm vui cho những người xung quanh. \n\nChúc cậu hôm nay và 364 ngày còn lại trong năm luôn ngập tràn hạnh phúc, đạt được mọi dự định và luôn mỉm cười thật tươi nhé! Món quà nhỏ này thay cho lời chúc chân thành nhất gửi đến cậu.";
         
         function startTyping() {
@@ -229,6 +271,7 @@
             typeStep();
         }
 
+        // Slideshow ảnh tự động chuyển
         let currentSlide = 0;
         const slides = document.querySelectorAll('.slideshow-container img');
         function nextSlide() {
@@ -239,74 +282,108 @@
         }
         setInterval(nextSlide, 3000);
 
-        // Hiệu ứng cây trái tim sống động mô phỏng mẫu
-        function initHeartTree() {
+        // Phóng to ảnh khi bấm vào
+        function zoomImage(container) {
+            const activeImg = container.querySelector('img.active');
+            if(activeImg) {
+                const modal = document.getElementById('imageModal');
+                const modalImg = document.getElementById('modalImg');
+                modalImg.src = activeImg.src;
+                modal.style.display = 'flex';
+            }
+        }
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+
+        // Hiệu ứng cây mọc từ hạt và nở hoa trái tim y hệt video mẫu
+        function runTreeGrowthAnimation() {
             const canvas = document.getElementById('treeCanvas');
             const ctx = canvas.getContext('2d');
 
-            let hearts = [];
-            for(let i=0; i<150; i++) {
+            let progress = 0;
+            const maxProgress = 100;
+
+            // Tạo sẵn tọa độ tán lá hình trái tim
+            let heartLeaves = [];
+            for(let i = 0; i < 140; i++) {
                 let t = Math.random() * Math.PI * 2;
                 let x = 16 * Math.pow(Math.sin(t), 3);
                 let y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
-                
-                hearts.push({
-                    x: 210 + x * 12,
-                    y: 190 + y * 12,
+                heartLeaves.push({
+                    x: 210 + x * 11,
+                    y: 190 + y * 11,
                     size: Math.random() * 6 + 4,
-                    color: `hsl(${Math.random() * 40 + 325}, 100%, ${Math.random() * 25 + 65}%)`,
-                    speed: Math.random() * 0.05 + 0.02,
-                    angle: Math.random() * Math.PI
+                    color: `hsl(${Math.random() * 40 + 325}, 100%, ${Math.random() * 25 + 65}%)`
                 });
             }
 
-            function drawTreeTrunk() {
-                ctx.strokeStyle = '#6e3824';
-                ctx.lineWidth = 9;
-                ctx.lineCap = 'round';
+            function drawHeart(x, y, size, color) {
+                ctx.fillStyle = color;
                 ctx.beginPath();
-                ctx.moveTo(210, 520);
-                ctx.quadraticCurveTo(210, 390, 210, 300);
-                ctx.stroke();
-
-                ctx.lineWidth = 4;
-                ctx.beginPath();
-                ctx.moveTo(210, 400);
-                ctx.quadraticCurveTo(150, 350, 120, 290);
-                ctx.moveTo(210, 370);
-                ctx.quadraticCurveTo(270, 340, 290, 270);
-                ctx.moveTo(210, 320);
-                ctx.quadraticCurveTo(170, 250, 150, 210);
-                ctx.moveTo(210, 320);
-                ctx.quadraticCurveTo(250, 250, 270, 200);
-                ctx.stroke();
+                let d = size;
+                ctx.moveTo(x, y + d / 4);
+                ctx.quadraticCurveTo(x, y, x + d / 4, y);
+                ctx.quadraticCurveTo(x + d / 2, y, x + d / 2, y + d / 4);
+                ctx.quadraticCurveTo(x + d / 2, y, x + 3 * d / 4, y);
+                ctx.quadraticCurveTo(x + d, y, x + d, y + d / 4);
+                ctx.quadraticCurveTo(x + d, y + d / 2, x + 3 * d / 4, y + 3 * d / 4);
+                ctx.lineTo(x + d / 2, y + d);
+                ctx.lineTo(x + d / 4, y + 3 * d / 4);
+                ctx.quadraticCurveTo(x, y + d / 2, x, y + d / 4);
+                ctx.fill();
             }
 
             function animate() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                drawTreeTrunk();
 
-                hearts.forEach(h => {
-                    h.angle += h.speed;
-                    let floatY = h.y + Math.sin(h.angle) * 3;
-                    
-                    ctx.fillStyle = h.color;
+                // 1. Vẽ hạt giống / mầm non ở giai đoạn đầu
+                if (progress < 20) {
+                    ctx.fillStyle = '#ff758c';
                     ctx.beginPath();
-                    let d = h.size;
-                    let px = h.x, py = floatY;
-                    ctx.moveTo(px, py + d / 4);
-                    ctx.quadraticCurveTo(px, py, px + d / 4, py);
-                    ctx.quadraticCurveTo(px + d / 2, py, px + d / 2, py + d / 4);
-                    ctx.quadraticCurveTo(px + d / 2, py, px + 3 * d / 4, py);
-                    ctx.quadraticCurveTo(px + d, py, px + d, py + d / 4);
-                    ctx.quadraticCurveTo(px + d, py + d / 2, px + 3 * d / 4, py + 3 * d / 4);
-                    ctx.lineTo(px + d / 2, py + d);
-                    ctx.lineTo(px + d / 4, py + 3 * d / 4);
-                    ctx.quadraticCurveTo(px, py + d / 2, px, py + d / 4);
+                    ctx.arc(210, 500 - progress * 2, 4, 0, Math.PI * 2);
                     ctx.fill();
-                });
+                }
 
-                requestAnimationFrame(animate);
+                // 2. Vẽ thân cây vươn lên
+                if (progress >= 20) {
+                    let trunkHeight = Math.min(220, (progress - 20) * 3);
+                    ctx.strokeStyle = '#6e3824';
+                    ctx.lineWidth = 9;
+                    ctx.lineCap = 'round';
+                    ctx.beginPath();
+                    ctx.moveTo(210, 520);
+                    ctx.quadraticCurveTo(210, 520 - trunkHeight / 2, 210, 520 - trunkHeight);
+                    ctx.stroke();
+
+                    // Nhành cây phụ
+                    if (progress > 50) {
+                        ctx.lineWidth = 4;
+                        ctx.beginPath();
+                        ctx.moveTo(210, 420);
+                        ctx.quadraticCurveTo(150, 380, 130, 330);
+                        ctx.moveTo(210, 390);
+                        ctx.quadraticCurveTo(270, 360, 290, 300);
+                        ctx.stroke();
+                    }
+                }
+
+                // 3. Hoa trái tim nở rộ dần khi cây lớn hẳn
+                if (progress > 60) {
+                    let leafCount = Math.floor(((progress - 60) / 40) * heartLeaves.length);
+                    for (let i = 0; i < leafCount && i < heartLeaves.length; i++) {
+                        let h = heartLeaves[i];
+                        drawHeart(h.x, h.y, h.size, h.color);
+                    }
+                }
+
+                if (progress < maxProgress) {
+                    progress += 0.8;
+                    requestAnimationFrame(animate);
+                } else {
+                    // Giữ hiệu ứng lấp lánh nhẹ sau khi cây đã mọc xong
+                    requestAnimationFrame(animate);
+                }
             }
             animate();
         }
