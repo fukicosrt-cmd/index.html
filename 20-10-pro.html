@@ -6,6 +6,7 @@
     <title>Mon Qua 20/10 Dac Biet</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap');
 
         * {
             margin: 0;
@@ -26,7 +27,6 @@
             padding: 20px 0;
         }
 
-        /* Màn hình chào để bấm phát nhạc & kích hoạt hiệu ứng */
         #welcome-overlay {
             position: fixed;
             top: 0;
@@ -60,19 +60,18 @@
             transform: scale(1.1);
         }
 
-        /* Bố cục chính giống hệt video mẫu */
         .main-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 30px;
+            gap: 25px;
             justify-content: center;
             align-items: center;
-            max-width: 900px;
+            max-width: 950px;
             width: 100%;
             z-index: 2;
         }
 
-        /* Khung thư bên trái */
+        /* Khung thiệp bên trái */
         .card-box {
             background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(20px);
@@ -80,7 +79,7 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 25px;
             width: 380px;
-            height: 520px;
+            height: 500px;
             padding: 25px;
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
             display: flex;
@@ -101,8 +100,8 @@
         .wish-scroll {
             flex: 1;
             overflow-y: auto;
-            font-size: 0.9rem;
-            line-height: 1.7;
+            font-size: 0.88rem;
+            line-height: 1.6;
             color: #ffffff;
             padding-right: 5px;
         }
@@ -114,14 +113,12 @@
             border-radius: 10px;
         }
 
-        /* Khung chứa canvas cây trái tim bên phải */
+        /* Khung canvas bên phải y hệt mẫu */
         .canvas-box {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: #ffffff;
             border-radius: 25px;
-            width: 420px;
-            height: 520px;
+            width: 400px;
+            height: 500px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -132,19 +129,20 @@
 
         canvas {
             display: block;
+            background: #ffffff;
         }
 
         /* Khung ảnh slideshow góc phải dưới */
         .slideshow-container {
             position: absolute;
-            bottom: 20px;
-            right: 20px;
-            width: 130px;
-            height: 150px;
-            border-radius: 15px;
+            bottom: 15px;
+            right: 15px;
+            width: 120px;
+            height: 140px;
+            border-radius: 12px;
             overflow: hidden;
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            border: 2px solid #ff758c;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
             background: #fff;
             cursor: pointer;
             transition: transform 0.3s;
@@ -164,7 +162,7 @@
             opacity: 1;
         }
 
-        /* Modal phóng to ảnh khi click */
+        /* Modal phóng to ảnh */
         #imageModal {
             position: fixed;
             top: 0;
@@ -183,49 +181,40 @@
             max-height: 90%;
             border-radius: 15px;
             border: 3px solid #ff758c;
-            box-shadow: 0 0 30px rgba(255, 117, 140, 0.6);
         }
 
         @media (max-width: 850px) {
             .main-container {
                 flex-direction: column;
-                align-items: center;
-            }
-            .card-box, .canvas-box {
-                width: 90%;
-                max-width: 380px;
-                height: 450px;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- MÀN HÌNH CHÀO BAN ĐẦU -->
     <div id="welcome-overlay">
         <div style="font-size: 80px; margin-bottom: 15px; animation: bounce 2s infinite;">🎁</div>
         <h1 style="color: #ff9a9e; font-size: 1.8rem; margin-bottom: 10px;">Mon Qua 20/10 Dac Biet</h1>
-        <p style="color: #ffb3c6; margin-bottom: 20px;">Nhan nut ben duoi de mo hop qua va xem dieu ky diu nhe!</p>
+        <p style="color: #ffb3c6; margin-bottom: 20px;">Nhan nut ben duoi de mo qua va trai nghiem nhe!</p>
         <button class="btn-start" onclick="startExperience()">Mo Qua Ngay</button>
     </div>
 
-    <!-- MODAL PHÓNG TO ẢNH -->
-    <div id="imageModal" onclick="closeModal()">
+    <div id="imageModal" onclick="this.style.display='none'">
         <img id="modalImg" src="" alt="Zoomed">
     </div>
 
     <div class="main-container">
-        <!-- BÊN TRÁI: THƯ GỬI & CHỮ CHẠY -->
+        <!-- BÊN TRÁI: THƯ GỬI -->
         <div class="card-box">
             <div class="card-header">Goi Cau...</div>
             <div class="wish-scroll" id="typing-text"></div>
         </div>
 
-        <!-- BÊN PHẢI: CÂY TRÁI TIM MỌC LÊN & ẢNH KỶ NIỆM -->
+        <!-- BÊN PHẢI: CÂY TRÁI TIM NỞ RỘ Y HỆT MẪU -->
         <div class="canvas-box">
-            <canvas id="treeCanvas" width="420" height="520"></canvas>
+            <canvas id="treeCanvas" width="400" height="500"></canvas>
             
-            <div class="slideshow-container" onclick="zoomImage(this)">
+            <div class="slideshow-container" onclick="document.getElementById('imageModal').style.display='flex'; document.getElementById('modalImg').src=this.querySelector('.active').src;">
                 <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=400&q=80" class="active" alt="Memory 1">
                 <img src="https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=400&q=80" alt="Memory 2">
                 <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="Memory 3">
@@ -233,7 +222,6 @@
         </div>
     </div>
 
-    <!-- Nhạc Lofi "Tập Cho Mình Thói Quen" -->
     <audio id="bgMusic" loop preload="auto">
         <source src="https://files.catbox.moe/q2y29g.mp3" type="audio/mp3">
     </audio>
@@ -248,10 +236,9 @@
             if (music) music.play().catch(() => {});
 
             startTyping();
-            runTreeGrowthAnimation();
+            runExactTreeAnimation();
         }
 
-        // Lời chúc 20/10 ngọt ngào
         const text = "Chúc mừng ngày 20/10 người bạn tuyệt vời của tớ! \n\nCảm ơn cậu vì đã luôn xuất hiện với nguồn năng lượng tích cực, luôn xinh đẹp, rạng rỡ và mang lại nhiều niềm vui cho những người xung quanh. \n\nChúc cậu hôm nay và 364 ngày còn lại trong năm luôn ngập tràn hạnh phúc, đạt được mọi dự định và luôn mỉm cười thật tươi nhé! Món quà nhỏ này thay cho lời chúc chân thành nhất gửi đến cậu.";
         
         function startTyping() {
@@ -265,56 +252,39 @@
                         target.innerHTML += text.charAt(i);
                     }
                     i++;
+                    target.scrollTop = target.scrollHeight;
                     setTimeout(typeStep, 35);
                 }
             }
             typeStep();
         }
 
-        // Slideshow ảnh tự động chuyển
         let currentSlide = 0;
         const slides = document.querySelectorAll('.slideshow-container img');
-        function nextSlide() {
+        setInterval(() => {
             if(slides.length === 0) return;
             slides[currentSlide].classList.remove('active');
             currentSlide = (currentSlide + 1) % slides.length;
             slides[currentSlide].classList.add('active');
-        }
-        setInterval(nextSlide, 3000);
+        }, 3000);
 
-        // Phóng to ảnh khi bấm vào
-        function zoomImage(container) {
-            const activeImg = container.querySelector('img.active');
-            if(activeImg) {
-                const modal = document.getElementById('imageModal');
-                const modalImg = document.getElementById('modalImg');
-                modalImg.src = activeImg.src;
-                modal.style.display = 'flex';
-            }
-        }
-        function closeModal() {
-            document.getElementById('imageModal').style.display = 'none';
-        }
-
-        // Hiệu ứng cây mọc từ hạt và nở hoa trái tim y hệt video mẫu
-        function runTreeGrowthAnimation() {
+        // Hiệu ứng chuẩn xác y hệt video mẫu (Hạt mọc -> Vươn thân -> Bung tán lá trái tim nhiều màu)
+        function runExactTreeAnimation() {
             const canvas = document.getElementById('treeCanvas');
             const ctx = canvas.getContext('2d');
 
             let progress = 0;
-            const maxProgress = 100;
-
-            // Tạo sẵn tọa độ tán lá hình trái tim
             let heartLeaves = [];
-            for(let i = 0; i < 140; i++) {
+
+            for(let i = 0; i < 150; i++) {
                 let t = Math.random() * Math.PI * 2;
                 let x = 16 * Math.pow(Math.sin(t), 3);
                 let y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
                 heartLeaves.push({
-                    x: 210 + x * 11,
-                    y: 190 + y * 11,
+                    x: 200 + x * 10,
+                    y: 180 + y * 10,
                     size: Math.random() * 6 + 4,
-                    color: `hsl(${Math.random() * 40 + 325}, 100%, ${Math.random() * 25 + 65}%)`
+                    color: `hsl(${Math.random() * 50 + 325}, 100%, ${Math.random() * 25 + 60}%)`
                 });
             }
 
@@ -337,51 +307,50 @@
             function animate() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-                // 1. Vẽ hạt giống / mầm non ở giai đoạn đầu
-                if (progress < 20) {
+                // Giai đoạn 1: Hạt giống
+                if (progress < 15) {
                     ctx.fillStyle = '#ff758c';
                     ctx.beginPath();
-                    ctx.arc(210, 500 - progress * 2, 4, 0, Math.PI * 2);
+                    ctx.arc(200, 480 - progress * 2, 4, 0, Math.PI * 2);
                     ctx.fill();
                 }
 
-                // 2. Vẽ thân cây vươn lên
-                if (progress >= 20) {
-                    let trunkHeight = Math.min(220, (progress - 20) * 3);
-                    ctx.strokeStyle = '#6e3824';
-                    ctx.lineWidth = 9;
+                // Giai đoạn 2: Vươn thân cây
+                if (progress >= 15) {
+                    let trunkH = Math.min(220, (progress - 15) * 3.5);
+                    ctx.strokeStyle = '#5c3a21';
+                    ctx.lineWidth = 8;
                     ctx.lineCap = 'round';
                     ctx.beginPath();
-                    ctx.moveTo(210, 520);
-                    ctx.quadraticCurveTo(210, 520 - trunkHeight / 2, 210, 520 - trunkHeight);
+                    ctx.moveTo(200, 500);
+                    ctx.quadraticCurveTo(200, 500 - trunkH/2, 200, 500 - trunkH);
                     ctx.stroke();
 
-                    // Nhành cây phụ
-                    if (progress > 50) {
+                    // Nhành cây
+                    if (progress > 45) {
                         ctx.lineWidth = 4;
                         ctx.beginPath();
-                        ctx.moveTo(210, 420);
-                        ctx.quadraticCurveTo(150, 380, 130, 330);
-                        ctx.moveTo(210, 390);
-                        ctx.quadraticCurveTo(270, 360, 290, 300);
+                        ctx.moveTo(200, 400);
+                        ctx.quadraticCurveTo(140, 350, 115, 290);
+                        ctx.moveTo(200, 370);
+                        ctx.quadraticCurveTo(260, 340, 285, 270);
                         ctx.stroke();
                     }
                 }
 
-                // 3. Hoa trái tim nở rộ dần khi cây lớn hẳn
-                if (progress > 60) {
-                    let leafCount = Math.floor(((progress - 60) / 40) * heartLeaves.length);
-                    for (let i = 0; i < leafCount && i < heartLeaves.length; i++) {
+                // Giai đoạn 3: Nở hoa trái tim
+                if (progress > 55) {
+                    let count = Math.floor(((progress - 55) / 45) * heartLeaves.length);
+                    for (let i = 0; i < count && i < heartLeaves.length; i++) {
                         let h = heartLeaves[i];
                         drawHeart(h.x, h.y, h.size, h.color);
                     }
                 }
 
-                if (progress < maxProgress) {
+                if (progress < 100) {
                     progress += 0.8;
                     requestAnimationFrame(animate);
                 } else {
-                    // Giữ hiệu ứng lấp lánh nhẹ sau khi cây đã mọc xong
                     requestAnimationFrame(animate);
                 }
             }
