@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gửi Hà - Quà 20/10 Rực Rỡ 🌸</title>
+    <title>Gửi Hà 🌸 - 20/10</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&family=Quicksand:wght@600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@500;700&display=swap');
 
         * {
             margin: 0;
@@ -14,58 +14,58 @@
         }
 
         body {
-            background-color: #fff0f3;
+            background: linear-gradient(135deg, #ffe6ea 0%, #ffc3a0 100%);
             font-family: 'Quicksand', sans-serif;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow-x: hidden;
+            overflow: hidden;
         }
 
-        /* Màn hình ban đầu */
+        /* Màn hình mở đầu */
         #pantalla-inicial {
             text-align: center;
             cursor: pointer;
+            z-index: 10;
             transition: all 0.5s ease;
         }
 
         .header-text {
             font-size: 2.2rem;
-            color: #ff4d6d;
+            color: #d63384;
             font-weight: 700;
-            margin-bottom: 25px;
-            font-family: 'Comfortaa', cursive;
+            margin-bottom: 20px;
+            font-family: 'Dancing Script', cursive;
         }
 
-        .gift-box-img {
-            width: 220px;
-            height: 220px;
-            object-fit: contain;
+        .gift-box-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 25px;
             border-radius: 30px;
-            padding: 15px;
-            background: #ffffff;
-            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.2);
-            border: 3px solid #ffb3c6;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid #ffb3c6;
+            box-shadow: 0 15px 35px rgba(214, 51, 132, 0.2);
+            display: inline-block;
+            transition: transform 0.3s ease;
         }
 
-        #pantalla-inicial:hover .gift-box-img {
-            transform: scale(1.06);
-            box-shadow: 0 20px 40px rgba(255, 77, 109, 0.35);
+        .gift-box-card:hover {
+            transform: scale(1.05);
+        }
+
+        .gift-box-card img {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 20px;
         }
 
         .sub-text {
-            margin-top: 20px;
-            color: #ff758f;
-            font-size: 1.1rem;
-            font-weight: 600;
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.6; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.05); }
+            margin-top: 15px;
+            color: #e83e8c;
+            font-size: 1rem;
+            font-weight: 700;
         }
 
         /* Màn hình chính */
@@ -75,88 +75,88 @@
             align-items: center;
             justify-content: center;
             width: 100%;
-            min-height: 100vh;
+            height: 100vh;
             position: relative;
-            padding: 20px;
-            animation: fadeIn 1s ease forwards;
+            animation: fadeIn 0.8s ease forwards;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
         }
 
         .title-main {
-            font-size: 2rem;
-            color: #ff4d6d;
-            font-family: 'Comfortaa', cursive;
-            margin-bottom: 30px;
-            text-shadow: 0 4px 10px rgba(255, 77, 109, 0.15);
+            font-size: 2.3rem;
+            color: #d63384;
+            font-family: 'Dancing Script', cursive;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(214, 51, 132, 0.2);
             z-index: 2;
         }
 
-        .flower-wrapper {
+        .flower-image-container {
             position: relative;
             width: 280px;
-            height: 340px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
+            height: 280px;
             z-index: 2;
         }
 
-        .tulip-svg {
+        .flower-image-container img {
             width: 100%;
             height: 100%;
-            overflow: visible;
+            object-fit: contain;
+            filter: drop-shadow(0 15px 25px rgba(214, 51, 132, 0.3));
+            animation: floatFlower 3s ease-in-out infinite;
         }
 
+        @keyframes floatFlower {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Khung thư chúc mừng xịn xò */
         .letter-modal {
             position: absolute;
-            bottom: 40px;
-            width: 90%;
+            bottom: 50px;
+            width: 88%;
             max-width: 380px;
-            background: rgba(255, 255, 255, 0.94);
-            backdrop-filter: blur(10px);
-            border: 2px solid #ffccd5;
-            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border: 2px solid #ffb3c6;
+            border-radius: 25px;
             padding: 22px 25px;
-            box-shadow: 0 20px 40px rgba(255, 77, 109, 0.25);
+            box-shadow: 0 20px 40px rgba(214, 51, 132, 0.25);
             text-align: center;
             z-index: 10;
             opacity: 0;
-            transform: translateY(30px) scale(0.9);
+            transform: translateY(40px);
             transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .letter-modal.show {
             opacity: 1;
-            transform: translateY(0) scale(1);
+            transform: translateY(0);
         }
 
         .letter-title {
-            font-size: 1.4rem;
-            color: #ff4d6d;
+            font-size: 1.6rem;
+            color: #d63384;
+            font-family: 'Dancing Script', cursive;
             font-weight: 700;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            margin-bottom: 10px;
         }
 
         .letter-body {
             font-size: 0.95rem;
             line-height: 1.6;
-            color: #4a4a4a;
+            color: #495057;
             font-weight: 600;
         }
 
         .floating-heart {
             position: fixed;
             pointer-events: none;
-            color: #ff4d6d;
-            font-size: 20px;
+            font-size: 22px;
             animation: floatUp 4s linear infinite;
             z-index: 1;
         }
@@ -169,51 +169,28 @@
 </head>
 <body>
 
+    <!-- Màn hình chào -->
     <div id="pantalla-inicial" onclick="openGift()">
         <h1 class="header-text">Tặng Hà nè 💖</h1>
-        <img src="https://media.tenor.com/gU812X4335AAAAAC/cute-rabbit.gif" class="gift-box-img" alt="Tặng Hà">
-        <p class="sub-text">Chạm vào ảnh để mở quà nè✨</p>
+        <div class="gift-box-card">
+            <img src="https://media.tenor.com/gU812X4335AAAAAC/cute-rabbit.gif" alt="Thỏ dễ thương">
+            <p class="sub-text">Chạm vào đây để mở quà nhé ✨</p>
+        </div>
     </div>
 
+    <!-- Màn hình chính -->
     <div id="contenido-principal">
-        <h1 class="title-main">Chúc Hà 20/10 Rạng Rỡ 💕</h1>
+        <h1 class="title-main">Chúc mừng ngày 20/10 💕</h1>
 
-        <div class="flower-wrapper">
-            <svg class="tulip-svg" viewBox="0 0 200 260">
-                <path d="M 50,180 L 100,240 L 150,180 L 170,120 L 30,120 Z" fill="#ffb3c6" stroke="#ff8fa3" stroke-width="3"/>
-                <path d="M 70,180 L 100,240 L 130,180 Z" fill="#ff8fa3" opacity="0.5"/>
-                <path d="M 85,210 Q 100,200 115,210 Q 100,225 85,210 Z" fill="#ff4d6d"/>
-                <circle cx="100" cy="210" r="6" fill="#ffffff"/>
-
-                <path d="M 80,130 Q 75,90 70,60" stroke="#7bed9f" stroke-width="5" fill="none" stroke-linecap="round"/>
-                <path d="M 100,130 L 100,50" stroke="#7bed9f" stroke-width="5" fill="none" stroke-linecap="round"/>
-                <path d="M 120,130 Q 125,90 130,60" stroke="#7bed9f" stroke-width="5" fill="none" stroke-linecap="round"/>
-
-                <!-- Tulip Hồng Nổi Bật -->
-                <g id="tulip-left">
-                    <path d="M 50,60 Q 70,20 70,60 Q 70,80 50,60 Z" fill="#ff4d6d"/>
-                    <path d="M 90,60 Q 70,20 70,60 Q 70,80 90,60 Z" fill="#ff758f"/>
-                    <path d="M 60,65 Q 70,30 80,65 Z" fill="#ff8fa3"/>
-                </g>
-
-                <g id="tulip-center">
-                    <path d="M 80,50 Q 100,10 100,50 Q 100,70 80,50 Z" fill="#ff4d6d"/>
-                    <path d="M 120,50 Q 100,10 100,50 Q 100,70 120,50 Z" fill="#ff758f"/>
-                    <path d="M 90,55 Q 100,20 110,55 Z" fill="#ff8fa3"/>
-                </g>
-
-                <g id="tulip-right">
-                    <path d="M 110,60 Q 130,20 130,60 Q 130,80 110,60 Z" fill="#ff4d6d"/>
-                    <path d="M 150,60 Q 130,20 130,60 Q 130,80 150,60 Z" fill="#ff758f"/>
-                    <path d="M 120,65 Q 130,30 140,65 Z" fill="#ff8fa3"/>
-                </g>
-            </svg>
+        <div class="flower-image-container">
+            <!-- Ảnh hoa Tulip thật nét căng, ngọt ngào -->
+            <img src="https://images.unsplash.com/photo-1520763185298-1b434c919102?auto=format&fit=crop&w=600&q=80" alt="Hoa Tulip Hồng">
         </div>
 
         <div class="letter-modal" id="letterModal">
             <div class="letter-title">Gửi Hà 🎀</div>
             <div class="letter-body">
-                Chúc Hà ngày 20/10 thật nhiều niềm vui, luôn rạng rỡ, xinh đẹp và tràn đầy năng lượng tích cực nhé! Cảm ơn Hà vì đã luôn mang lại sự vui vẻ cho những người xung quanh. 💕
+                Chúc Hà ngày 20/10 thật nhiều niềm vui, luôn xinh đẹp, rạng rỡ và luôn gặp nhiều may mắn nhé! Cảm ơn Hà vì đã luôn mang lại sự vui vẻ cho mọi người. 💕
             </div>
         </div>
     </div>
@@ -232,9 +209,9 @@
 
             setTimeout(() => {
                 document.getElementById('letterModal').classList.add('show');
-            }, 1200);
+            }, 800);
 
-            setInterval(createFloatingHeart, 400);
+            setInterval(createFloatingHeart, 350);
         }
 
         function createFloatingHeart() {
@@ -245,7 +222,7 @@
             heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
             document.body.appendChild(heart);
 
-            setTimeout(() => { heart.remove(); }, 5000);
+            setTimeout(() => { heart.remove(); }, 4000);
         }
     </script>
 </body>
