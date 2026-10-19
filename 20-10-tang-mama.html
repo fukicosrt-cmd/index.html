@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gửi Mẹ Yêu Dấu - 20/10 Bình An 🌸</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at center, #3d222b 0%, #150a0f 100%);
+            color: #ffffff;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 15px;
+        }
+
+        #heartCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .scene {
+            position: relative;
+            z-index: 2;
+            width: 90%;
+            max-width: 440px;
+        }
+
+        .card-3d {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            padding: 30px 20px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            color: #ffb7b2;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .photo-container {
+            width: 100%;
+            height: 200px;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+        .photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .wish-message {
+            font-size: 0.92rem;
+            line-height: 1.7;
+            color: #fff5f5;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 16px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border-left: 4px solid #ffb7b2;
+            text-align: left;
+            min-height: 120px;
+            max-height: 180px;
+            overflow-y: auto;
+        }
+        .wish-message::-webkit-scrollbar {
+            width: 4px;
+        }
+        .wish-message::-webkit-scrollbar-thumb {
+            background: rgba(255, 183, 178, 0.5);
+            border-radius: 10px;
+        }
+
+        .btn-love {
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            color: #5a2a34;
+            border: none;
+            padding: 12px 28px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(255, 154, 158, 0.4);
+            transition: 0.3s;
+        }
+        .btn-love:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(255, 154, 158, 0.7);
+        }
+
+        #welcome-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(21, 10, 15, 0.96);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="heartCanvas"></canvas>
+
+    <!-- MÀN HÌNH CHÀO MỞ QUÀ CHO MẸ -->
+    <div id="welcome-overlay">
+        <div style="font-size: 75px; margin-bottom: 15px; animation: bounce 2s infinite;">❤️</div>
+        <h1 style="color: #ffb7b2; font-size: 1.6rem; margin-bottom: 10px;">Món Quà Gửi Mẹ Yêu</h1>
+        <p style="color: #e2c0cb; margin-bottom: 20px; font-size: 0.95rem;">Nhấn vào đây để xem lời chúc từ con nhé mẹ!</p>
+        <button class="btn-love" onclick="startExperience()">Mở Quà Của Con 🌸</button>
+    </div>
+
+    <div class="scene">
+        <div class="card-3d">
+            <h1>Chúc Mừng 20/10 Mẹ Yêu! 💐</h1>
+            <div class="photo-container">
+                <!-- Bro có thể thay link ảnh của mẹ vào đây -->
+                <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=600&q=80" alt="Mẹ yêu">
+            </div>
+            
+            <div class="wish-message" id="typing-text"></div>
+
+            <button class="btn-love" onclick="location.reload()">Xem Lại Từ Đầu 🔄</button>
+        </div>
+    </div>
+
+    <!-- Nhạc nhẹ nhàng êm dịu -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="https://files.catbox.moe/q2y29g.mp3" type="audio/mp3">
+    </audio>
+
+    <script>
+        function startExperience() {
+            const overlay = document.getElementById('welcome-overlay');
+            overlay.style.opacity = '0';
+            setTimeout(() => overlay.style.display = 'none', 600);
+
+            const music = document.getElementById('bgMusic');
+            if (music) music.play().catch(() => {});
+
+            startTyping();
+        }
+
+        // Lời chúc từ đáy lòng gửi mẹ
+        const text = "Gửi mẹ yêu dấu của con!\n\nNhân ngày 20/10, con muốn gửi lời xin lỗi vì đôi lúc làm mẹ phải suy nghĩ và lo lắng cho con nhiều. Con cảm ơn mẹ vì luôn là bến đỗ bình yên nhất, luôn bao dung và yêu thương con vô điều kiện.\n\nCon chỉ mong mẹ luôn có thật nhiều sức khỏe, luôn vui vẻ và bình an bên gia đình mình. Mẹ chính là người tuyệt vời nhất cuộc đời con. Con yêu mẹ rất nhiều! ❤️";
+        
+        function startTyping() {
+            let i = 0;
+            const target = document.getElementById("typing-text");
+            function typeStep() {
+                if (i < text.length && target) {
+                    if (text.charAt(i) === '\n') {
+                        target.innerHTML += '<br>';
+                    } else {
+                        target.innerHTML += text.charAt(i);
+                    }
+                    i++;
+                    target.scrollTop = target.scrollHeight;
+                    setTimeout(typeStep, 40);
+                }
+            }
+            typeStep();
+        }
+
+        // Hiệu ứng trái tim bay nhẹ nhàng nền
+        const canvas = document.getElementById('heartCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particles = [];
+        for (let i = 0; i < 30; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 5 + 3,
+                speedY: Math.random() * 1 + 0.5,
+                opacity: Math.random() * 0.5 + 0.3
+            });
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "rgba(255, 183, 178, 0.6)";
+            
+            particles.forEach(p => {
+                p.y -= p.speedY;
+                if (p.y < 0) p.y = canvas.height;
+                
+                ctx.globalAlpha = p.opacity;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
