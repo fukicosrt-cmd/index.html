@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gửi Hà - Quà 20/10 Rực Rỡ 🌸</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&family=Quicksand:wght@600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #fff0f3;
+            font-family: 'Quicksand', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* Màn hình ban đầu */
+        #pantalla-inicial {
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.5s ease;
+        }
+
+        .header-text {
+            font-size: 2.2rem;
+            color: #ff4d6d;
+            font-weight: 700;
+            margin-bottom: 25px;
+            font-family: 'Comfortaa', cursive;
+        }
+
+        .gift-box-img {
+            width: 220px;
+            height: 220px;
+            object-fit: contain;
+            border-radius: 30px;
+            padding: 15px;
+            background: #ffffff;
+            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.2);
+            border: 3px solid #ffb3c6;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        #pantalla-inicial:hover .gift-box-img {
+            transform: scale(1.06);
+            box-shadow: 0 20px 40px rgba(255, 77, 109, 0.35);
+        }
+
+        .sub-text {
+            margin-top: 20px;
+            color: #ff758f;
+            font-size: 1.1rem;
+            font-weight: 600;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        /* Màn hình chính */
+        #contenido-principal {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            min-height: 100vh;
+            position: relative;
+            padding: 20px;
+            animation: fadeIn 1s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .title-main {
+            font-size: 2rem;
+            color: #ff4d6d;
+            font-family: 'Comfortaa', cursive;
+            margin-bottom: 30px;
+            text-shadow: 0 4px 10px rgba(255, 77, 109, 0.15);
+            z-index: 2;
+        }
+
+        .flower-wrapper {
+            position: relative;
+            width: 280px;
+            height: 340px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            z-index: 2;
+        }
+
+        .tulip-svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .letter-modal {
+            position: absolute;
+            bottom: 40px;
+            width: 90%;
+            max-width: 380px;
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(10px);
+            border: 2px solid #ffccd5;
+            border-radius: 24px;
+            padding: 22px 25px;
+            box-shadow: 0 20px 40px rgba(255, 77, 109, 0.25);
+            text-align: center;
+            z-index: 10;
+            opacity: 0;
+            transform: translateY(30px) scale(0.9);
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .letter-modal.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .letter-title {
+            font-size: 1.4rem;
+            color: #ff4d6d;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .letter-body {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #4a4a4a;
+            font-weight: 600;
+        }
+
+        .floating-heart {
+            position: fixed;
+            pointer-events: none;
+            color: #ff4d6d;
+            font-size: 20px;
+            animation: floatUp 4s linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0.5); opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="pantalla-inicial" onclick="openGift()">
+        <h1 class="header-text">Tặng Hà nè 💖</h1>
+        <img src="https://media.tenor.com/gU812X4335AAAAAC/cute-rabbit.gif" class="gift-box-img" alt="Tặng Hà">
+        <p class="sub-text">Chạm vào ảnh để mở quà nè✨</p>
+    </div>
+
+    <div id="contenido-principal">
+        <h1 class="title-main">Chúc Hà 20/10 Rạng Rỡ 💕</h1>
+
+        <div class="flower-wrapper">
+            <svg class="tulip-svg" viewBox="0 0 200 260">
+                <path d="M 50,180 L 100,240 L 150,180 L 170,120 L 30,120 Z" fill="#ffb3c6" stroke="#ff8fa3" stroke-width="3"/>
+                <path d="M 70,180 L 100,240 L 130,180 Z" fill="#ff8fa3" opacity="0.5"/>
+                <path d="M 85,210 Q 100,200 115,210 Q 100,225 85,210 Z" fill="#ff4d6d"/>
+                <circle cx="100" cy="210" r="6" fill="#ffffff"/>
+
+                <path d="M 80,130 Q 75,90 70,60" stroke="#7bed9f" stroke-width="5" fill="none" stroke-linecap="round"/>
+                <path d="M 100,130 L 100,50" stroke="#7bed9f" stroke-width="5" fill="none" stroke-linecap="round"/>
+                <path d="M 120,130 Q 125,90 130,60" stroke="#7bed9f" stroke-width="5" fill="none" stroke-linecap="round"/>
+
+                <!-- Tulip Hồng Nổi Bật -->
+                <g id="tulip-left">
+                    <path d="M 50,60 Q 70,20 70,60 Q 70,80 50,60 Z" fill="#ff4d6d"/>
+                    <path d="M 90,60 Q 70,20 70,60 Q 70,80 90,60 Z" fill="#ff758f"/>
+                    <path d="M 60,65 Q 70,30 80,65 Z" fill="#ff8fa3"/>
+                </g>
+
+                <g id="tulip-center">
+                    <path d="M 80,50 Q 100,10 100,50 Q 100,70 80,50 Z" fill="#ff4d6d"/>
+                    <path d="M 120,50 Q 100,10 100,50 Q 100,70 120,50 Z" fill="#ff758f"/>
+                    <path d="M 90,55 Q 100,20 110,55 Z" fill="#ff8fa3"/>
+                </g>
+
+                <g id="tulip-right">
+                    <path d="M 110,60 Q 130,20 130,60 Q 130,80 110,60 Z" fill="#ff4d6d"/>
+                    <path d="M 150,60 Q 130,20 130,60 Q 130,80 150,60 Z" fill="#ff758f"/>
+                    <path d="M 120,65 Q 130,30 140,65 Z" fill="#ff8fa3"/>
+                </g>
+            </svg>
+        </div>
+
+        <div class="letter-modal" id="letterModal">
+            <div class="letter-title">Gửi Hà 🎀</div>
+            <div class="letter-body">
+                Chúc Hà ngày 20/10 thật nhiều niềm vui, luôn rạng rỡ, xinh đẹp và tràn đầy năng lượng tích cực nhé! Cảm ơn Hà vì đã luôn mang lại sự vui vẻ cho những người xung quanh. 💕
+            </div>
+        </div>
+    </div>
+
+    <audio id="bgMusic" loop preload="auto">
+        <source src="https://files.catbox.moe/q2y29g.mp3" type="audio/mp3">
+    </audio>
+
+    <script>
+        function openGift() {
+            document.getElementById('pantalla-inicial').style.display = 'none';
+            document.getElementById('contenido-principal').style.display = 'flex';
+
+            const music = document.getElementById('bgMusic');
+            if (music) music.play().catch(() => {});
+
+            setTimeout(() => {
+                document.getElementById('letterModal').classList.add('show');
+            }, 1200);
+
+            setInterval(createFloatingHeart, 400);
+        }
+
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.innerHTML = ['🌸', '💖', '🌷', '✨', '💕'][Math.floor(Math.random() * 5)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+            document.body.appendChild(heart);
+
+            setTimeout(() => { heart.remove(); }, 5000);
+        }
+    </script>
+</body>
+</html>
