@@ -55,7 +55,21 @@
 
         /* Smooth transition for No button dodging */
         .btn-no-transition {
-            transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: all 0.18s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Chaotic Shake Animation for No Button */
+        @keyframes crazyShake {
+            0% { transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(0deg) scale(1); }
+            20% { transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(-15deg) scale(1.1); }
+            40% { transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(15deg) scale(0.9); }
+            60% { transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(-20deg) scale(1.15); }
+            80% { transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(10deg) scale(0.95); }
+            100% { transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(0deg) scale(1); }
+        }
+
+        .crazy-shake {
+            animation: crazyShake 0.35s ease-in-out;
         }
 
         /* Modal Popup Animation */
@@ -95,22 +109,22 @@
             
             <!-- YES Button (Fixed Position) -->
             <button id="btnYes" onclick="handleYesClick()" 
-                    class="btn-pulse bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-bold text-lg sm:text-xl py-3.5 px-7 rounded-full border-2 border-white shadow-lg active:scale-95 transition-transform z-20 flex items-center gap-2">
+                    class="btn-pulse bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-bold text-lg sm:text-xl py-3.5 px-7 rounded-full border-2 border-white shadow-lg active:scale-95 transition-all z-20 flex items-center gap-2">
                 <span>CÓ THÍCH ❤️</span>
             </button>
 
-            <!-- NO Button (Absolute Position for Dodging) -->
+            <!-- NO Button (Fixed Position Initially, converts to Fixed Viewport on Dodge) -->
             <button id="btnNo" 
-                    class="btn-no-transition bg-slate-400 hover:bg-slate-500 text-white font-bold text-base sm:text-lg py-3 px-6 rounded-full border-2 border-white shadow-md z-30 flex items-center gap-1.5 whitespace-nowrap cursor-pointer absolute"
-                    style="right: 15%; top: 30%;">
+                    class="btn-no-transition bg-slate-400 hover:bg-slate-500 text-white font-bold text-base sm:text-lg py-3 px-6 rounded-full border-2 border-white shadow-md z-50 flex items-center gap-1.5 whitespace-nowrap cursor-pointer absolute"
+                    style="right: 10%; top: 30%;">
                 <span>KHÔNG 🙄</span>
             </button>
             
         </div>
 
-        <!-- Footer Hint -->
-        <div class="text-xs text-pink-400 font-medium opacity-80 mb-1">
-            ✨ Chạm thử vào nút "KHÔNG" xem có được không nè~
+        <!-- Footer Hint / Dodge Counter -->
+        <div id="dodgeCounterHint" class="text-xs text-pink-500 font-bold opacity-90 mb-1 transition-all">
+            ✨ Nút "KHÔNG" sẵn sàng thách thức ngón tay của em đó!
         </div>
     </main>
 
@@ -146,14 +160,25 @@
         const btnYes = document.getElementById('btnYes');
         const buttonArea = document.getElementById('buttonArea');
         const bgMusic = document.getElementById('bgMusic');
+        const dodgeCounterHint = document.getElementById('dodgeCounterHint');
         let dodgeCount = 0;
+        let isFirstDodge = true;
 
         // Interactive GIF list to make dodging fun
         const gifs = [
             "https://media.tenor.com/gU812X4335AAAAAC/cute-rabbit.gif",
             "https://media.tenor.com/0v8XfT-z5V0AAAAi/mocha-bear.gif",
             "https://media.tenor.com/mO24sA-2L_AAAAAi/cat-sad.gif",
-            "https://media.tenor.com/S8Y8_x9c7JAAAAAi/cute-cry.gif"
+            "https://media.tenor.com/S8Y8_x9c7JAAAAAi/cute-cry.gif",
+            "https://media.tenor.com/71_U7C5mRkAAAAAi/cat-meme.gif"
+        ];
+
+        const taunts = [
+            "Lác mắt chưa? Nút KHÔNG né tiếp kìa! 😜",
+            "Nút KHÔNG: 'Còn lâu mới bắt được tui!' 🚀",
+            "Bắt hụt lần thứ {count} rồi nha bé ơi! 🤪",
+            "Nút KHÔNG đang quẩy khắp màn hình kìa! 😂",
+            "Đừng cố nữa, chọn 'CÓ THÍCH' cho lẹ đi em 💖"
         ];
 
         // Generate Background Floating Hearts
@@ -173,7 +198,7 @@
             }, 400);
         }
 
-        // Function to move "NO" button randomly within area
+        // Function to move "NO" button randomly across the whole VIEWPORT
         function dodgeNoButton(e) {
             if (e) e.preventDefault();
             
@@ -184,29 +209,46 @@
                 bgMusic.play().catch(() => {});
             }
 
-            // Change GIF image to look reactive
-            if (dodgeCount % 3 === 0) {
-                const randomGif = gifs[Math.floor(Math.random() * gifs.length)];
-                document.getElementById('mainGif').src = randomGif;
+            // Convert position to fixed on first touch/dodge so it flies across entire viewport screen
+            if (isFirstDodge) {
+                btnNo.style.position = 'fixed';
+                isFirstDodge = false;
             }
 
-            // Calculate safe bounding area inside buttonArea or screen
-            const areaRect = buttonArea.getBoundingClientRect();
-            const btnRect = btnNo.getBoundingClientRect();
+            // Change GIF image to look reactive
+            const randomGif = gifs[Math.floor(Math.random() * gifs.length)];
+            document.getElementById('mainGif').src = randomGif;
 
-            // Maximum allowable bounds
-            const maxX = areaRect.width - btnRect.width - 20;
-            const maxY = areaRect.height - btnRect.height - 10;
+            // Update Funny Taunt Message
+            const currentTaunt = taunts[dodgeCount % taunts.length].replace('{count}', dodgeCount);
+            dodgeCounterHint.innerHTML = `🔥 Hụt ${dodgeCount} lần: ${currentTaunt}`;
+            dodgeCounterHint.classList.add('scale-110', 'text-rose-600');
+            setTimeout(() => dodgeCounterHint.classList.remove('scale-110', 'text-rose-600'), 200);
 
-            // Generate new relative positions
-            let newX = Math.random() * maxX - (maxX / 2);
-            let newY = Math.random() * maxY - (maxY / 2);
+            // Get viewport boundaries with safe margins
+            const btnWidth = btnNo.offsetWidth || 120;
+            const btnHeight = btnNo.offsetHeight || 50;
 
-            // Apply transformation relative to center
-            btnNo.style.transform = `translate(${newX}px, ${newY}px)`;
+            const padding = 20; // Safe distance from screen edges
+            const maxX = window.innerWidth - btnWidth - padding;
+            const maxY = window.innerHeight - btnHeight - padding;
 
-            // Make YES button slightly larger as punishment/reward
-            const currentScale = 1 + Math.min(dodgeCount * 0.05, 0.35);
+            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+
+            // Apply absolute Viewport coordinates with random rotation
+            const randomRotate = Math.floor(Math.random() * 50) - 25; // -25deg to +25deg
+            btnNo.style.left = `${randomX}px`;
+            btnNo.style.top = `${randomY}px`;
+            btnNo.style.transform = `rotate(${randomRotate}deg)`;
+
+            // Trigger chaotic shake effect
+            btnNo.classList.remove('crazy-shake');
+            void btnNo.offsetWidth; // Force reflow
+            btnNo.classList.add('crazy-shake');
+
+            // Make YES button grow bigger each dodge to urge acceptance
+            const currentScale = 1 + Math.min(dodgeCount * 0.08, 0.6);
             btnYes.style.transform = `scale(${currentScale})`;
         }
 
