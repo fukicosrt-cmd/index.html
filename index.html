@@ -2,164 +2,281 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For You ❤️</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hỏi thật lòng nè... 💌</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas Confetti Library for Heart Fireworks -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- FontAwesome for Cute Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            background-color: #0d0d1a;
-            color: #fff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #ffe6ea 0%, #ffc3a0 50%, #ffdde1 100%);
+            touch-action: manipulation;
             overflow: hidden;
-            text-align: center;
-            padding: 20px;
         }
 
-        /* Hiệu ứng Trái tim đập */
-        .heart-container {
-            position: relative;
-            width: 100px;
-            height: 100px;
-            margin-bottom: 30px;
-            cursor: pointer;
+        .font-dancing {
+            font-family: 'Dancing Script', cursive;
         }
 
-        .heart {
+        /* Floating Hearts Background */
+        .heart-bg {
             position: absolute;
-            width: 100px;
-            height: 100px;
-            background-color: #ff4d6d;
-            transform: rotate(-45deg);
-            animation: beat 1.2s infinite;
-            box-shadow: 0 0 40px #ff4d6d;
-        }
-
-        .heart::before,
-        .heart::after {
-            content: '';
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            background-color: #ff4d6d;
-            border-radius: 50%;
-        }
-
-        .heart::before {
-            top: -50px;
-            left: 0;
-        }
-
-        .heart::after {
-            left: 50px;
-            top: 0;
-        }
-
-        @keyframes beat {
-            0% { transform: rotate(-45deg) scale(0.8); }
-            50% { transform: rotate(-45deg) scale(1.1); }
-            100% { transform: rotate(-45deg) scale(0.8); }
-        }
-
-        /* Lời nhắn gõ chữ */
-        .message-box {
-            max-width: 500px;
-            min-height: 120px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-        }
-
-        #text {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            color: #ffe6ea;
-            text-shadow: 0 0 10px rgba(255, 77, 109, 0.5);
-        }
-
-        /* Mưa trái tim rơi */
-        .falling-heart {
-            position: fixed;
-            top: -10vh;
-            font-size: 20px;
-            user-select: none;
             pointer-events: none;
-            animation: fall linear forwards;
+            animation: floatUp linear infinite;
+            opacity: 0.7;
         }
 
-        @keyframes fall {
-            to {
-                transform: translateY(105vh) rotate(360deg);
+        @keyframes floatUp {
+            0% {
+                transform: translateY(105vh) scale(0.5) rotate(0deg);
+                opacity: 0.8;
             }
+            100% {
+                transform: translateY(-10vh) scale(1.3) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Pulse Animation for Yes Button */
+        @keyframes customPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 10px 25px rgba(255, 77, 109, 0.4); }
+            50% { transform: scale(1.06); box-shadow: 0 15px 35px rgba(255, 77, 109, 0.6); }
+        }
+
+        .btn-pulse {
+            animation: customPulse 1.8s infinite;
+        }
+
+        /* Smooth transition for No button dodging */
+        .btn-no-transition {
+            transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* Modal Popup Animation */
+        @keyframes modalShow {
+            0% { transform: scale(0.7) translateY(50px); opacity: 0; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
+
+        .animate-modal {
+            animation: modalShow 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
     </style>
 </head>
-<body>
+<body class="w-screen h-screen flex items-center justify-center p-4 relative select-none">
 
-    <div class="heart-container" onclick="createBurst()">
-        <div class="heart"></div>
+    <!-- Background Floating Particles -->
+    <div id="heartContainer" class="fixed inset-0 pointer-events-none z-0"></div>
+
+    <!-- Main Card Container -->
+    <main class="relative z-10 w-full max-w-md bg-white/80 backdrop-blur-md rounded-3xl p-6 sm:p-8 border-2 border-pink-200 shadow-2xl text-center flex flex-col items-center justify-between min-h-[480px]">
+        
+        <!-- Top Cute Sticker Header -->
+        <div class="w-full flex flex-col items-center mt-2">
+            <div class="relative w-36 h-36 sm:w-40 sm:h-40 mb-3 flex items-center justify-center">
+                <img id="mainGif" src="https://media.tenor.com/gU812X4335AAAAAC/cute-rabbit.gif" 
+                     alt="Cute Sticker" 
+                     class="w-full h-full object-contain filter drop-shadow-md transition-all duration-300">
+            </div>
+            <h1 class="text-2xl sm:text-3xl font-bold text-pink-600 font-dancing tracking-wide px-2 leading-tight">
+                Em có yêu anh nhiều không? 💌
+            </h1>
+            <p class="text-xs sm:text-sm text-pink-400 mt-1 font-semibold">Trả lời thật lòng đi nha, không giấu được đâu! 😉</p>
+        </div>
+
+        <!-- Interactive Button Area -->
+        <div id="buttonArea" class="w-full h-36 relative mt-6 flex items-center justify-center">
+            
+            <!-- YES Button (Fixed Position) -->
+            <button id="btnYes" onclick="handleYesClick()" 
+                    class="btn-pulse bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-bold text-lg sm:text-xl py-3.5 px-7 rounded-full border-2 border-white shadow-lg active:scale-95 transition-transform z-20 flex items-center gap-2">
+                <span>CÓ THÍCH ❤️</span>
+            </button>
+
+            <!-- NO Button (Absolute Position for Dodging) -->
+            <button id="btnNo" 
+                    class="btn-no-transition bg-slate-400 hover:bg-slate-500 text-white font-bold text-base sm:text-lg py-3 px-6 rounded-full border-2 border-white shadow-md z-30 flex items-center gap-1.5 whitespace-nowrap cursor-pointer absolute"
+                    style="right: 15%; top: 30%;">
+                <span>KHÔNG 🙄</span>
+            </button>
+            
+        </div>
+
+        <!-- Footer Hint -->
+        <div class="text-xs text-pink-400 font-medium opacity-80 mb-1">
+            ✨ Chạm thử vào nút "KHÔNG" xem có được không nè~
+        </div>
+    </main>
+
+    <!-- Success Modal Popup -->
+    <div id="successModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white/95 rounded-3xl p-6 sm:p-8 max-w-sm w-full text-center border-2 border-pink-300 shadow-2xl relative animate-modal flex flex-col items-center">
+            
+            <div class="w-28 h-28 mb-3">
+                <img src="https://media.tenor.com/ef3f-jXp7tMAAAAi/bear-hug.gif" alt="Happy Bear" class="w-full h-full object-contain">
+            </div>
+
+            <h2 class="text-2xl sm:text-3xl font-bold text-rose-500 font-dancing mb-2">
+                Biết ngay mà! 🥰
+            </h2>
+
+            <div class="bg-pink-50 rounded-2xl p-4 border border-pink-100 text-gray-700 text-sm sm:text-base leading-relaxed font-semibold my-2">
+                Thế là từ bây giờ em là của anh rồi nhé! Chúc bé cưng lúc nào cũng mỉm cười thật tươi, luôn xinh đẹp và tràn đầy niềm vui cùng anh nha! 💖✨
+            </div>
+
+            <button onclick="closeModal()" class="mt-4 bg-gradient-to-r from-rose-500 to-pink-500 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:brightness-110 active:scale-95 transition-all text-sm tracking-wide">
+                Hứa rồi nha! 💕
+            </button>
+        </div>
     </div>
 
-    <div class="message-box">
-        <p id="text"></p>
-    </div>
+    <!-- Background Music Audio -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="https://files.catbox.moe/q2y29g.mp3" type="audio/mp3">
+    </audio>
 
     <script>
-        // Bro muốn đổi lời chúc thì sửa chữ trong ngoặc kép ở dưới nhé:
-const message = "Chào buổi sáng. Chúc em một ngày thật nhiều niềm vui và luôn xinh đẹp tươi tắn nhé❤️. Mong là nụ cười của em hôm nay sẽ làm cả ngày tươi sáng hơn! ✨💖";
-        
-        let index = 0;
-        const textElement = document.getElementById("text");
+        const btnNo = document.getElementById('btnNo');
+        const btnYes = document.getElementById('btnYes');
+        const buttonArea = document.getElementById('buttonArea');
+        const bgMusic = document.getElementById('bgMusic');
+        let dodgeCount = 0;
 
-        // Hiệu ứng gõ chữ tự động
-        function typeWriter() {
-            if (index < message.length) {
-                textElement.innerHTML += message.charAt(index);
-                index++;
-                setTimeout(typeWriter, 50); // Tốc độ gõ chữ (ms)
+        // Interactive GIF list to make dodging fun
+        const gifs = [
+            "https://media.tenor.com/gU812X4335AAAAAC/cute-rabbit.gif",
+            "https://media.tenor.com/0v8XfT-z5V0AAAAi/mocha-bear.gif",
+            "https://media.tenor.com/mO24sA-2L_AAAAAi/cat-sad.gif",
+            "https://media.tenor.com/S8Y8_x9c7JAAAAAi/cute-cry.gif"
+        ];
+
+        // Generate Background Floating Hearts
+        function createHeartBg() {
+            const container = document.getElementById('heartContainer');
+            const hearts = ['🌸', '💖', '🌷', '✨', '💕', '❤️', '🧸'];
+            
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'heart-bg text-xl sm:text-2xl';
+                heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                container.appendChild(heart);
+
+                setTimeout(() => heart.remove(), 7000);
+            }, 400);
+        }
+
+        // Function to move "NO" button randomly within area
+        function dodgeNoButton(e) {
+            if (e) e.preventDefault();
+            
+            dodgeCount++;
+            
+            // Play audio on first touch/interaction
+            if (bgMusic.paused) {
+                bgMusic.play().catch(() => {});
             }
-        }
 
-        // Tạo hiệu ứng mưa trái tim rơi
-        function createHeart() {
-            const heart = document.createElement("div");
-            heart.classList.add("falling-heart");
-            heart.innerHTML = "💖";
-            heart.style.left = Math.random() * 100 + "vw";
-            heart.style.animationDuration = Math.random() * 3 + 2 + "s";
-            heart.style.opacity = Math.random();
-            heart.style.fontSize = Math.random() * 15 + 15 + "px";
-
-            document.body.appendChild(heart);
-
-            setTimeout(() => {
-                heart.remove();
-            }, 5000);
-        }
-
-        // Bấm vào trái tim lớn sẽ bắn ra tim nhỏ
-        function createBurst() {
-            for (let i = 0; i < 15; i++) {
-                createHeart();
+            // Change GIF image to look reactive
+            if (dodgeCount % 3 === 0) {
+                const randomGif = gifs[Math.floor(Math.random() * gifs.length)];
+                document.getElementById('mainGif').src = randomGif;
             }
+
+            // Calculate safe bounding area inside buttonArea or screen
+            const areaRect = buttonArea.getBoundingClientRect();
+            const btnRect = btnNo.getBoundingClientRect();
+
+            // Maximum allowable bounds
+            const maxX = areaRect.width - btnRect.width - 20;
+            const maxY = areaRect.height - btnRect.height - 10;
+
+            // Generate new relative positions
+            let newX = Math.random() * maxX - (maxX / 2);
+            let newY = Math.random() * maxY - (maxY / 2);
+
+            // Apply transformation relative to center
+            btnNo.style.transform = `translate(${newX}px, ${newY}px)`;
+
+            // Make YES button slightly larger as punishment/reward
+            const currentScale = 1 + Math.min(dodgeCount * 0.05, 0.35);
+            btnYes.style.transform = `scale(${currentScale})`;
         }
 
-        // Bắt đầu chạy khi tải trang
+        // Handle Events for Desktop & Touch Devices
+        btnNo.addEventListener('mouseenter', dodgeNoButton);
+        btnNo.addEventListener('touchstart', dodgeNoButton, { passive: false });
+        btnNo.addEventListener('click', dodgeNoButton);
+
+        // Handle YES Button Click
+        function handleYesClick() {
+            // Play background music
+            if (bgMusic.paused) {
+                bgMusic.play().catch(() => {});
+            }
+
+            // Show Success Modal
+            document.getElementById('successModal').classList.remove('hidden');
+
+            // Trigger Fireworks / Confetti Effect
+            triggerHeartFireworks();
+        }
+
+        // Close Modal
+        function closeModal() {
+            document.getElementById('successModal').classList.add('hidden');
+        }
+
+        // Custom Heart Confetti Fireworks
+        function triggerHeartFireworks() {
+            const duration = 3.5 * 1000;
+            const animationEnd = Date.now() + duration;
+
+            // Heart particle generator
+            const heartDefaults = {
+                startVelocity: 30,
+                spread: 360,
+                ticks: 60,
+                zIndex: 100,
+                shapes: ['circle'],
+                colors: ['#ff4d6d', '#ff758f', '#ffb3c6', '#ffffff']
+            };
+
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                const particleCount = 50 * (timeLeft / duration);
+
+                // Side bursts
+                confetti(Object.assign({}, heartDefaults, {
+                    particleCount,
+                    origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
+                }));
+                confetti(Object.assign({}, heartDefaults, {
+                    particleCount,
+                    origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
+                }));
+            }, 250);
+        }
+
+        function randomInRange(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        // Initialize background animation on load
         window.onload = () => {
-            typeWriter();
-            setInterval(createHeart, 300);
+            createHeartBg();
         };
     </script>
 </body>
