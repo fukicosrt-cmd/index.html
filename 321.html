@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CYBERPUNK NEON MATRIX & MA TRẬN GAME</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Share+Tech+Mono&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Tone.js Audio Synthesizer -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            pink: '#ff007f',
+                            cyan: '#00f3ff',
+                            purple: '#bc13fe',
+                            yellow: '#ffe600',
+                            dark: '#05070f',
+                            panel: 'rgba(12, 16, 32, 0.75)'
+                        }
+                    },
+                    fontFamily: {
+                        orbitron: ['Orbitron', 'sans-serif'],
+                        mono: ['Share Tech Mono', 'monospace'],
+                        rajdhani: ['Rajdhani', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            background-color: #030509;
+            color: #00f3ff;
+            font-family: 'Rajdhani', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Scrollbar Cyberpunk */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #05070f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ff007f;
+            box-shadow: 0 0 10px #ff007f;
+            border-radius: 3px;
+        }
+
+        /* Khung Glassmorphism */
+        .cyber-glass {
+            background: rgba(10, 15, 30, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 243, 255, 0.25);
+            box-shadow: 0 8px 32px 0 rgba(0, 243, 255, 0.1),
+                        inset 0 0 15px rgba(0, 243, 255, 0.05);
+        }
+
+        .cyber-glass-pink {
+            background: rgba(25, 8, 25, 0.65);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 0, 127, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(255, 0, 127, 0.15),
+                        inset 0 0 15px rgba(255, 0, 127, 0.05);
+        }
+
+        /* Hiệu ứng Đèn Neon */
+        .glow-cyan {
+            text-shadow: 0 0 8px rgba(0, 243, 255, 0.8), 0 0 20px rgba(0, 243, 255, 0.4);
+        }
+        .glow-pink {
+            text-shadow: 0 0 8px rgba(255, 0, 127, 0.8), 0 0 20px rgba(255, 0, 127, 0.4);
+        }
+        .box-glow-cyan {
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.4), inset 0 0 10px rgba(0, 243, 255, 0.2);
+        }
+        .box-glow-pink {
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.4), inset 0 0 10px rgba(255, 0, 127, 0.2);
+        }
+
+        /* Nút Bấm Cyber Cut Corner */
+        .cyber-button {
+            position: relative;
+            clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+            transition: all 0.2s ease-in-out;
+        }
+        .cyber-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.6);
+        }
+        .cyber-button:active {
+            transform: translateY(1px);
+        }
+
+        /* Scanline Overlay */
+        .scanlines {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 99;
+            background: linear-gradient(
+                rgba(18, 16, 16, 0) 50%, 
+                rgba(0, 0, 0, 0.25) 50%
+            ), linear-gradient(
+                90deg,
+                rgba(255, 0, 0, 0.03),
+                rgba(0, 255, 0, 0.01),
+                rgba(0, 0, 255, 0.03)
+            );
+            background-size: 100% 4px, 6px 100%;
+            opacity: 0.7;
+        }
+
+        /* Hiệu ứng Glitch */
+        @keyframes glitch {
+            0% { transform: translate(0) }
+            20% { transform: translate(-2px, 2px) }
+            40% { transform: translate(-2px, -2px) }
+            60% { transform: translate(2px, 2px) }
+            80% { transform: translate(2px, -2px) }
+            100% { transform: translate(0) }
+        }
+
+        .glitch-hover:hover {
+            animation: glitch 0.2s cubic-bezier(.25, .46, .45, .94) both infinite;
+        }
+
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body class="relative min-h-screen">
+
+    <!-- Hiệu ứng Scanline tivi cổ -->
+    <div class="scanlines"></div>
+
+    <!-- Canvas Nền Ma Trận Matrix -->
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- Layout Chính -->
+    <div class="relative z-10 container mx-auto px-4 py-6 flex flex-col gap-8">
+        
+        <!-- THANH NAVBAR ĐẦU TRANG -->
+        <header class="cyber-glass rounded-xl p-4 flex flex-wrap justify-between items-center gap-4 border-l-4 border-l-cyber-cyan">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-lg bg-cyber-cyan/10 flex items-center justify-center border border-cyber-cyan text-cyber-cyan text-2xl glow-cyan">
+                    <i class="fa-solid fa-microchip"></i>
+                </div>
+                <div>
+                    <h1 class="font-orbitron text-2xl md:text-3xl font-black tracking-wider text-white glow-cyan flex items-center gap-2">
+                        CYBER<span class="text-cyber-pink">CORE</span> v4.0.9
+                    </h1>
+                    <p class="font-mono text-xs text-cyber-cyan/70 tracking-widest uppercase">
+                        HỆ THỐNG TRỰC QUAN MA TRẬN MAI TRẬN MATRIX // TRẠNG THÁI: HOẠT ĐỘNG
+                    </p>
+                </div>
+            </div>
+
+            <!-- Các chỉ số HUD -->
+            <div class="flex items-center gap-6 font-mono text-xs">
+                <div class="hidden sm:flex flex-col items-end">
+                    <span class="text-gray-400">TỐC ĐỘ KHUNG HÌNH</span>
+                    <span id="fpsDisplay" class="text-cyber-yellow font-bold text-sm">60 FPS</span>
+                </div>
+                <div class="hidden md:flex flex-col items-end">
+                    <span class="text-gray-400">ĐỒNG HỒ HỆ THỐNG</span>
+                    <span id="systemClock" class="text-cyber-cyan font-bold text-sm">00:00:00 UTC</span>
+                </div>
+                <button id="audioToggleBtn" onclick="toggleAudioEngine()" class="cyber-button px-4 py-2 bg-cyber-pink/20 hover:bg-cyber-pink text-cyber-pink hover:text-white border border-cyber-pink font-orbitron text-xs font-bold transition">
+                    <i class="fa-solid fa-volume-high mr-1"></i> ÂM THANH: TẮT
+                </button>
+            </div>
+        </header>
+
+        <!-- THANH CHUYỂN TAB DỦNG -->
+        <nav class="flex flex-wrap gap-3 font-orbitron text-xs font-bold">
+            <button onclick="switchTab('matrixTab')" class="tab-btn active cyber-button px-5 py-3 bg-cyber-cyan text-black border border-cyber-cyan">
+                <i class="fa-solid fa-terminal mr-2"></i> MƯA SỐ MATRIX
+            </button>
+            <button onclick="switchTab('arcadeTab')" class="tab-btn cyber-button px-5 py-3 bg-cyber-panel hover:bg-cyber-pink/20 text-cyber-pink border border-cyber-pink/50">
+                <i class="fa-solid fa-gamepad mr-2"></i> GAME ARCADE NEON
+            </button>
+            <button onclick="switchTab('synthTab')" class="tab-btn cyber-button px-5 py-3 bg-cyber-panel hover:bg-cyber-purple/20 text-cyber-purple border border-cyber-purple/50">
+                <i class="fa-solid fa-wave-square mr-2"></i> ĐÀN SYNTH & ÂM THANH
+            </button>
+            <button onclick="switchTab('textFxTab')" class="tab-btn cyber-button px-5 py-3 bg-cyber-panel hover:bg-cyber-yellow/20 text-cyber-yellow border border-cyber-yellow/50">
+                <i class="fa-solid fa-font mr-2"></i> TẠO CHỮ GLITCH
+            </button>
+        </nav>
+
+        <!-- ========================================== -->
+        <!-- TAB 1: ĐIỀU CHỈNH MƯA SỐ MATRIX -->
+        <!-- ========================================== -->
+        <section id="matrixTab" class="tab-content flex flex-col lg:flex-row gap-6">
+            <!-- Bảng Điều Khiển -->
+            <div class="w-full lg:w-1/3 flex flex-col gap-6">
+                <div class="cyber-glass rounded-xl p-6 flex flex-col gap-5 border-t-2 border-t-cyber-cyan">
+                    <h2 class="font-orbitron text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-sliders text-cyber-cyan"></i> BẢNG ĐIỀU KHIỂN MATRIX
+                    </h2>
+
+                    <!-- Tốc độ rơi -->
+                    <div>
+                        <div class="flex justify-between font-mono text-xs mb-1">
+                            <span class="text-gray-300">TỐC ĐỘ RƠI</span>
+                            <span id="speedVal" class="text-cyber-cyan">1.5x</span>
+                        </div>
+                        <input type="range" id="speedSlider" min="0.5" max="3.0" step="0.1" value="1.5" class="w-full accent-cyber-cyan bg-gray-900 rounded-lg cursor-pointer">
+                    </div>
+
+                    <!-- Mật độ chữ -->
+                    <div>
+                        <div class="flex justify-between font-mono text-xs mb-1">
+                            <span class="text-gray-300">MẬT ĐỘ KÝ TỰ</span>
+                            <span id="densityVal" class="text-cyber-cyan">100%</span>
+                        </div>
+                        <input type="range" id="densitySlider" min="50" max="200" step="10" value="100" class="w-full accent-cyber-cyan bg-gray-900 rounded-lg cursor-pointer">
+                    </div>
+
+                    <!-- Chọn Tông Màu Neon -->
+                    <div>
+                        <label class="font-mono text-xs text-gray-300 block mb-2">TÔNG MÀU NEON</label>
+                        <div class="grid grid-cols-2 gap-2 font-mono text-xs">
+                            <button onclick="setMatrixTheme('cyan')" class="px-3 py-2 bg-cyber-cyan/10 hover:bg-cyber-cyan/30 border border-cyber-cyan text-cyber-cyan rounded">XANH CYBER</button>
+                            <button onclick="setMatrixTheme('pink')" class="px-3 py-2 bg-cyber-pink/10 hover:bg-cyber-pink/30 border border-cyber-pink text-cyber-pink rounded">HỒNG NEON</button>
+                            <button onclick="setMatrixTheme('green')" class="px-3 py-2 bg-green-500/10 hover:bg-green-500/30 border border-green-500 text-green-400 rounded">XANH LÁ CỔ ĐỂN</button>
+                            <button onclick="setMatrixTheme('gold')" class="px-3 py-2 bg-cyber-yellow/10 hover:bg-cyber-yellow/30 border border-cyber-yellow text-cyber-yellow rounded">VÀNG HOÀNG KIM</button>
+                        </div>
+                    </div>
+
+                    <!-- Bộ Ký Tự Hiển Thị -->
+                    <div>
+                        <label class="font-mono text-xs text-gray-300 block mb-2">BỘ KÝ TỰ HIỂN THỊ</label>
+                        <select id="glyphSetSelect" onchange="updateGlyphs()" class="w-full bg-cyber-dark border border-cyber-cyan/40 text-cyber-cyan font-mono text-xs p-2.5 rounded focus:outline-none focus:border-cyber-cyan">
+                            <option value="vietnamese">Tiếng Việt Tùy Chỉnh (Việt Nam)</option>
+                            <option value="katakana">Tiếng Nhật Katakana + Mã Code</option>
+                            <option value="binary">Mã Nhị Phân (010101)</option>
+                            <option value="hex">Thập Lục Phân Hex (0-F)</option>
+                            <option value="runes">Ký Tự Cổ Runic</option>
+                        </select>
+                    </div>
+
+                    <!-- Chèn Văn Bản Tùy Chỉnh -->
+                    <div>
+                        <label class="font-mono text-xs text-gray-300 block mb-1">CHÈN LỜI NHẮN VÀO MA TRẬN</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="customMatrixText" placeholder="Nhập lời nhắn của ông..." class="w-full bg-cyber-dark border border-cyber-cyan/40 text-cyber-cyan font-mono text-xs p-2 rounded focus:outline-none focus:border-cyber-cyan">
+                            <button onclick="injectMatrixText()" class="cyber-button px-4 py-2 bg-cyber-cyan text-black font-orbitron font-bold text-xs whitespace-nowrap">CHÈN</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Thống Kê Hệ Thống -->
+                <div class="cyber-glass rounded-xl p-5 font-mono text-xs flex flex-col gap-3 border-l-4 border-l-cyber-pink">
+                    <div class="flex justify-between items-center text-gray-400 border-b border-gray-800 pb-2">
+                        <span>BỘ NHỚ ĐỆM</span>
+                        <span class="text-green-400">HOÀN HẢO</span>
+                    </div>
+                    <div class="flex justify-between text-gray-300">
+                        <span>SỐ CỘT MA TRẬN:</span>
+                        <span id="activeColsCount" class="text-cyber-cyan">64</span>
+                    </div>
+                    <div class="flex justify-between text-gray-300">
+                        <span>TỔNG KÝ TỰ ĐÃ VẼ:</span>
+                        <span id="glyphRenderCount" class="text-cyber-pink">12,450</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Khung Xanh Hiển Thị Ma Trận -->
+            <div class="w-full lg:w-2/3 cyber-glass rounded-xl p-4 flex flex-col justify-between border-t-2 border-t-cyber-cyan min-h-[450px] relative overflow-hidden">
+                <div class="absolute top-4 left-4 z-20 flex items-center gap-2 bg-black/60 px-3 py-1 rounded border border-cyber-cyan/30 text-xs font-mono">
+                    <span class="w-2 h-2 rounded-full bg-green-500 animate-ping"></span>
+                    <span>TRỰC QUAN HOÀN TOÀN TỰ ĐỘNG</span>
+                </div>
+                <div id="matrixCanvasContainer" class="w-full h-full min-h-[400px] relative rounded overflow-hidden">
+                    <div class="absolute inset-0 flex items-center justify-center text-center p-6 bg-black/40 backdrop-blur-xs">
+                        <div class="cyber-glass-pink p-6 rounded-xl max-w-md pointer-events-auto">
+                            <i class="fa-solid fa-expand text-4xl text-cyber-pink mb-3 glow-pink"></i>
+                            <h3 class="font-orbitron text-lg font-bold text-white mb-2">CHẾ ĐỘ MA TRẬN TOÀN MÀN HÌNH</h3>
+                            <p class="font-rajdhani text-sm text-gray-300 mb-4">
+                                Hiệu ứng mưa số Matrix đang chạy trực tiếp trên lớp nền toàn bộ trang web.
+                            </p>
+                            <button onclick="toggleMatrixFullscreen()" class="cyber-button px-6 py-2.5 bg-cyber-pink text-white font-orbitron font-bold text-xs box-glow-pink">
+                                BẬT / TẮT TOÀN MÀN HÌNH
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 2: GAME ARCADE NEON (SNAKE & PONG) -->
+        <!-- ========================================== -->
+        <section id="arcadeTab" class="tab-content hidden flex flex-col lg:flex-row gap-6">
+            <!-- Bảng Chọn Game & Điểm Số -->
+            <div class="w-full lg:w-1/3 flex flex-col gap-6">
+                <div class="cyber-glass-pink rounded-xl p-6 flex flex-col gap-5 border-t-2 border-t-cyber-pink">
+                    <h2 class="font-orbitron text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-gamepad text-cyber-pink"></i> TRUNG TÂM GAME ARCADE
+                    </h2>
+
+                    <!-- Nút Chọn Game -->
+                    <div class="grid grid-cols-2 gap-3 font-orbitron text-xs">
+                        <button id="selectSnakeBtn" onclick="initGame('snake')" class="cyber-button p-3 bg-cyber-pink text-white font-bold text-center border border-cyber-pink">
+                            RẮN NEON
+                        </button>
+                        <button id="selectPongBtn" onclick="initGame('pong')" class="cyber-button p-3 bg-cyber-panel hover:bg-cyber-cyan/20 text-cyber-cyan font-bold text-center border border-cyber-cyan/50">
+                            BÓNG BÀN CYBER
+                        </button>
+                    </div>
+
+                    <!-- Bảng Điểm -->
+                    <div class="cyber-glass p-4 rounded-lg flex justify-between items-center font-mono">
+                        <div>
+                            <div class="text-xs text-gray-400">ĐIỂM HIỆN TẠI</div>
+                            <div id="arcadeScore" class="text-2xl font-black text-cyber-yellow glow-cyan">0000</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-xs text-gray-400">ĐIỂM CAO NHẤT</div>
+                            <div id="arcadeHighScore" class="text-xl font-bold text-cyber-pink">0850</div>
+                        </div>
+                    </div>
+
+                    <!-- Hướng Dẫn Điều Khiển -->
+                    <div id="gameInstructions" class="font-mono text-xs text-gray-300 bg-black/40 p-4 rounded border border-gray-800 flex flex-col gap-2">
+                        <span class="text-cyber-cyan font-bold"><i class="fa-solid fa-keyboard"></i> ĐIỀU KHIỂN:</span>
+                        <p id="gameControlDesc">Dùng 4 phím MŨI TÊN hoặc WASD để di chuyển Rắn Cyber ăn năng lượng.</p>
+                    </div>
+
+                    <!-- Nút Bắt Đầu Game -->
+                    <div class="flex gap-3">
+                        <button id="startArcadeBtn" onclick="toggleArcadePlay()" class="cyber-button w-full py-3 bg-cyber-cyan text-black font-orbitron font-extrabold text-sm box-glow-cyan">
+                            BẮT ĐẦU CHƠI
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Khung Màn Hình Game -->
+            <div class="w-full lg:w-2/3 cyber-glass rounded-xl p-4 flex flex-col items-center justify-center border-t-2 border-t-cyber-pink min-h-[450px] relative">
+                <canvas id="arcadeCanvas" width="600" height="400" class="max-w-full h-auto bg-black border-2 border-cyber-pink/40 rounded-lg shadow-2xl"></canvas>
+                
+                <!-- Phím Điều Khiển Cho Màn Hình Cảm Ứng -->
+                <div class="mt-4 flex flex-col items-center gap-2 lg:hidden">
+                    <button onclick="handleTouchInput('UP')" class="w-12 h-12 bg-cyber-pink/20 border border-cyber-pink text-cyber-pink font-bold rounded">▲</button>
+                    <div class="flex gap-4">
+                        <button onclick="handleTouchInput('LEFT')" class="w-12 h-12 bg-cyber-pink/20 border border-cyber-pink text-cyber-pink font-bold rounded">◀</button>
+                        <button onclick="handleTouchInput('DOWN')" class="w-12 h-12 bg-cyber-pink/20 border border-cyber-pink text-cyber-pink font-bold rounded">▼</button>
+                        <button onclick="handleTouchInput('RIGHT')" class="w-12 h-12 bg-cyber-pink/20 border border-cyber-pink text-cyber-pink font-bold rounded">▶</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 3: ĐÀN SYNTH & SOUNDBOARD AM THANH -->
+        <!-- ========================================== -->
+        <section id="synthTab" class="tab-content hidden flex flex-col gap-6">
+            <div class="cyber-glass rounded-xl p-6 border-t-2 border-t-cyber-purple">
+                <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
+                    <div>
+                        <h2 class="font-orbitron text-xl font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-wave-square text-cyber-purple"></i> ĐÀN SYNTH & SOUNDBOARD ÂM THANH SCI-FI
+                        </h2>
+                        <p class="font-mono text-xs text-gray-400">BỘ TẠO ÂM THANH TRỰC TIẾP TRÊN WEB // NỀN TẢNG TONE.JS</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="font-mono text-xs text-gray-300">DẠNG SÓNG ÂM:</span>
+                        <select id="synthWaveform" onchange="changeSynthWaveform()" class="bg-cyber-dark border border-cyber-purple text-cyber-purple font-mono text-xs p-2 rounded">
+                            <option value="sine">Sóng Sin (Sine)</option>
+                            <option value="square">Sóng Vuông (Square)</option>
+                            <option value="sawtooth" selected>Sóng Răng Cưa (Sawtooth)</option>
+                            <option value="triangle">Sóng Tam Giác (Triangle)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Bàn Phím Đàn Piano -->
+                <div class="mb-8">
+                    <label class="font-mono text-xs text-gray-400 block mb-2">BÀN PHÍM CYBER PIANO (NHẤN CÁC PHÍM TỪ A ĐẾN K)</label>
+                    <div class="flex justify-center items-end gap-1 sm:gap-2 h-36 p-4 bg-black/60 rounded-xl border border-cyber-purple/40 overflow-x-auto">
+                        <button onmousedown="playSynthNote('C4')" class="synth-key w-10 sm:w-12 h-full bg-white/90 hover:bg-cyber-cyan text-black font-mono text-xs font-bold rounded-b flex items-end justify-center pb-2 transition">Do 4</button>
+                        <button onmousedown="playSynthNote('C#4')" class="synth-key w-7 sm:w-8 h-2/3 bg-black border border-cyber-purple text-cyber-purple font-mono text-xs rounded-b flex items-end justify-center pb-1 transition z-10 -mx-3">Do#</button>
+                        <button onmousedown="playSynthNote('D4')" class="synth-key w-10 sm:w-12 h-full bg-white/90 hover:bg-cyber-cyan text-black font-mono text-xs font-bold rounded-b flex items-end justify-center pb-2 transition">Re 4</button>
+                        <button onmousedown="playSynthNote('D#4')" class="synth-key w-7 sm:w-8 h-2/3 bg-black border border-cyber-purple text-cyber-purple font-mono text-xs rounded-b flex items-end justify-center pb-1 transition z-10 -mx-3">Re#</button>
+                        <button onmousedown="playSynthNote('E4')" class="synth-key w-10 sm:w-12 h-full bg-white/90 hover:bg-cyber-cyan text-black font-mono text-xs font-bold rounded-b flex items-end justify-center pb-2 transition">Mi 4</button>
+                        <button onmousedown="playSynthNote('F4')" class="synth-key w-10 sm:w-12 h-full bg-white/90 hover:bg-cyber-cyan text-black font-mono text-xs font-bold rounded-b flex items-end justify-center pb-2 transition">Fa 4</button>
+                        <button onmousedown="playSynthNote('F#4')" class="synth-key w-7 sm:w-8 h-2/3 bg-black border border-cyber-purple text-cyber-purple font-mono text-xs rounded-b flex items-end justify-center pb-1 transition z-10 -mx-3">Fa#</button>
+                        <button onmousedown="playSynthNote('G4')" class="synth-key w-10 sm:w-12 h-full bg-white/90 hover:bg-cyber-cyan text-black font-mono text-xs font-bold rounded-b flex items-end justify-center pb-2 transition">Sol 4</button>
+                        <button onmousedown="playSynthNote('G#4')" class="synth-key w-7 sm:w-8 h-2/3 bg-black border border-cyber-purple text-cyber-purple font-mono text-xs rounded-b flex items-end justify-center pb-1 transition z-10 -mx-3">Sol#</button>
+                        <button onmousedown="playSynthNote('A4')" class="synth-key w-10 sm:w-12 h-full bg-white/90 hover:bg-cyber-cyan text-black font-mono text-xs font-bold rounded-b flex items-end justify-center pb-2 transition">La 4</button>
+                        <button onmousedown="playSynthNote('A#4')" class="synth-key w-7 sm:w-8 h-2/3 bg-black border border-cyber-purple text-cyber-purple font-mono text-xs rounded-b flex items-end justify-center pb-1 transition z-10 -mx-3">La#</button>
+                        <button onmousedown="playSynthNote('B4')" class="synth-key w-10 sm:w-12 h-full bg-white/90 hover:bg-cyber-cyan text-black font-mono text-xs font-bold rounded-b flex items-end justify-center pb-2 transition">Si 4</button>
+                        <button onmousedown="playSynthNote('C5')" class="synth-key w-10 sm:w-12 h-full bg-white/90 hover:bg-cyber-cyan text-black font-mono text-xs font-bold rounded-b flex items-end justify-center pb-2 transition">Do 5</button>
+                    </div>
+                </div>
+
+                <!-- Ô Bấm Âm Thanh SFX -->
+                <div>
+                    <label class="font-mono text-xs text-gray-400 block mb-2">BẢNG HIỆU ỨNG ÂM THANH SCI-FI (SOUNDBOARD)</label>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        <button onclick="triggerSFX('laser')" class="cyber-button p-4 bg-cyber-purple/20 hover:bg-cyber-purple text-cyber-purple hover:text-white border border-cyber-purple rounded-xl font-orbitron font-bold text-xs flex flex-col items-center gap-2 transition">
+                            <i class="fa-solid fa-bolt text-xl"></i> BẮN LASER
+                        </button>
+                        <button onclick="triggerSFX('warp')" class="cyber-button p-4 bg-cyber-cyan/20 hover:bg-cyber-cyan text-cyber-cyan hover:text-black border border-cyber-cyan rounded-xl font-orbitron font-bold text-xs flex flex-col items-center gap-2 transition">
+                            <i class="fa-solid fa-rocket text-xl"></i> DỊCH CHUYỂN
+                        </button>
+                        <button onclick="triggerSFX('hack')" class="cyber-button p-4 bg-cyber-pink/20 hover:bg-cyber-pink text-cyber-pink hover:text-white border border-cyber-pink rounded-xl font-orbitron font-bold text-xs flex flex-col items-center gap-2 transition">
+                            <i class="fa-solid fa-bug text-xl"></i> CẢNH BÁO HACK
+                        </button>
+                        <button onclick="triggerSFX('alarm')" class="cyber-button p-4 bg-cyber-yellow/20 hover:bg-cyber-yellow text-cyber-yellow hover:text-black border border-cyber-yellow rounded-xl font-orbitron font-bold text-xs flex flex-col items-center gap-2 transition">
+                            <i class="fa-solid fa-triangle-exclamation text-xl"></i> CÒI BÁO ĐỘNG
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 4: CÔNG CỤ TẠO CHỮ GLITCH -->
+        <!-- ========================================== -->
+        <section id="textFxTab" class="tab-content hidden flex flex-col lg:flex-row gap-6">
+            <div class="w-full lg:w-1/3 flex flex-col gap-6">
+                <div class="cyber-glass rounded-xl p-6 flex flex-col gap-5 border-t-2 border-t-cyber-yellow">
+                    <h2 class="font-orbitron text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-font text-cyber-yellow"></i> TẠO CHỮ NHIỄU SÓNG GLITCH
+                    </h2>
+
+                    <div>
+                        <label class="font-mono text-xs text-gray-300 block mb-1">NHẬP VĂN BẢN</label>
+                        <textarea id="glitchInput" rows="3" class="w-full bg-cyber-dark border border-cyber-yellow/40 text-cyber-yellow font-mono text-sm p-3 rounded focus:outline-none focus:border-cyber-yellow" oninput="generateGlitchText()">GÁI TÂY GỐC VIỆT CYBER</textarea>
+                    </div>
+
+                    <div>
+                        <label class="font-mono text-xs text-gray-300 block mb-2">MỨC ĐỘ NHIỄU SÓNG</label>
+                        <input type="range" id="glitchIntensity" min="1" max="5" value="3" class="w-full accent-cyber-yellow bg-gray-900 rounded-lg cursor-pointer" oninput="generateGlitchText()">
+                    </div>
+
+                    <button onclick="copyGlitchOutput()" class="cyber-button py-3 bg-cyber-yellow text-black font-orbitron font-bold text-xs box-glow-cyan">
+                        <i class="fa-solid fa-copy mr-1"></i> SAO CHÉP CHỮ ĐÃ TẠO
+                    </button>
+                </div>
+            </div>
+
+            <!-- Khung Màn Hình Hiển Thị Chữ -->
+            <div class="w-full lg:w-2/3 cyber-glass rounded-xl p-8 flex flex-col items-center justify-center border-t-2 border-t-cyber-yellow min-h-[350px]">
+                <div id="glitchTextDisplay" class="font-orbitron text-3xl md:text-5xl font-black text-white glow-pink text-center break-all tracking-widest leading-relaxed">
+                    GÁI TÂY GỐC VIỆT CYBER
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER DƯỚI CÙNG -->
+        <footer class="cyber-glass rounded-xl p-4 font-mono text-xs text-gray-400 flex flex-wrap justify-between items-center gap-4 border-b-2 border-b-cyber-cyan">
+            <div>CYBERCORE MATRIX SUITE // PHIÊN BẢN VIỆT HÓA 4.0.9</div>
+            <div class="flex gap-4">
+                <span class="text-cyber-cyan"><i class="fa-solid fa-network-wire"></i> MÁY CHỦ: HOẠT ĐỘNG</span>
+                <span class="text-cyber-pink"><i class="fa-solid fa-lock"></i> BẢO MẬT 256-BIT</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- CODE JAVASCRIPT XỬ LÝ CHÍNH -->
+    <script>
+        /* ========================================== */
+        /* ĐỒNG HỒ & TRẠNG THÁI HỆ THỐNG             */
+        /* ========================================== */
+        let activeTab = 'matrixTab';
+        let audioEngineActive = false;
+        let synthEngine = null;
+
+        // Cập nhật đồng hồ thời gian thực
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('systemClock').innerText = now.toUTCString().split(' ')[4] + ' UTC';
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Đếm chỉ số FPS
+        let lastFrameTime = performance.now();
+        let frameCount = 0;
+        function updateFPS(now) {
+            frameCount++;
+            if (now - lastFrameTime >= 1000) {
+                document.getElementById('fpsDisplay').innerText = frameCount + ' FPS';
+                frameCount = 0;
+                lastFrameTime = now;
+            }
+        }
+
+        // Chuyển đổi giữa các Tab
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-cyber-cyan', 'text-black');
+                btn.classList.add('bg-cyber-panel', 'text-cyber-pink');
+            });
+
+            document.getElementById(tabId).classList.remove('hidden');
+            event.currentTarget.classList.add('bg-cyber-cyan', 'text-black');
+            event.currentTarget.classList.remove('bg-cyber-panel');
+
+            if (tabId === 'arcadeTab' && !arcadeRunning) {
+                initGame('snake');
+            }
+        }
+
+        /* ========================================== */
+        /* CANVAS NỀN MƯA SỐ MATRIX MATRIX            */
+        /* ========================================== */
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // Bộ ký tự hiển thị
+        const glyphSets = {
+            vietnamese: 'GÁITÂYGỐCVIỆTXINCHÀOCYBERPUNK2077MẠNGXÃHỘI0123456789',
+            katakana: 'ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ0123456789AZ',
+            binary: '01010101010101',
+            hex: '0123456789ABCDEF',
+            runes: 'ᚠᚢᚦᚨᚱᚲᚷᚹᚺᚻᛁᛃᛇᛈᛉᛊᛋᛌᛍᛎᛏᛐᛑᛒᛓᛔᛕ'
+        };
+
+        let currentGlyphStr = glyphSets.vietnamese;
+        let matrixThemeColor = '#00f3ff';
+        let matrixSpeed = 1.5;
+        let fontSize = 16;
+        let columns = Math.floor(canvas.width / fontSize);
+        let drops = Array(columns).fill(1);
+
+        function setMatrixTheme(theme) {
+            if (theme === 'cyan') matrixThemeColor = '#00f3ff';
+            if (theme === 'pink') matrixThemeColor = '#ff007f';
+            if (theme === 'green') matrixThemeColor = '#00ff66';
+            if (theme === 'gold') matrixThemeColor = '#ffe600';
+        }
+
+        document.getElementById('speedSlider').addEventListener('input', (e) => {
+            matrixSpeed = parseFloat(e.target.value);
+            document.getElementById('speedVal').innerText = matrixSpeed.toFixed(1) + 'x';
+        });
+
+        document.getElementById('densitySlider').addEventListener('input', (e) => {
+            const density = parseInt(e.target.value);
+            fontSize = Math.floor(16 * (100 / density));
+            columns = Math.floor(canvas.width / fontSize);
+            drops = Array(columns).fill(1);
+            document.getElementById('densityVal').innerText = density + '%';
+            document.getElementById('activeColsCount').innerText = columns;
+        });
+
+        function updateGlyphs() {
+            const selected = document.getElementById('glyphSetSelect').value;
+            currentGlyphStr = glyphSets[selected];
+        }
+
+        function injectMatrixText() {
+            const text = document.getElementById('customMatrixText').value;
+            if (text.trim() !== "") {
+                currentGlyphStr = text + currentGlyphStr;
+            }
+        }
+
+        // Vòng lặp vẽ mưa số Matrix
+        let totalGlyphsRendered = 0;
+        function drawMatrix(now) {
+            updateFPS(now);
+
+            ctx.fillStyle = 'rgba(3, 5, 15, 0.08)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = matrixThemeColor;
+            ctx.font = fontSize + 'px Share Tech Mono';
+
+            for (let i = 0; i < drops.length; i++) {
+                const char = currentGlyphStr[Math.floor(Math.random() * currentGlyphStr.length)];
+                const x = i * fontSize;
+                const y = drops[i] * fontSize;
+
+                if (Math.random() > 0.92) {
+                    ctx.fillStyle = '#ffffff';
+                    ctx.shadowBlur = 12;
+                    ctx.shadowColor = matrixThemeColor;
+                } else {
+                    ctx.fillStyle = matrixThemeColor;
+                    ctx.shadowBlur = 0;
+                }
+
+                ctx.fillText(char, x, y);
+                totalGlyphsRendered++;
+
+                if (y > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i] += matrixSpeed;
+            }
+
+            document.getElementById('glyphRenderCount').innerText = totalGlyphsRendered.toLocaleString();
+            requestAnimationFrame(drawMatrix);
+        }
+        requestAnimationFrame(drawMatrix);
+
+        function toggleMatrixFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        /* ========================================== */
+        /* GAME ARCADE NEON (RẮN SĂN MỒI & BÓNG BÀN)  */
+        /* ========================================== */
+        const arcadeCanvas = document.getElementById('arcadeCanvas');
+        const arcadeCtx = arcadeCanvas.getContext('2d');
+        let currentGameMode = 'snake';
+        let arcadeRunning = false;
+        let arcadeLoopTimer = null;
+        let arcadeScore = 0;
+        let arcadeHighScore = 850;
+
+        // Biến Game Rắn
+        let snake = [];
+        let snakeFood = { x: 0, y: 0 };
+        let snakeDir = 'RIGHT';
+        const gridSize = 20;
+
+        // Biến Game Bóng Bàn (Pong)
+        let playerPaddleY = 160;
+        let aiPaddleY = 160;
+        let ball = { x: 300, y: 200, vx: 5, vy: 5 };
+
+        function initGame(game) {
+            currentGameMode = game;
+            arcadeScore = 0;
+            document.getElementById('arcadeScore').innerText = '0000';
+
+            if (game === 'snake') {
+                document.getElementById('selectSnakeBtn').className = 'cyber-button p-3 bg-cyber-pink text-white font-bold text-center border border-cyber-pink';
+                document.getElementById('selectPongBtn').className = 'cyber-button p-3 bg-cyber-panel hover:bg-cyber-cyan/20 text-cyber-cyan font-bold text-center border border-cyber-cyan/50';
+                document.getElementById('gameControlDesc').innerText = 'Dùng 4 phím MŨI TÊN hoặc WASD để di chuyển Rắn Cyber ăn năng lượng.';
+                
+                snake = [{ x: 100, y: 100 }, { x: 80, y: 100 }, { x: 60, y: 100 }];
+                snakeDir = 'RIGHT';
+                spawnFood();
+            } else if (game === 'pong') {
+                document.getElementById('selectPongBtn').className = 'cyber-button p-3 bg-cyber-cyan text-black font-bold text-center border border-cyber-cyan';
+                document.getElementById('selectSnakeBtn').className = 'cyber-button p-3 bg-cyber-panel hover:bg-cyber-pink/20 text-cyber-pink font-bold text-center border border-cyber-pink/50';
+                document.getElementById('gameControlDesc').innerText = 'Dùng phím LÊN/XUỐNG hoặc W/S để di chuyển thanh đỡ bóng bên trái.';
+                
+                playerPaddleY = 160;
+                aiPaddleY = 160;
+                ball = { x: 300, y: 200, vx: 5, vy: 5 };
+            }
+            drawArcadeStatic();
+        }
+
+        function toggleArcadePlay() {
+            arcadeRunning = !arcadeRunning;
+            const btn = document.getElementById('startArcadeBtn');
+            if (arcadeRunning) {
+                btn.innerText = 'TẠM DỪNG GAME';
+                btn.className = 'cyber-button w-full py-3 bg-cyber-pink text-white font-orbitron font-extrabold text-sm box-glow-pink';
+                runArcadeLoop();
+            } else {
+                btn.innerText = 'TIẾP TỤC CHƠI';
+                btn.className = 'cyber-button w-full py-3 bg-cyber-cyan text-black font-orbitron font-extrabold text-sm box-glow-cyan';
+                cancelAnimationFrame(arcadeLoopTimer);
+            }
+        }
+
+        function spawnFood() {
+            snakeFood = {
+                x: Math.floor(Math.random() * (arcadeCanvas.width / gridSize)) * gridSize,
+                y: Math.floor(Math.random() * (arcadeCanvas.height / gridSize)) * gridSize
+            };
+        }
+
+        // Bắt sự kiện bàn phím
+        window.addEventListener('keydown', (e) => {
+            if (currentGameMode === 'snake') {
+                if ((e.key === 'ArrowUp' || e.key === 'w') && snakeDir !== 'DOWN') snakeDir = 'UP';
+                if ((e.key === 'ArrowDown' || e.key === 's') && snakeDir !== 'UP') snakeDir = 'DOWN';
+                if ((e.key === 'ArrowLeft' || e.key === 'a') && snakeDir !== 'RIGHT') snakeDir = 'LEFT';
+                if ((e.key === 'ArrowRight' || e.key === 'd') && snakeDir !== 'LEFT') snakeDir = 'RIGHT';
+            } else if (currentGameMode === 'pong') {
+                if (e.key === 'ArrowUp' || e.key === 'w') playerPaddleY = Math.max(0, playerPaddleY - 25);
+                if (e.key === 'ArrowDown' || e.key === 's') playerPaddleY = Math.min(arcadeCanvas.height - 80, playerPaddleY + 25);
+            }
+        });
+
+        function handleTouchInput(dir) {
+            if (currentGameMode === 'snake') {
+                if (dir === 'UP' && snakeDir !== 'DOWN') snakeDir = 'UP';
+                if (dir === 'DOWN' && snakeDir !== 'UP') snakeDir = 'DOWN';
+                if (dir === 'LEFT' && snakeDir !== 'RIGHT') snakeDir = 'LEFT';
+                if (dir === 'RIGHT' && snakeDir !== 'LEFT') snakeDir = 'RIGHT';
+            } else if (currentGameMode === 'pong') {
+                if (dir === 'UP') playerPaddleY = Math.max(0, playerPaddleY - 30);
+                if (dir === 'DOWN') playerPaddleY = Math.min(arcadeCanvas.height - 80, playerPaddleY + 30);
+            }
+        }
+
+        function runArcadeLoop() {
+            if (!arcadeRunning) return;
+
+            arcadeCtx.fillStyle = '#05070f';
+            arcadeCtx.fillRect(0, 0, arcadeCanvas.width, arcadeCanvas.height);
+
+            if (currentGameMode === 'snake') {
+                let headX = snake[0].x;
+                let headY = snake[0].y;
+
+                if (snakeDir === 'RIGHT') headX += gridSize;
+                if (snakeDir === 'LEFT') headX -= gridSize;
+                if (snakeDir === 'UP') headY -= gridSize;
+                if (snakeDir === 'DOWN') headY += gridSize;
+
+                if (headX < 0 || headX >= arcadeCanvas.width || headY < 0 || headY >= arcadeCanvas.height || snakeSelfCollision(headX, headY)) {
+                    gameOverArcade();
+                    return;
+                }
+
+                if (headX === snakeFood.x && headY === snakeFood.y) {
+                    arcadeScore += 50;
+                    document.getElementById('arcadeScore').innerText = arcadeScore.toString().padStart(4, '0');
+                    if (arcadeScore > arcadeHighScore) {
+                        arcadeHighScore = arcadeScore;
+                        document.getElementById('arcadeHighScore').innerText = arcadeHighScore.toString().padStart(4, '0');
+                    }
+                    spawnFood();
+                    if (audioEngineActive) triggerSFX('laser');
+                } else {
+                    snake.pop();
+                }
+
+                snake.unshift({ x: headX, y: headY });
+
+                snake.forEach((part, index) => {
+                    arcadeCtx.fillStyle = index === 0 ? '#ff007f' : '#00f3ff';
+                    arcadeCtx.shadowBlur = index === 0 ? 15 : 5;
+                    arcadeCtx.shadowColor = index === 0 ? '#ff007f' : '#00f3ff';
+                    arcadeCtx.fillRect(part.x, part.y, gridSize - 2, gridSize - 2);
+                });
+
+                arcadeCtx.fillStyle = '#ffe600';
+                arcadeCtx.shadowBlur = 15;
+                arcadeCtx.shadowColor = '#ffe600';
+                arcadeCtx.fillRect(snakeFood.x, snakeFood.y, gridSize - 2, gridSize - 2);
+            } 
+            else if (currentGameMode === 'pong') {
+                ball.x += ball.vx;
+                ball.y += ball.vy;
+
+                if (ball.y <= 0 || ball.y >= arcadeCanvas.height) ball.vy *= -1;
+
+                if (ball.y > aiPaddleY + 40) aiPaddleY += 3.5;
+                else if (ball.y < aiPaddleY + 40) aiPaddleY -= 3.5;
+
+                if (ball.x <= 20 && ball.y >= playerPaddleY && ball.y <= playerPaddleY + 80) {
+                    ball.vx *= -1.1;
+                    arcadeScore += 10;
+                    document.getElementById('arcadeScore').innerText = arcadeScore.toString().padStart(4, '0');
+                }
+                if (ball.x >= arcadeCanvas.width - 20 && ball.y >= aiPaddleY && ball.y <= aiPaddleY + 80) {
+                    ball.vx *= -1;
+                }
+
+                if (ball.x < 0 || ball.x > arcadeCanvas.width) {
+                    gameOverArcade();
+                    return;
+                }
+
+                arcadeCtx.fillStyle = '#00f3ff';
+                arcadeCtx.fillRect(10, playerPaddleY, 10, 80);
+
+                arcadeCtx.fillStyle = '#ff007f';
+                arcadeCtx.fillRect(arcadeCanvas.width - 20, aiPaddleY, 10, 80);
+
+                arcadeCtx.fillStyle = '#ffe600';
+                arcadeCtx.shadowBlur = 10;
+                arcadeCtx.shadowColor = '#ffe600';
+                arcadeCtx.beginPath();
+                arcadeCtx.arc(ball.x, ball.y, 8, 0, Math.PI * 2);
+                arcadeCtx.fill();
+            }
+
+            setTimeout(() => {
+                arcadeLoopTimer = requestAnimationFrame(runArcadeLoop);
+            }, currentGameMode === 'snake' ? 100 : 16);
+        }
+
+        function snakeSelfCollision(x, y) {
+            return snake.some(part => part.x === x && part.y === y);
+        }
+
+        function gameOverArcade() {
+            arcadeRunning = false;
+            document.getElementById('startArcadeBtn').innerText = 'CHƠI LẠI TỪ ĐẦU';
+            document.getElementById('startArcadeBtn').className = 'cyber-button w-full py-3 bg-cyber-yellow text-black font-orbitron font-extrabold text-sm';
+            
+            arcadeCtx.fillStyle = 'rgba(255, 0, 127, 0.8)';
+            arcadeCtx.fillRect(0, 0, arcadeCanvas.width, arcadeCanvas.height);
+            arcadeCtx.fillStyle = '#ffffff';
+            arcadeCtx.font = '26px Orbitron';
+            arcadeCtx.textAlign = 'center';
+            arcadeCtx.fillText('GAME OVER - KẾT THÚC LƯỢT CHƠI', arcadeCanvas.width / 2, arcadeCanvas.height / 2);
+        }
+
+        function drawArcadeStatic() {
+            arcadeCtx.fillStyle = '#05070f';
+            arcadeCtx.fillRect(0, 0, arcadeCanvas.width, arcadeCanvas.height);
+            arcadeCtx.fillStyle = '#00f3ff';
+            arcadeCtx.font = '18px Orbitron';
+            arcadeCtx.textAlign = 'center';
+            arcadeCtx.fillText('BẤM "BẮT ĐẦU CHƠI" ĐỂ KÍCH HOẠT GAME', arcadeCanvas.width / 2, arcadeCanvas.height / 2);
+        }
+        drawArcadeStatic();
+
+        /* ========================================== */
+        /* BÀN PHÍM ĐÀN PIANO & SOUNDBOARD (TONE.JS)  */
+        /* ========================================== */
+        function toggleAudioEngine() {
+            if (!audioEngineActive) {
+                Tone.start();
+                synthEngine = new Tone.Synth({
+                    oscillator: { type: 'sawtooth' },
+                    envelope: { attack: 0.01, decay: 0.2, sustain: 0.2, release: 0.5 }
+                }).toDestination();
+
+                audioEngineActive = true;
+                const btn = document.getElementById('audioToggleBtn');
+                btn.innerText = 'ÂM THANH: ĐANG BẬT';
+                btn.className = 'cyber-button px-4 py-2 bg-cyber-cyan text-black font-orbitron text-xs font-bold box-glow-cyan';
+            }
+        }
+
+        function playSynthNote(note) {
+            if (!audioEngineActive) toggleAudioEngine();
+            if (synthEngine) {
+                synthEngine.triggerAttackRelease(note, '8n');
+            }
+        }
+
+        function changeSynthWaveform() {
+            const wave = document.getElementById('synthWaveform').value;
+            if (synthEngine) {
+                synthEngine.oscillator.type = wave;
+            }
+        }
+
+        function triggerSFX(type) {
+            if (!audioEngineActive) toggleAudioEngine();
+            const now = Tone.now();
+            
+            if (type === 'laser') {
+                const laserSynth = new Tone.Synth().toDestination();
+                laserSynth.triggerAttackRelease('C6', '16n', now);
+                laserSynth.frequency.exponentialRampToValueAtTime('C2', now + 0.15);
+            } else if (type === 'warp') {
+                const warpSynth = new Tone.Synth().toDestination();
+                warpSynth.triggerAttackRelease('C2', '8n', now);
+                warpSynth.frequency.exponentialRampToValueAtTime('C6', now + 0.4);
+            } else if (type === 'hack') {
+                const noise = new Tone.NoiseSynth().toDestination();
+                noise.triggerAttackRelease('16n');
+            } else if (type === 'alarm') {
+                const alarmSynth = new Tone.Synth().toDestination();
+                alarmSynth.triggerAttackRelease('A5', '8n', now);
+                alarmSynth.triggerAttackRelease('D5', '8n', now + 0.15);
+            }
+        }
+
+        /* ========================================== */
+        /* BỘ TẠO CHỮ GLITCH NHIỄU SÓNG               */
+        /* ========================================== */
+        function generateGlitchText() {
+            const input = document.getElementById('glitchInput').value;
+            const intensity = parseInt(document.getElementById('glitchIntensity').value);
+            const glitchChars = '!@#$%^&*()_+-=[]{}|;:,.<>?/░▒▓█';
+            
+            let result = '';
+            for (let i = 0; i < input.length; i++) {
+                if (Math.random() < (intensity * 0.15)) {
+                    result += glitchChars[Math.floor(Math.random() * glitchChars.length)];
+                } else {
+                    result += input[i];
+                }
+            }
+            document.getElementById('glitchTextDisplay').innerText = result || 'CYBERPUNK';
+        }
+
+        function copyGlitchOutput() {
+            const text = document.getElementById('glitchTextDisplay').innerText;
+            navigator.clipboard.writeText(text);
+            alert('Đã sao chép chữ Glitch vào bộ nhớ tạm!');
+        }
+    </script>
+</body>
+</html>
